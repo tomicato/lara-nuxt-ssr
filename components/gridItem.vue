@@ -6,13 +6,13 @@
                   :modalTitle="product.name"
                   @addFromModal="addToCart(product)"
                   @closePopupWindow="closeModal">
-      <img :src="`http://lara-nuxt-ssr/uploads/${product.photo}`"
+      <img :src="`${$axios.defaults.baseURL}/uploads/${product.photo}`"
            class="img-fluid" :alt="product.name">
     </modal-window>
 
     <div class="card no-gutters">
       <div class="d-flex justify-content-center align-items-center pt-4" style="max-height: 75px;">
-        <nuxt-link :to="`/shop/products/${product.id}`" style="text-decoration: none !important;color: crimson !important;">
+        <nuxt-link :to="`${$axios.defaults.baseURL}/shop/products/${product.id}`" style="text-decoration: none !important;color: crimson !important;">
           <h5 class="card-title grid-title">{{ product.name }}</h5>
           <hr/>
         </nuxt-link>
@@ -20,7 +20,7 @@
       <div id="sku">
         <small>SKU: {{ product.cku }}</small>
       </div>
-      <img :src="`http://lara-nuxt-ssr/uploads/${product.photo}`"
+      <img :src="`${$axios.defaults.baseURL}/uploads/${product.photo}`"
            class="card-img"
            :alt="product.name"
            @click.prevent="openModal"

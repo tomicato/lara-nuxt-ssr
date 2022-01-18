@@ -1,6 +1,6 @@
 <template>
   <div id="header-top" class="d-flex justify-content-center w-100 mb-5" style="" >
-    <img :src="`http://lara-nuxt-ssr/uploads/win-11.jpg`" alt="">
+    <img :src="`${$axios.defaults.baseURL}/uploads/win-11.jpg`" alt="">
   </div>
 </template>
 
