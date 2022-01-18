@@ -119,7 +119,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     //baseURL: "http://lara-nuxt-ssr"
-    baseURL: "http://i98323g2.beget.tech"
+    baseURL: "https://com-helps.online"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -128,6 +128,6 @@ export default {
   // Server config
   server: {
     //port: 3000
-     port: process.env.PORT || 8080
+     port: process.env.PORT || 3000
   }
 }
