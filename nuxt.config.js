@@ -1,6 +1,7 @@
 export default {
   //target: 'static',
   target: 'server',
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'frontend',
@@ -82,6 +83,7 @@ export default {
   ],
 
 
+
  /* auth: {
     strategies: {
       'laravelJWT': {
@@ -119,8 +121,10 @@ export default {
   },*/
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "https://com-helps.online"
-    //baseURL: "http://lara-nuxt-ssr"
+   // baseURL: "https://com-helps.online"
+    baseURL: "http://lara-nuxt-ssr" || "https://com-helps.online"
+
+    //baseURL: development ? 'http://localhost:3001/api' : 'https://domain/api'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
