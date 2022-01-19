@@ -231,7 +231,7 @@ export default {
     })
 
     this.$root.$on('setData', (data) => {
-
+    //console.log(data);
       let arr = []
       for (let k of data) {
         arr.push(k.split(':'))
@@ -256,7 +256,6 @@ export default {
 
       this.data = filteredArray
 
-      console.log(tmp);
     })
 
   },
