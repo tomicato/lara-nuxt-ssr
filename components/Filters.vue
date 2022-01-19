@@ -271,12 +271,20 @@ export default {
 
       let arrData = this.data
 
-      arrData.push('category_id: ' + cat_id, 'sub_category_id: ' + sub_id)
+    //  arrData.push('category_id: ' + cat_id, 'sub_category_id: ' + sub_id)
 
       let arr = []
       for (let k of arrData) {
         arr.push(k.split(':'))
       }
+
+      let arr2 = []
+      let catsArr =  ['category_id: ' + cat_id, 'sub_category_id: ' + sub_id]
+      for (let k of catsArr) {
+        arr.push(k.split(':'))
+      }
+      //console.log(arr);
+      //arr.push('category_id: ' + cat_id, 'sub_category_id: ' + sub_id)
 
       try {
         await this.$store.dispatch('products/filterProducts', arr)
