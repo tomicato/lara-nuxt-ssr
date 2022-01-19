@@ -11,13 +11,13 @@
             <div class="row">
 
               <div class="col-md-4 image-block">
-                <img :src="`http://lara-nuxt-ssr/uploads/${product.item.photo}`" class="card-img" alt="">
+                <img :src="`${$axios.defaults.baseURL}/uploads/${product.item.photo}`" class="card-img" alt="">
               </div>
 
               <div class="col-md-8">
                 <div class="card-body">
 
-                  <nuxt-link :to="`/shop/products/${product.item.id}`"><h5 class="card-title">{{
+                  <nuxt-link :to="`${$axios.defaults.baseURL}/shop/products/${product.item.id}`"><h5 class="card-title">{{
                       product.item.name
                     }}</h5>
                   </nuxt-link>

@@ -44,18 +44,22 @@
 
           <!--Products List-->
           <div class="w-100 mb-4 d-flex justify-content-between align-items-center">
-            <div class="">
-
-              <i class="material-icons list-icon " @click.prevent="list">view_headline</i>
+            <div class="d-flex justify-content-between align-items-center">
+              <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
               <i class="material-icons grid-icon" @click.prevent="grid">apps</i>
-
             </div>
+
+            <div id="filters_top">
+             <span v-for="(item, i) in data" :key="i" class="badge badge-pill badge-info">
+               {{ item }}
+             </span>
+            </div>
+
             <div>
               <select>
                 <option value="" selected>Order by</option>
                 <option value="">Price ASC</option>
                 <option value="">Price DESC</option>
-
               </select>
             </div>
           </div>
@@ -178,6 +182,10 @@ export default {
       itemsAll: [],
       items: [],
 
+      /*===== Top Filters =====*/
+
+      data: []
+
     }
   },
 
@@ -219,6 +227,36 @@ export default {
       //this.filter_length = 0
       this.getProducts()
       this.flag = false
+      this.data.length = 0
+    })
+
+    this.$root.$on('setData', (data) => {
+
+      let arr = []
+      for (let k of data) {
+        arr.push(k.split(':'))
+      }
+      let tmp = []
+      for (let i = 0; i < arr.length; i++) {
+        if(arr[i][0] != 'category_id' || arr[i][0] != 'sub_category_id'){
+          tmp.push(arr[i][1])
+        }
+      }
+
+      let tls = tmp
+      let el = []
+
+      let filteredArray = tls.filter(function (item, pos) {
+        if (tls.indexOf(item) == pos) {
+          return item
+        } else {
+          el.push(item)
+        }
+      });
+
+      this.data = filteredArray
+
+      console.log(tmp);
     })
 
   },
@@ -301,7 +339,6 @@ export default {
 
     async goToSubCategory(category, sub_category) {
       this.str = ''
-
       const cat_id = category.id
       const sub_id = sub_category.id
 
@@ -397,6 +434,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
+#filters_top{
+  margin: 0 15px;
+  .badge-info{
+    margin: 10px 10px!important;
+    padding: 5px 10px!important;
+  }
+}
 .back_link {
   display: flex;
   justify-content: center;

@@ -192,6 +192,7 @@ export default {
 
     getData(e, name, val) {
 
+      /*===== Checkbox ====*/
       if(e.target.type == 'checkbox'){
 
         e.target.hasAttribute('checked', 'checked')
@@ -199,20 +200,16 @@ export default {
           : e.target.setAttribute('checked', 'checked')
 
         if (e.target.hasAttribute('checked', 'checked')) {
-          if (this.data.indexOf(e.target.id + ':' + e.target.value) != -1) {
+          if (this.data.indexOf(e.target.id + ': ' + e.target.value) != -1) {
             return this.data
           } else {
             this.data.push(e.target.id + ': ' + e.target.value)
           }
         } else {
-          this.data = []
-          this.$root.$emit('reload');
-          if (this.data.indexOf(e.target.id + ':' + e.target.value) != -1) {
-            this.data.splice(this.data.indexOf(e.target.id + ':' + e.target.value), 1)
-
-          }
+          this.data.splice(this.data.indexOf(e.target.id + ': ' + e.target.value), 1)
         }
       }
+
 
       /*===== Radio ====*/
       let radioArr = document.querySelectorAll('[type="radio"]');
@@ -225,6 +222,7 @@ export default {
             this.data.splice(this.data.lastIndexOf(arr[i].id + ': ' + arr[i].value), 1)
             this.data.push(arr[i].id + ': ' + arr[i].value)
           }else{
+            //this.$root.$emit('reload');
             if (this.data.indexOf(arr[i].id + ': ' + arr[i].value) != -1) {
               this.data.splice(this.data.lastIndexOf(arr[i].id + ': ' + arr[i].value), 1)
             }
@@ -232,8 +230,8 @@ export default {
         }
 
       }
-
-      console.log(this.data);
+      this.$root.$emit('setData', this.data)
+      //console.log(this.data);
     },
 
     sortTitle() {
@@ -269,17 +267,20 @@ export default {
     async getFiltersValues() {
       let cat_id = this.$route.params.category
       let sub_id = this.$route.params.sub ? this.$route.params.sub : ''
-      this.data.push('category_id: ' + cat_id, 'sub_category_id: ' + sub_id)
+      //console.log(this.data);
+
+      let arrData = this.data
+
+      arrData.push('category_id: ' + cat_id, 'sub_category_id: ' + sub_id)
 
       let arr = []
-      for (let k of this.data) {
+      for (let k of arrData) {
         arr.push(k.split(':'))
       }
 
       try {
         await this.$store.dispatch('products/filterProducts', arr)
           .then(res => {
-            //console.log(res.data);
             this.$root.$emit('getFilteredData', res);
           })
       } catch (e) {
