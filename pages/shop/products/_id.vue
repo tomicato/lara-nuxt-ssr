@@ -1,12 +1,23 @@
 <template>
   <div>
-      {{ this.$route.params.id }}
+    {{ this.$route.params.id }}
   </div>
 </template>
 
 <script>
 export default {
-  //name: "_id"
+  data() {
+    return {
+
+    }
+  },
+
+
+  methods: {
+    name() {
+
+    }
+  },
 }
 </script>
 

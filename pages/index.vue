@@ -18,7 +18,13 @@ export default {
   },
   components: {
     HeaderTop
+  },
+  fetch(ctx) {
+    ctx.redirect('/shop')
   }
+  /* beforeCreate() {
+     this.$nuxt.$router.replace({ path: '/shop'});
+   }*/
 }
 </script>
 

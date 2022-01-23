@@ -12,7 +12,7 @@ export const mutations = {
 export const actions = {
     async nuxtServerInit({dispatch}){
       //await dispatch('topics/getTopics')
-      await dispatch('products/getProducts')
+      //await dispatch('products/getProducts')
       await dispatch('categories/getCategories')
       await dispatch('filters/getFilters')
     },

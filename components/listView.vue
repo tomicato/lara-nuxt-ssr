@@ -70,7 +70,7 @@
 import modalWindow from "@/components/modalWindow";
 
 export default {
-  name: "shopItem",
+  name: "listView",
   components: {
     modalWindow
   },

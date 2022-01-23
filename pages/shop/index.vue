@@ -21,6 +21,9 @@
                   <div v-for="(item, i) in category.childs" :key="i">
                     <a href="#" @click.prevent="goToSubCategory(category, item)">
                       {{ item.title }}
+                      <span v-for="(cnt, k) in counts" :key="k">
+                        {{ Object.keys(cnt)[0] == item.title ?  `(${Object.values(cnt)[0]})` : '' }}
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -55,7 +58,7 @@
           <div id="list">
             <div class="card mb-3" style="max-width: 100%" v-if="data_total" v-for="(item, i) in data_total" :key="i">
 
-              <shop-item :product="item"></shop-item>
+              <list-view :product="item"></list-view>
             </div>
           </div>
 
@@ -64,7 +67,7 @@
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%"
                    v-for="(item, i) in data_total"
                    :key="i">
-                <grid-item :product="item"></grid-item>
+                <grid-view :product="item"></grid-view>
               </div>
             </div>
           </div>
@@ -92,8 +95,8 @@
 </template>
 
 <script>
-import shopItem from "@/components/shopItem";
-import gridItem from "@/components/gridItem";
+import listView from "@/components/listView";
+import gridView from "@/components/gridView";
 import HeaderTop from "@/components/HeaderTop";
 import FooterBottom from "@/components/FooterBottom";
 
@@ -102,8 +105,8 @@ import _ from "lodash";
 export default {
   loading: true,
   components: {
-    shopItem,
-    gridItem,
+    listView,
+    gridView,
     HeaderTop,
     FooterBottom
   },
@@ -114,6 +117,7 @@ export default {
       visible: false,
       open_modal: false,
       categories: [],
+      counts: [],
 
       /*== pagination ==*/
       total: 2,
@@ -133,13 +137,21 @@ export default {
 
   async asyncData(ctx) {
     let {data} = await ctx.$axios.get(`/api/shop/products?page=${ctx.query.page}`)
+
+    let arr = data.data
+    let tmp = []
+    for (const el of arr) {
+     tmp = el.sub_count;
+    }
+
     let cat = await ctx.store.getters["categories/categories"]
     return {
        data_total: data.data,
        total: data.meta.total,
        per_page: data.meta.per_page,
        current: ctx.query.page,
-       categories: cat
+       categories: cat,
+       counts: tmp
     }
   },
 
@@ -154,7 +166,6 @@ export default {
   methods: {
 
     async goToSubCategory(category, sub_category) {
-
       const cat_id = category.id
       const sub_id = sub_category.id
 

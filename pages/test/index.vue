@@ -44,7 +44,7 @@
 
         <div id="list">
           <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
-            <shop-item :product="item"></shop-item>
+            <list-view :product="item"></list-view>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
           <div class="row text-center">
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in data_total"
                  :key="i">
-              <grid-item :product="item"></grid-item>
+              <grid-view :product="item"></grid-view>
             </div>
           </div>
         </div>
@@ -77,8 +77,8 @@
 
 <script>
 import _ from "lodash";
-import shopItem from "@/components/shopItem";
-import gridItem from "@/components/gridItem";
+import listView from "@/components/listView";
+import gridView from "@/components/gridView";
 
 export default {
   loading: true,
@@ -86,8 +86,8 @@ export default {
     title: 'Shop',
   },
   components: {
-    shopItem,
-    gridItem
+    listView,
+    gridView
   },
   data() {
     return {

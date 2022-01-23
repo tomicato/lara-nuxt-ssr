@@ -69,7 +69,7 @@
 import modalWindow from "@/components/modalWindow";
 
 export default {
-  name: "shopItem",
+  name: "gridView",
   components: {
     modalWindow
   },

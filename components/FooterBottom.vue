@@ -36,12 +36,12 @@
     <div class="footer-meta ">
       <div><hr/>
         <div class="text-left">
-          2021 Created By
+          Created By
         </div>
       </div>
       <div><hr/>
         <div class="text-left">
-          @ComHelps
+          2022@ <a href="https://com-helps.ru" target="_blank"> ComHelps</a>
         </div>
       </div>
     </div>

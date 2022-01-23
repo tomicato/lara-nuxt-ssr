@@ -22,6 +22,9 @@
                 <div v-for="(item, i) in category.childs" :key="i">
                   <a href="#" @click.prevent="goToSubCategory(category, item)">
                     {{ item.title }}
+                    <span v-for="(cnt, k) in counts" :key="k">
+                        {{ Object.keys(cnt)[0] == item.title ?  `(${Object.values(cnt)[0]})` : '' }}
+                    </span>
                   </a>
                 </div>
               </div>
@@ -43,7 +46,7 @@
           <br/>
 
           <!--Products List-->
-          <div class="w-100 mb-4 d-flex justify-content-between align-items-center">
+          <div class="w-100 d-flex justify-content-between align-items-center" id="top-tools">
             <div class="d-flex justify-content-between align-items-center">
               <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
               <i class="material-icons grid-icon" @click.prevent="grid">apps</i>
@@ -68,13 +71,13 @@
           <div id="list" v-if="data_total !== ''">
             <div v-if="flag == false">
               <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
-                <shop-item :product="item"></shop-item>
+                <list-view :product="item"></list-view>
               </div>
             </div>
 
             <div v-if="flag == true">
               <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in items" :key="i">
-                <shop-item :product="item"></shop-item>
+                <list-view :product="item"></list-view>
               </div>
             </div>
           </div>
@@ -83,13 +86,13 @@
           <div id="grid" class="w-100 mx-auto">
             <div class="row text-center" v-if="flag == false">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
-                <grid-item :product="item"></grid-item>
+                <grid-view :product="item"></grid-view>
               </div>
             </div>
 
             <div class="row text-center" v-if="flag == true">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in items" :key="i">
-                <grid-item :product="item"></grid-item>
+                <grid-view :product="item"></grid-view>
               </div>
             </div>
           </div>
@@ -128,8 +131,8 @@
 </template>
 
 <script>
-import shopItem from "@/components/shopItem";
-import gridItem from "@/components/gridItem";
+import listView from "@/components/listView";
+import gridView from "@/components/gridView";
 import HeaderTop from "@/components/HeaderTop";
 import Filters from "@/components/Filters";
 import _ from "lodash";
@@ -137,8 +140,8 @@ import _ from "lodash";
 export default {
   loading: true,
   components: {
-    shopItem,
-    gridItem,
+    listView,
+    gridView,
     HeaderTop,
     Filters
   },
@@ -159,6 +162,8 @@ export default {
       visible: false,
       open_modal: false,
       categories: [],
+      total_count: 0,
+      counts: [],
 
       /*== pagination ==*/
       page: 1,
@@ -168,7 +173,7 @@ export default {
       data_total: [],
       str: '',
 
-      /* Filters */
+      /*=========== Filters ============*/
       catId: null,
       subId: null,
       filters: [],
@@ -183,7 +188,6 @@ export default {
       items: [],
 
       /*===== Top Filters =====*/
-
       data: []
 
     }
@@ -265,6 +269,12 @@ export default {
     let {data} = await ctx.$axios.get(`/api/shop/products/${ctx.route.params.category}${ctx.route.params.sub ? `/` + ctx.route.params.sub : ''}${ctx.query.page ? `?page=` + ctx.query.page : ''}`)
     let filters = await ctx.store.getters["filters/filters"]
 
+    let arr = data.data
+    let tmp = []
+    for (const el of arr) {
+      tmp = el.sub_count;
+    }
+
     let componentFilters = [];
 
 
@@ -273,7 +283,7 @@ export default {
     }else{
       componentFilters = filters.filter(item => item.sub_id == ctx.route.params.sub);
       let cat_common_filters = componentFilters.filter(item => item.common == '1');
-      ///console.log(cat_common_filters);
+
     }
     let commonArr = filters.filter(item => item.common == 1 && item.category_id == ctx.route.params.category)
 
@@ -302,7 +312,8 @@ export default {
         total: data.meta.total,
         per_page: data.meta.per_page,
         current: ctx.query.page,
-        categories: cat
+        categories: cat,
+        counts: tmp
       }
     } else {
       ctx.redirect('/shop')
@@ -433,7 +444,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+#top-tools{
+  height: 30px;
+  margin-bottom: 50px!important;
+}
 
 #filters_top{
   margin: 0 15px;

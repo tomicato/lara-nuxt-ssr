@@ -1,6 +1,12 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center mt-5">
-    <h2>Category or Sub Category Empty!</h2>
+  <div>
+    <div class="d-flex flex-column justify-content-center align-items-center mt-5">
+      <h2>Category or Sub Category Empty!</h2>
+      <div class="mt-4">
+        <nuxt-link to="/shop">Back to Shop</nuxt-link>
+      </div>
+    </div>
+
   </div>
 </template>
 
