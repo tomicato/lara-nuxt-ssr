@@ -62,13 +62,15 @@ export const actions = {
     for (let i = 0; i < data.length; i++) {
       formData.append(data[i][0], data[i][1])
     }
+
+   /* for (let pair of formData.entries()) {
+         console.log(pair[0] + ', ' + pair[1]);
+       }*/
     try {
       let data = await this.$axios.$post('/api/shop/products/filters', formData)
       commit('setFilterProducts', data)
-     // console.log(data);
-       /*for (let pair of formData.entries()) {
-         console.log(pair[0] + ', ' + pair[1]);
-       }*/
+      //console.log(data);
+
       return data
     } catch (e) {
       throw e

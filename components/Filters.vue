@@ -200,6 +200,7 @@ export default {
           : e.target.setAttribute('checked', 'checked')
 
         if (e.target.hasAttribute('checked', 'checked')) {
+
           if (this.data.indexOf(e.target.id + ': ' + e.target.value) != -1) {
             return this.data
           } else {
@@ -207,6 +208,7 @@ export default {
           }
         } else {
           this.data.splice(this.data.indexOf(e.target.id + ': ' + e.target.value), 1)
+          //this.$root.$emit('reload');
         }
       }
 
@@ -216,13 +218,11 @@ export default {
       let arr = Array.from(radioArr)
 
       if(e.target.type == 'radio'){
-        this.data.push(e.target.id + ': ' + e.target.value)
         for (let i = 0; i < arr.length; i++) {
           if(arr[i].checked == true){
             this.data.splice(this.data.lastIndexOf(arr[i].id + ': ' + arr[i].value), 1)
             this.data.push(arr[i].id + ': ' + arr[i].value)
           }else{
-            //this.$root.$emit('reload');
             if (this.data.indexOf(arr[i].id + ': ' + arr[i].value) != -1) {
               this.data.splice(this.data.lastIndexOf(arr[i].id + ': ' + arr[i].value), 1)
             }
