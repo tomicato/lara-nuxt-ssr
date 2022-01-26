@@ -62,10 +62,10 @@
 
 
       <div id="buttons" class="my-5">
-        <button class="btn btn-outline-primary" @click.prevent="getFiltersValues(filters)">
+        <button class="btn btn-outline-primary" id="filter_product" @click.prevent="getFiltersValues(filters)">
           Filter Products
         </button>
-        <button class="btn btn-outline-success" @click.prevent="reset">
+        <button class="btn btn-outline-success" id="filter_reset" @click.prevent="reset">
           Reset Filter
         </button>
       </div>
@@ -297,6 +297,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+#filter_product, #filter_reset{
+  outline: unset!important;
+  box-shadow: unset!important;
+}
+
 .rotate_up {
   transform: rotate(180deg);
 }

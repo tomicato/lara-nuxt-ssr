@@ -4,33 +4,13 @@
 
     <div class="container" id="main">
       <div class="row">
+        <!-- Left Sidebar -->
         <div class="col-sm-12 col-lg-3 columns">
-          <h3>Categories</h3>
+          <h3 class="mb-4">Categories</h3>
           <hr/>
-          <br/>
+          <br>
 
-          <div id="navigation">
-            <div class="navigation" v-for="(category, ind) in categories" :key="category.id"
-                 @click.prevent="showChilds(category)">
-
-              <a href="#" class="text-muted"
-                 @click.prevent="category.childs == '' ? goToSubCategory(category, '') : null">
-                {{ category.title }}
-              </a>
-
-              <div class="childItem hide" :id="`show-${category.id}`">
-                <div v-for="(item, i) in category.childs" :key="i">
-                  <a href="#" @click.prevent="goToSubCategory(category, item)">
-                    {{ item.title }}
-                    <span v-for="(cnt, k) in counts" :key="k">
-                        {{ Object.keys(cnt)[0] == item.title ?  `(${Object.values(cnt)[0]})` : '' }}
-                    </span>
-                  </a>
-                </div>
-              </div>
-
-            </div>
-          </div>
+          <categories :categories="categories" :flag="flag" :counts="counts"></categories>
 
           <div>
             <h3>Filters</h3>
@@ -40,8 +20,9 @@
 
         </div>
 
+        <!-- Main Content -->
         <div class="col-sm-12 col-lg-9 columns products">
-          <h3>Catalog of Products</h3>
+          <search-block :name="name_main_content"></search-block>
           <hr/>
           <br/>
 
@@ -67,7 +48,7 @@
             </div>
           </div>
 
-          <!--List-->
+          <!--List View-->
           <div id="list" v-if="data_total !== ''">
             <div v-if="flag == false">
               <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
@@ -82,7 +63,7 @@
             </div>
           </div>
 
-          <!--Grid-->
+          <!--Grid View-->
           <div id="grid" class="w-100 mx-auto">
             <div class="row text-center" v-if="flag == false">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
@@ -97,6 +78,7 @@
             </div>
           </div>
 
+          <!-- Pagination without filters -->
           <b-pagination
             v-if="flag == false"
             class="t-4 flx-c mb-5"
@@ -109,8 +91,8 @@
             variant="outline-primary"
           ></b-pagination>
 
-
-            <b-pagination
+          <!-- Pagination with filters -->
+          <b-pagination
               v-if="flag == true"
               class="t-4 flx-c"
               v-model="currentPage"
@@ -123,9 +105,8 @@
 
 
         </div>
-        <br>
-      </div>
 
+      </div>
     </div>
   </div>
 </template>
@@ -135,6 +116,8 @@ import listView from "@/components/listView";
 import gridView from "@/components/gridView";
 import HeaderTop from "@/components/HeaderTop";
 import Filters from "@/components/Filters";
+import Categories from "@/components/Categories";
+import SearchBlock from "@/components/SearchBlock";
 import _ from "lodash";
 
 export default {
@@ -143,7 +126,9 @@ export default {
     listView,
     gridView,
     HeaderTop,
-    Filters
+    Filters,
+    Categories,
+    SearchBlock
   },
   name: "sub_category",
 
@@ -157,6 +142,7 @@ export default {
 
   data() {
     return {
+      name_main_content: 'Catalog of Products',
       title: '',
       products: [],
       visible: false,
@@ -257,9 +243,7 @@ export default {
           el.push(item)
         }
       });
-
       this.data = filteredArray
-
     })
 
   },
@@ -276,16 +260,13 @@ export default {
     }
 
     let componentFilters = [];
-
-
     if(!ctx.route.params.sub){
       componentFilters = filters.filter(item => item.category_id == ctx.route.params.category);
     }else{
       componentFilters = filters.filter(item => item.sub_id == ctx.route.params.sub);
       let cat_common_filters = componentFilters.filter(item => item.common == '1');
-
     }
-    let commonArr = filters.filter(item => item.common == 1 && item.category_id == ctx.route.params.category)
+    //let commonArr = filters.filter(item => item.common == 1 && item.category_id == ctx.route.params.category)
 
     let tl = '';
     if (data.data && data.data != '') {
@@ -305,7 +286,7 @@ export default {
       return {
         title: tl,
         filters: componentFilters,
-        common: commonArr,
+        //common: commonArr,
         catId: ctx.route.params.category,
         subId: ctx.route.params.sub,
         data_total: data.data,
@@ -345,49 +326,6 @@ export default {
           page: page ? page : '',
         }
       })
-    },
-
-    async goToSubCategory(category, sub_category) {
-      this.str = ''
-      const cat_id = category.id
-      const sub_id = sub_category.id
-
-      await this.$store.dispatch('products/getCatProducts', {cat_id, sub_id})
-        .then(res => {
-          if (res.data == '') return;
-          this.total = res.meta.total
-          this.current = res.meta.current_page
-          this.per_page = res.meta.per_page
-          this.data_total = res.data
-
-          let price = this.data_total.map(item => item.price)
-          this.max = Math.max.apply(Math, price)
-        })
-
-      await this.$router.push(`/shop/categories/${cat_id}/${sub_id ? sub_id : ''}`);
-
-    },
-
-    showChilds(item) {
-      if (item.childs == '') return;
-      let elm = document.getElementById('show-' + item.id);
-      let ch = document.querySelectorAll('.childItem')
-      let elem = Array.from(ch)
-
-      for (let i = 0; i < elem.length; i++) {
-        elem[i].classList.add('hide')
-      }
-      //elm.classList.toggle('hide')
-
-
-      //console.log(elm.classList.contains('hide'));
-      if (elm.classList.contains('hide')) {
-        elm.classList.add('show');
-        elm.classList.remove('hide')
-      } else {
-        elm.classList.remove('show')
-        elm.classList.add('hide')
-      }
     },
 
     async changeHandler2(page) {

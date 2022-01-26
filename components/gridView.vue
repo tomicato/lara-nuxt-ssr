@@ -58,7 +58,7 @@
 
         </div>
         <b-button @click.prevent="addToCart(product)" variant="outline-primary"
-                  class=" d-flex justify-content-center align-items-end">Place to cart
+                  class="d-flex justify-content-center align-items-end place_to_cart">Place to cart
         </b-button>
       </div>
     </div>
@@ -197,6 +197,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.place_to_cart{
+  outline: unset!important;
+  box-shadow: unset!important;
+}
 .card-text {
   font-weight: 400;
   font-size: 16px;
