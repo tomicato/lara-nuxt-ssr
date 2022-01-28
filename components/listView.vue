@@ -131,6 +131,7 @@ export default {
       main.style.opacity = 1;
       this.open = false
     },
+
     total() {
       let arr = [];
       this.keys = this.getSession()
@@ -147,6 +148,7 @@ export default {
       this.countProductInCart()
       return total_count
     },
+
     async addToCart(cartItem) {
       try {
         await this.$store.dispatch('cart/addToCartItems', cartItem)
@@ -307,8 +309,6 @@ export default {
     max-width: 170px;
     padding: 10px;
     margin: 0 auto;
-
-
   }
 
   .card .image-block {

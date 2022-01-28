@@ -76,6 +76,7 @@
                 <grid-view :product="item"></grid-view>
               </div>
             </div>
+
           </div>
 
           <!-- Pagination without filters -->
@@ -108,6 +109,7 @@
 
       </div>
     </div>
+    <footer-bottom></footer-bottom>
   </div>
 </template>
 
@@ -118,6 +120,7 @@ import HeaderTop from "@/components/HeaderTop";
 import Filters from "@/components/Filters";
 import Categories from "@/components/Categories";
 import SearchBlock from "@/components/SearchBlock";
+import FooterBottom from "@/components/FooterBottom";
 import _ from "lodash";
 
 export default {
@@ -128,7 +131,8 @@ export default {
     HeaderTop,
     Filters,
     Categories,
-    SearchBlock
+    SearchBlock,
+    FooterBottom
   },
   name: "sub_category",
 
@@ -181,6 +185,7 @@ export default {
 
   computed: {
     rows() {
+      //console.log(this.data_total.length);
       return this.data_total != undefined ? this.data_total.length : ''
     },
   },
@@ -249,8 +254,8 @@ export default {
   },
 
   async asyncData(ctx) {
-    let cat = await ctx.store.getters["categories/categories"]
     let {data} = await ctx.$axios.get(`/api/shop/products/${ctx.route.params.category}${ctx.route.params.sub ? `/` + ctx.route.params.sub : ''}${ctx.query.page ? `?page=` + ctx.query.page : ''}`)
+    let cat = await ctx.store.getters["categories/categories"]
     let filters = await ctx.store.getters["filters/filters"]
 
     let arr = data.data

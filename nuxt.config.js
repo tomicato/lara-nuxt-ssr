@@ -11,7 +11,8 @@ export default {
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: ''}
+      {hid: 'description', name: 'description', content: ''},
+      {hid: 'keywords', name: 'keywords', content: ''}
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
@@ -121,8 +122,8 @@ export default {
   },*/
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "https://com-helps.online",
-    //baseURL: "http://lara-nuxt-ssr"
+    //baseURL: "https://com-helps.online",
+    baseURL: "http://lara-nuxt-ssr"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

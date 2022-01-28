@@ -1,144 +1,144 @@
 <template>
-    <div class="container pt-5" id="main">
-      <div class="row">
-        <div class="col-md-12 col-lg-8 col-xl-9  columns">
-          <h3>Выбранные товары</h3>
-          <hr/>
-          <br/>
+  <div class="container pt-5" id="main">
+    <div class="row">
+      <div class="col-md-12 col-lg-8 col-xl-9  columns">
+        <h3>Выбранные товары</h3>
+        <hr/>
+        <br/>
 
-          <div class="card mb-3" id="card" style="max-width: 100%" v-if="items" v-for="(product, ind) in items"
-               :key="ind">
-            <div class="row">
+        <div class="card mb-3" id="card" style="max-width: 100%" v-if="items" v-for="(product, ind) in items"
+             :key="ind">
+          <div class="row">
 
-              <div class="col-md-4 image-block">
-                <img :src="`${$axios.defaults.baseURL}/uploads/${product.item.photo}`" class="card-img" alt="">
-              </div>
+            <div class="col-md-4 image-block">
+              <img :src="`${$axios.defaults.baseURL}/uploads/${product.item.photo}`" class="card-img" alt="">
+            </div>
 
-              <div class="col-md-8">
-                <div class="card-body">
+            <div class="col-md-8">
+              <div class="card-body">
 
-                  <nuxt-link :to="`${$axios.defaults.baseURL}/shop/products/${product.item.id}`"><h5 class="card-title">{{
-                      product.item.name
-                    }}</h5>
-                  </nuxt-link>
-                  <hr/>
+                <nuxt-link :to="`/shop/products/${product.item.id}`"><h5 class="card-title">{{
+                    product.item.name
+                  }}</h5>
+                </nuxt-link>
+                <hr/>
 
-                  <p class="card-text">{{ product.item.description }}</p>
+                <p class="card-text">{{ product.item.description }}</p>
 
-                  <div class="card-text d-flex justify-content-between align-items-center py-3">
+                <div class="card-text d-flex justify-content-between align-items-center py-3">
 
-                    <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
+                  <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
                     <span class="text-muted" style="padding-left: 5px;text-decoration: line-through;"
                           v-if="product.item.old_price">
                       {{ divideNumberByPieces(product.item.old_price, ' ') }} ₽</span>
-                      <mark v-if="product.item.price">{{ divideNumberByPieces(product.item.price, ' ') }} ₽</mark>
-                    </div>
-                    <div class="card-text d-flex justify-content-center align-items-center">
-                      <small v-if="product.item.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
-                      <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
-                    </div>
+                    <mark v-if="product.item.price">{{ divideNumberByPieces(product.item.price, ' ') }} ₽</mark>
                   </div>
+                  <div class="card-text d-flex justify-content-center align-items-center">
+                    <small v-if="product.item.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
+                    <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+
                   <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn-outline-info form-control w-25" v-if="product.qty <= 1" disabled>-</button>
+                    <button class="btn-outline-info form-control w-25" v-else
+                            @click.prevent="minus(product.qty, product.id)">-
+                    </button>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                      <button class="btn-outline-info form-control w-25" v-if="product.qty <= 1" disabled>-</button>
-                      <button class="btn-outline-info form-control w-25" v-else
-                              @click.prevent="minus(product.qty, product.id)">-
-                      </button>
+                    <input type="number" class="form-control text-center mx-1" id="countAdd"
+                           :value="product.qty <= 0 ? 1 : product.qty"
+                           @input.number.trim="inputQty($event.target.value, product.qty, product.id)"/>
 
-                      <input type="number" class="form-control text-center mx-1" id="countAdd"
-                             :value="product.qty <= 0 ? 1 : product.qty"
-                             @input.number.trim="inputQty($event.target.value, product.qty, product.id)"/>
-
-                      <button class="btn-outline-success form-control w-25 mr-2"
-                              @click.prevent="plus(product.qty, product.id)">+
-                      </button>
-                    </div>
-                    <!-- <b-icon style="cursor:pointer;" icon="trash-fill" aria-hidden="true" @click.prevent="deleteItem(product.qty, product.id)" scale="2" variant="danger"></b-icon>-->
-                    <button class="form-control w-25 btn-outline-danger"
-                            @click.prevent="deleteItem(product.qty, product.id)">Delete
+                    <button class="btn-outline-success form-control w-25 mr-2"
+                            @click.prevent="plus(product.qty, product.id)">+
                     </button>
                   </div>
+                  <!-- <b-icon style="cursor:pointer;" icon="trash-fill" aria-hidden="true" @click.prevent="deleteItem(product.qty, product.id)" scale="2" variant="danger"></b-icon>-->
+                  <button class="form-control w-25 btn-outline-danger"
+                          @click.prevent="deleteItem(product.qty, product.id)">Delete
+                  </button>
+                </div>
 
-                  <div class="d-flex justify-content-between align-items-center py-5">
-                    <div class="">Some option</div>
-                    <div class="">Rating</div>
-                    <div class="">Another option</div>
-                  </div>
+                <div class="d-flex justify-content-between align-items-center py-5">
+                  <div class="">Some option</div>
+                  <div class="">Rating</div>
+                  <div class="">Another option</div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
 
-        <!--Checkout-->
-        <div class="col-md-12 col-lg-4 col-xl-3  columns">
-          <h3>Оформление</h3>
-          <hr/>
-          <br/>
-          <div class="card mb-3" style="max-width: 100%">
-            <div class="col-md-12">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center py-3">
-                  <h5>Count products: </h5>
-                  <h5>
-                    <mark>{{ productsCount }}</mark>
-                  </h5>
-                </div>
-                <hr/>
-                <div class="d-flex justify-content-between align-items-center py-3">
-                  <h5>Total count: </h5>
-                  <h5>
-                    <mark>{{ totalCount }}</mark>
-                  </h5>
-                </div>
-                <hr/>
-                <div class="d-flex justify-content-between align-items-center py-3">
-                  <h5>Total sum: </h5>
-                  <h5>
-                    <mark> {{ divideNumberByPieces(totalSum, ' ') }} ₽</mark>
-                  </h5>
-                </div>
-                <hr/>
-              </div>
-              <b-button variant="outline-primary"
-                        @click.prevent="checkoutOrder"
-                        class="d-flex justify-content-center align-items-center w-100 mt-3 mb-4">Checkout
-              </b-button>
-              <div class="w-100 m-auto mb-5">
-                <div id="smart-button-container">
-                  <div style="" id="paypal-button-container"></div>
-                </div>
-              </div>
-              <b-button variant="outline-danger" @click.prevent="clearCart"
-                        class="d-flex justify-content-center align-items-center w-100 mb-4 clear">Clear Cart
-              </b-button>
+      </div>
 
+      <!--Checkout-->
+      <div class="col-md-12 col-lg-4 col-xl-3  columns">
+        <h3>Оформление</h3>
+        <hr/>
+        <br/>
+        <div class="card mb-3" style="max-width: 100%">
+          <div class="col-md-12">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center py-3">
+                <h5>Count products: </h5>
+                <h5>
+                  <mark>{{ productsCount }}</mark>
+                </h5>
+              </div>
+              <hr/>
+              <div class="d-flex justify-content-between align-items-center py-3">
+                <h5>Total count: </h5>
+                <h5>
+                  <mark>{{ totalCount }}</mark>
+                </h5>
+              </div>
+              <hr/>
+              <div class="d-flex justify-content-between align-items-center py-3">
+                <h5>Total sum: </h5>
+                <h5>
+                  <mark> {{ divideNumberByPieces(totalSum, ' ') }} ₽</mark>
+                </h5>
+              </div>
+              <hr/>
             </div>
+            <b-button variant="outline-primary"
+                      @click.prevent="checkoutOrder"
+                      class="d-flex justify-content-center align-items-center w-100 mt-3 mb-4">Checkout
+            </b-button>
+            <div class="w-100 m-auto mb-5">
+              <div id="smart-button-container">
+                <div style="" id="paypal-button-container"></div>
+              </div>
+            </div>
+            <b-button variant="outline-danger" @click.prevent="clearCart"
+                      class="d-flex justify-content-center align-items-center w-100 mb-4 clear">Clear Cart
+            </b-button>
+
           </div>
         </div>
       </div>
-      <!-- End Row -->
-
-      <!-- Addition products slider-->
-
-      <!--/ Addition products slider-->
-      <hr/>
-
-      <b-pagination
-        class="t-4 flx-c mb-5"
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-        pills
-        @change="changeHandler"
-        variant="outline-primary"
-      ></b-pagination>
-
-
     </div>
+    <!-- End Row -->
+
+    <!-- Addition products slider-->
+
+    <!--/ Addition products slider-->
+    <hr/>
+
+    <b-pagination
+      class="t-4 flx-c mb-5"
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+      pills
+      @change="changeHandler"
+      variant="outline-primary"
+    ></b-pagination>
+
+
+  </div>
 
 </template>
 
@@ -169,19 +169,26 @@ export default {
       cart: [],
       keys: [],
       countProduct: 4,
+
+      currentPage: 1,
       perPage: 3,
-      currentPage: +this.$route.query.page || 1,
       pageCount: 1,
       itemsAll: [],
+
       totalSum: 0,
       productsCount: 0,
       totalCount: 0,
+
       arrTotal: [],
       cartToServer: [],
-
+      baseurl: '',
     }
   },
+
   mounted() {
+    let getUrl = window.location;
+    let baseUrl = getUrl.protocol + "//" + getUrl.host;
+    this.baseurl = baseUrl
 
     let item_arr = []
     let arr = [];
@@ -229,6 +236,7 @@ export default {
     this.products = arr;
     this.productsCount = arr.length
     this.countProductInCart()
+
     this.itemsAll = _.chunk(this.products, this.perPage)
     this.pageCount = _.size(this.itemsAll)
     this.items = this.itemsAll[this.currentPage - 1] || this.itemsAll[0]
@@ -237,9 +245,7 @@ export default {
 
   computed: {
     rows() {
-      if (this.products) {
-        return this.products.length
-      }
+      return this.products.length > 0 ? this.products.length : 0
     },
   },
 
@@ -417,19 +423,36 @@ export default {
     deleteItem(qty, id) {
       // console.log(this.arrTotal);
       // console.log(id + " " + qty)
+      //console.log(this.currentPage)
 
       let obj = this.arrTotal.filter(item => item.id == id)
       let sum = obj[0].qty * obj[0].item.price
+
       this.productsCount = this.productsCount - 1
       this.totalSum = this.totalSum - sum
       this.totalCount = this.totalCount - obj[0].qty
+
       this.items = this.items.filter(item => item.id != id)
+      if(this.items == 0) window.location.reload();
+
+      this.itemsAll = _.chunk(this.items, this.perPage)
+      this.pageCount = _.size(this.itemsAll)
+      this.items = this.itemsAll[this.currentPage - 1] || this.itemsAll[0]
+
+      if(this.items < this.perPage){
+        this.rows--;
+      }
+      /*console.log(this.items);
+      console.log(this.itemsAll);
+      console.log(this.pageCount + "  " + this.currentPage);*/
       localStorage.removeItem('cartP-' + id)
       this.countProductInCart()
 
-      if(!this.totalCount){
+      if (!this.totalCount) {
         this.products = []
       }
+
+
       // console.log(this.items)
     },
 
@@ -534,7 +557,8 @@ export default {
   background: #5daafc;
   //background: #e74a6b;
 }
-.clear_cart{
+
+.clear_cart {
   margin: 90px 0 20px 0;
 }
 </style>

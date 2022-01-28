@@ -12,7 +12,8 @@
 export default {
   name: "SearchBlock",
   props: {
-    name: ''
+    name: '',
+    search_field: ''
   },
   data() {
     return {
@@ -21,6 +22,8 @@ export default {
   },
   methods: {
     async searchProducts() {
+      //console.log(!this.search);
+      if(!this.search) this.$router.go(0);
 
       let searchData = new FormData();
       searchData.append('search', this.search)
