@@ -30,8 +30,7 @@
           </nuxt-link>
           <nuxt-link to="#" title="Leave Feedback" v-else style="text-decoration: none">
             <small class="d-flex justify-content-around align-items-center">
-              <i class="material-icons"  style="color: #ccc">star_border</i>&nbsp;
-
+              <i class="material-icons" style="color: #ccc">star_border</i>&nbsp;
               <span>{{ product.rating }}</span>
             </small>
           </nuxt-link>

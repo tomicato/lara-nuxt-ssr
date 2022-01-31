@@ -36,12 +36,12 @@
     <div class="footer-meta ">
       <div><hr/>
         <div class="text-left">
-          Created By
+          2022 created
         </div>
       </div>
       <div><hr/>
         <div class="text-left">
-          2022@ <a href="https://com-helps.ru" target="_blank"> ComHelps</a>
+          <a href="https://com-helps.ru" target="_blank"> ComHelps</a>
         </div>
       </div>
     </div>

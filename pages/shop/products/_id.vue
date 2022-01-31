@@ -39,7 +39,7 @@
           </div>
 
           <!-- Start row -->
-          <div class="row show" v-if="data_total == ''">
+          <div class="row show mx-auto" v-if="data_total == ''">
             <div id="card" class="row" style="max-width: 100%;">
 
               <div class="col-4">
@@ -71,9 +71,19 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center py-5">
-                  <div class="">Some option</div>
+                  <nuxt-link to="#" title="Leave Feedback" style="text-decoration: none">
+                    <small class="d-flex justify-content-around align-items-center">
+                      <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
+                      <span>{{ single_product.rating }}</span>
+                    </small>
+                  </nuxt-link>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small>SKU: {{ single_product.cku }}</small>
+                  </div>
+<!--                  <div class="">Some option</div>
                   <div class="">Rating</div>
-                  <div class="">Another option</div>
+                  <div class="">Another option</div>-->
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="d-flex justify-content-between align-items-center ml-auto">
@@ -100,9 +110,10 @@
                               <div>{{ single_product.price }}</div>-->
               </div>
             </div>
+
             <!-- Tab`s content -->
-            <div class="row my-5 border_horizontal w-100">
-              <div class="col-8">
+            <div class="row my-5 mx-auto border_horizontal w-100">
+              <div class="col-sm-12 col-md-8 col-lg-8 my-3">
                 <div class="tab-content" id="nav-tabContent">
                   <div class="tab-pane show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                     {{ single_product.description }}
@@ -135,7 +146,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-sm-12 col-md-4 col-lg-4 w-100 my-3" style="z-index: 0">
                 <div class="list-group" id="list-tab" role="tablist">
                   <a class="my-1 list-group-item list-group-item-action list-group-item-outline-info"
                      id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Description</a>
@@ -559,7 +570,12 @@ h3 {
     }
   }
 }
-
+.card-body {
+  a {
+    text-decoration: none;
+    color: crimson;
+  }
+}
 
 #grid {
   display: none;
