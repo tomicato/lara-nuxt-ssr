@@ -25,6 +25,26 @@ export default {
         rel: "stylesheet",
         href:
           "https://fonts.googleapis.com/icon?family=Material+Icons"
+      },
+      {
+        rel: "stylesheet",
+        href:
+          "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.carousel.min.css"
+      },
+      {
+        rel: "stylesheet",
+        href:
+          "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css"
+      },
+      {
+        rel: "stylesheet",
+        href:
+          "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css"
+      },
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
       }
     ],
     script: [
@@ -41,7 +61,13 @@ export default {
         src:
           "https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js",
         type: "text/javascript"
-      }
+      },
+      {
+        src:
+          "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js",
+        type: "text/javascript"
+      },
+
     ]
   },
 
@@ -66,6 +92,7 @@ export default {
     //'./plugins/mixins/_user.js',
     './plugins/mixins/validation.js',
     './plugins/axios.js',
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -122,12 +149,14 @@ export default {
   },*/
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "https://com-helps.online",
-   // baseURL: "http://lara-nuxt-ssr"
+   // baseURL: "https://com-helps.online",
+   baseURL: "http://lara-nuxt-ssr"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+
+  },
 
   // Server config
   server: {

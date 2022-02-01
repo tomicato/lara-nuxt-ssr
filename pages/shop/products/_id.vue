@@ -42,7 +42,7 @@
           <div class="row show mx-auto" v-if="data_total == ''">
             <div id="card" class="row" style="max-width: 100%;">
 
-              <div class="col-4">
+              <div class="col-4 zoom_img">
                 <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
                      class="card-img"
                      :alt="single_product.name"
@@ -81,9 +81,9 @@
                   <div class="d-flex justify-content-between align-items-center">
                     <small>SKU: {{ single_product.cku }}</small>
                   </div>
-<!--                  <div class="">Some option</div>
-                  <div class="">Rating</div>
-                  <div class="">Another option</div>-->
+                  <!--                  <div class="">Some option</div>
+                                    <div class="">Rating</div>
+                                    <div class="">Another option</div>-->
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="d-flex justify-content-between align-items-center ml-auto">
@@ -165,6 +165,9 @@
           </div>
           <!-- /End row -->
 
+
+
+          <!-- Search products-->
           <div id="list">
             <div v-if="flag == true">
               <div class="card mb-3 show" style="max-width: 100%" v-for="(item, i) in items" :key="i">
@@ -172,7 +175,6 @@
               </div>
             </div>
           </div>
-
           <div id="grid">
             <div class="row text-center" v-if="flag == true">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%"
@@ -191,8 +193,22 @@
             pills
             @change="changeHandler2"
           ></b-pagination>
+          <!-- /Search products-->
+        </div>
+        <!-- Carousel -->
+        <div class="container my-4 mx-auto">
+          <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
+          <div class="w-75 mx-auto custom1 owl-carousel owl-theme">
+            <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/video.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
+          </div>
         </div>
 
+        <!-- /Carousel -->
 
       </div>
     </div>
@@ -208,6 +224,7 @@ import modalWindow from "@/components/modalWindow";
 import listView from "@/components/listView";
 import gridView from "@/components/gridView";
 import _ from "lodash";
+import 'animate.css';
 
 export default {
   comments: [
@@ -269,6 +286,31 @@ export default {
   },
 
   mounted() {
+    /*Slider script */
+    let $owl = $('.owl-carousel');
+    $owl.owlCarousel({
+      loop: true,
+      margin: 10,
+      autoHeight:false,
+      /*autoplay:false,
+      autoplayTimeout:3000,
+      autoplayHoverPause:true,*/
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        600: {
+          items: 3,
+        },
+        1000: {
+          items: 3,
+          loop: false,
+        }
+      }
+    });
+    /*Slider script */
+
     this.$root.$on('getFilteredData', (arr) => {
       this.data_total = arr.data
 
@@ -390,13 +432,13 @@ export default {
       let obj = localStorage.getItem('cartP-' + id)
       let tmp = JSON.parse(obj);
 
-      if(obj){
+      if (obj) {
         tmp.qty = tmp.qty - 1
         this.single_product_qty = tmp.qty
         localStorage.setItem('cartP-' + id, JSON.stringify(tmp))
       }
 
-      if (tmp && tmp.qty <= 0){
+      if (tmp && tmp.qty <= 0) {
         localStorage.removeItem('cartP-' + id);
       }
       this.totalCount = this.totalCount <= 0 ? 0 : this.totalCount - 1
@@ -407,15 +449,15 @@ export default {
       //console.log(newVal, qty);
 
       if (qty != undefined && qty > 0) {
-       // this.single_product_qty = 1;
+        // this.single_product_qty = 1;
         let obj = localStorage.getItem('cartP-' + id)
         let tmp = JSON.parse(obj);
-        if(obj){
+        if (obj) {
           tmp.qty = +newVal < 0 ? 0 : +newVal
           this.single_product_qty = +newVal
           localStorage.setItem('cartP-' + id, JSON.stringify(tmp))
         }
-        if (tmp && tmp.qty <= 0){
+        if (tmp && tmp.qty <= 0) {
           localStorage.removeItem('cartP-' + id);
         }
 
@@ -521,6 +563,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/*Slider styles*/
+/*.owl-carousel .item {
+  height: 20rem;
+  background: #4DC7A0;
+  padding: 1rem;
+}*/
+/*Slider styles*/
 
 #top-tools {
   height: 30px;
@@ -570,6 +619,7 @@ h3 {
     }
   }
 }
+
 .card-body {
   a {
     text-decoration: none;
@@ -632,7 +682,7 @@ select {
   padding: 4rem 0;
 }
 
-img {
+.zoom_img img {
   cursor: zoom-in;
 }
 
