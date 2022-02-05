@@ -113,16 +113,48 @@
 
             <!-- Tab`s content -->
             <div class="row my-5 mx-auto border_horizontal w-100">
-              <div class="col-sm-12 col-md-8 col-lg-8 my-3">
+              <div class="col-sm-12 col-md-3 col-lg-3 w-100 my-3" style="z-index: 0">
+                <div class="list-group" id="list-tab" role="tablist">
+                  <a class="my-1 list-group-item list-group-item-action list-group-item-outline-info"
+                     id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Description</a>
+                  <a class=" my-1 list-group-item list-group-item-action list-group-item-outline-info"
+                     id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Details</a>
+                  <a class=" my-1 list-group-item list-group-item-action list-group-item-outline-info"
+                     id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
+                     aria-controls="messages">Testimonials</a>
+                  <a class=" my-1 list-group-item list-group-item-action list-group-item-outline-info"
+                     id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
+                     aria-controls="settings">Discussions</a>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-9 col-lg-9 my-3">
                 <div class="tab-content" id="nav-tabContent">
                   <div class="tab-pane show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                     {{ single_product.description }}
                   </div>
                   <div class="tab-pane show" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-                    <div v-for="(item, i) in 12" :key="i"
-                         class="d-flex justify-content-between align-items-center my-3 properties">
-                      <div>SSD 3D</div>
-                      <div>512Gb</div>
+                    <div v-for="(item, i) in Object.entries(properties)" :key="i">
+                      <div class="d-flex flex-column justify-content-between align-items-start mb-2 mt-2 py-3 properties font-weight-bolder">
+                        {{ Array.from(Object.keys(properties))[i] }}
+                      </div>
+
+                      <div class="d-flex justify-content-between align-items-center">
+                       <div class="d-flex flex-column align-self-start h-100 w-100">
+                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])" :key="k">
+                          {{ it }}
+                        </span>
+                       </div>
+                        <div class="d-flex flex-column align-items-end w-100">
+                        <span class="my-2" v-for="(im, l) in Object.values(Object.values(properties)[i])" :key="l">
+                          {{ im[0] }}
+                        </span>
+                      </div>
+                      </div>
+
+                      <div class="">
+
+                      </div>
+
                     </div>
                   </div>
                   <div class="tab-pane show" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
@@ -146,25 +178,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-12 col-md-4 col-lg-4 w-100 my-3" style="z-index: 0">
-                <div class="list-group" id="list-tab" role="tablist">
-                  <a class="my-1 list-group-item list-group-item-action list-group-item-outline-info"
-                     id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Description</a>
-                  <a class="my-1 list-group-item list-group-item-action list-group-item-outline-info"
-                     id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Details</a>
-                  <a class="my-1 list-group-item list-group-item-action list-group-item-outline-info"
-                     id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
-                     aria-controls="messages">Testimonials</a>
-                  <a class="my-1 list-group-item list-group-item-action list-group-item-outline-info"
-                     id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
-                     aria-controls="settings">Discussions</a>
-                </div>
-              </div>
+
 
             </div>
           </div>
           <!-- /End row -->
-
 
 
           <!-- Search products-->
@@ -282,6 +300,9 @@ export default {
       pageCount: 1,
       itemsAll: [],
       items: [],
+
+      /* Properties */
+      properties: []
     }
   },
 
@@ -291,7 +312,7 @@ export default {
     $owl.owlCarousel({
       loop: true,
       margin: 10,
-      autoHeight:false,
+      autoHeight: false,
       /*autoplay:false,
       autoplayTimeout:3000,
       autoplayHoverPause:true,*/
@@ -329,12 +350,18 @@ export default {
   async asyncData(ctx) {
     let {data} = await ctx.$axios.get(`/api/shop/single/${ctx.route.params.id}`);
     let cat = await ctx.store.getters["categories/categories"]
+    console.log(data);
+
+      let properties = data.data.properties.length > 0 ? data.data.properties[0].properties.data : '';
+      //console.log(Array.from(data.data.properties));
+
 
     return {
       single_product: data.data,
       name_main_content: data.data.name,
       categories: cat,
-      counts: data.data.sub_count
+      counts: data.data.sub_count,
+      properties: properties ? properties : []
     }
   },
 

@@ -43,7 +43,7 @@
             <small>SKU: {{ product.cku }}</small>
           </div>
           <hr/>
-          <p class="card-text">{{ product.description }}</p>
+          <p class="card-text">{{ product.description.substr(0, 255) + '...'}}</p>
 
           <div class="card-text d-flex justify-content-between align-items-end">
 

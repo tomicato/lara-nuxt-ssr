@@ -45,7 +45,7 @@
         </nuxt-link>
       </div>
 
-      <p class="card-text" style="height: 210px;">{{ product.description }}</p>
+      <p class="card-text" style="height: 210px;">{{ product.description.substr(0, 255) + '...' }}</p>
 
       <div class="card-text d-flex justify-content-between align-items-center mx-2" style="height: 82px;">
 

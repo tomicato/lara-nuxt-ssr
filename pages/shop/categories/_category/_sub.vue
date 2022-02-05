@@ -27,25 +27,29 @@
           <br/>
 
           <!--Products List-->
-          <div class="w-100 d-flex justify-content-between align-items-center" id="top-tools">
-            <div class="d-flex justify-content-between align-items-center">
-              <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
-              <i class="material-icons grid-icon" @click.prevent="grid">apps</i>
-            </div>
-
-            <div id="filters_top">
-             <span v-for="(item, i) in data" :key="i" class="badge badge-pill badge-info">
-               {{ item }}
-             </span>
-            </div>
-
-            <div>
-              <select>
-                <option value="" selected>Order by</option>
-                <option value="">Price ASC</option>
-                <option value="">Price DESC</option>
-              </select>
-            </div>
+          <div class="table-responsive">
+            <table class="w-100 table" id="top-tools">
+              <tbody>
+              <tr class="d-flex justify-content-between align-items-center">
+                <td class="d-flex justify-content-start align-items-center">
+                  <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
+                  <i class="material-icons grid-icon" @click.prevent="grid">apps</i>
+                </td>
+                <td id="filters_top" class="d-flex">
+                  <span v-for="(item, i) in data" :key="i" class="badge badge-pill badge-info">
+                     {{ item }}
+                  </span>
+                </td>
+                <td class="d-flex justify-content-end align-items-center">
+                  <select>
+                    <option value="" selected>Order by</option>
+                    <option value="">Price ASC</option>
+                    <option value="">Price DESC</option>
+                  </select>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
 
           <!--List View-->
@@ -66,13 +70,15 @@
           <!--Grid View-->
           <div id="grid" class="w-100 mx-auto">
             <div class="row text-center" v-if="flag == false">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%"
+                   v-for="(item, i) in data_total" :key="i">
                 <grid-view :product="item"></grid-view>
               </div>
             </div>
 
             <div class="row text-center" v-if="flag == true">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in items" :key="i">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in items"
+                   :key="i">
                 <grid-view :product="item"></grid-view>
               </div>
             </div>
@@ -94,15 +100,15 @@
 
           <!-- Pagination with filters -->
           <b-pagination
-              v-if="flag == true"
-              class="t-4 flx-c"
-              v-model="currentPage"
-              :total-rows="rows"
-              :per-page="perPage"
-              aria-controls="my-table2"
-              pills
-              @change="changeHandler2"
-            ></b-pagination>
+            v-if="flag == true"
+            class="t-4 flx-c"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-table2"
+            pills
+            @change="changeHandler2"
+          ></b-pagination>
 
 
         </div>
@@ -198,13 +204,13 @@ export default {
 
   mounted() {
 
-      if (this.data_total[0].sub_title) {
-        let tl = this.data_total[0].sub_title.title
-        this.title = tl
-      } else {
-        let ml = this.data_total[0].cat_title.title
-        this.title = ml
-      }
+    if (this.data_total[0].sub_title) {
+      let tl = this.data_total[0].sub_title.title
+      this.title = tl
+    } else {
+      let ml = this.data_total[0].cat_title.title
+      this.title = ml
+    }
 
     this.$root.$on('getFilteredData', (arr) => {
       //this.filter_length = arr.data.length
@@ -226,14 +232,14 @@ export default {
     })
 
     this.$root.$on('setData', (data) => {
-    //console.log(data);
+      //console.log(data);
       let arr = []
       for (let k of data) {
         arr.push(k.split(':'))
       }
       let tmp = []
       for (let i = 0; i < arr.length; i++) {
-        if(arr[i][0] != 'category_id' || arr[i][0] != 'sub_category_id'){
+        if (arr[i][0] != 'category_id' || arr[i][0] != 'sub_category_id') {
           tmp.push(arr[i][1])
         }
       }
@@ -265,9 +271,9 @@ export default {
     }
 
     let componentFilters = [];
-    if(!ctx.route.params.sub){
+    if (!ctx.route.params.sub) {
       componentFilters = filters.filter(item => item.category_id == ctx.route.params.category);
-    }else{
+    } else {
       componentFilters = filters.filter(item => item.sub_id == ctx.route.params.sub);
       let cat_common_filters = componentFilters.filter(item => item.common == '1');
     }
@@ -387,18 +393,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#top-tools{
+.table th, .table td{border: unset!important;}
+#top-tools {
   height: 30px;
-  margin-bottom: 50px!important;
+  margin-bottom: 50px !important;
 }
 
-#filters_top{
-  margin: 0 15px;
-  .badge-info{
-    margin: 10px 10px!important;
-    padding: 5px 10px!important;
+#filters_top {
+  margin: 0 5px;
+
+  .badge-info {
+    margin: 5px 10px !important;
+    padding: 5px 10px !important;
   }
 }
+
 .back_link {
   display: flex;
   justify-content: center;
@@ -517,7 +526,8 @@ select {
   align-items: center;
   cursor: pointer;
 }
-.dots{
+
+.dots {
   border-bottom: 1px dotted #999797;
   height: 12px;
   width: 50%;
