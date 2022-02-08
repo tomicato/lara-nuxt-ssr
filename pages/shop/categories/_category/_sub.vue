@@ -22,12 +22,11 @@
 
         <!-- Main Content -->
         <div class="col-sm-12 col-lg-9 columns products ">
-         <div class="d-flex justify-content-between align-items-center" style="font-size: 18px; margin-bottom: -1.7%;">
+         <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-between flex-lg-row align-items-center" style="font-size: 18px; margin-bottom: -1.7%;">
            <div id="breadcrumbs">
             <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
              <nuxt-link :to="`/shop/categories/${$route.params.category}`" >{{ cat_title }}</nuxt-link>
              <nuxt-link v-if="$route.params.sub" :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`" >{{ ' / ' + title.split('_').join(' ') }}</nuxt-link>
-
            </div>
            <search-block ></search-block>
          </div>
@@ -454,6 +453,9 @@ export default {
 #breadcrumbs{
   a{
     color: rgba(0, 0, 0, 0.6)
+  }
+  &:hover, &:active{
+    text-decoration: unset!important;
   }
 }
 .table th, .table td {
