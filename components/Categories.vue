@@ -11,7 +11,7 @@
         <div class="childItem hide" :id="`show-${category.id}`">
           <div v-for="(item, i) in category.childs" :key="i">
             <a href="#" @click.prevent="goToSubCategory(category, item)">
-              {{ item.title }}
+              {{ item.title.split('_').join(' ') }}
               <span v-for="(cnt, k) in counts" :key="k">
                         {{ Object.keys(cnt)[0] == item.title ?  `(${Object.values(cnt)[0]})` : '' }}
                     </span>

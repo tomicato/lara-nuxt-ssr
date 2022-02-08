@@ -10,7 +10,7 @@
           <hr/>
           <br/>
           <div class="columns">
-            <categories :categories="categories" :flag="flag" :counts="counts"></categories>
+            <categories :categories="categories" :flag="flag" ></categories>
           </div>
 
 

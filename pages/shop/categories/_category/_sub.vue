@@ -10,7 +10,7 @@
           <hr/>
           <br>
 
-          <categories :categories="categories" :flag="flag" :counts="counts"></categories>
+          <categories :categories="categories" :flag="flag"></categories>
 
           <div>
             <h3>Filters</h3>
@@ -21,10 +21,19 @@
         </div>
 
         <!-- Main Content -->
-        <div class="col-sm-12 col-lg-9 columns products">
-          <search-block :name="name_main_content"></search-block>
-          <hr/>
-          <br/>
+        <div class="col-sm-12 col-lg-9 columns products ">
+         <div class="d-flex justify-content-between align-items-center" style="font-size: 18px; margin-bottom: -1.7%;">
+           <div id="breadcrumbs">
+            <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
+             <nuxt-link :to="`/shop/categories/${$route.params.category}`" >{{ cat_title }}</nuxt-link>
+             <nuxt-link v-if="$route.params.sub" :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`" >{{ ' / ' + title.split('_').join(' ') }}</nuxt-link>
+
+           </div>
+           <search-block ></search-block>
+         </div>
+<!--          :name="name_main_content"-->
+
+          <br/> <hr/>
 
           <!--Products List-->
           <div class="table-responsive">
@@ -142,6 +151,26 @@ export default {
   },
   name: "sub_category",
 
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.description
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: this.keywords
+        },
+
+      ]
+    }
+  },
+
   /*  async validate({params, route}) {
       if (params.id) {
         return /^\d+$/.test(params.id)
@@ -184,21 +213,14 @@ export default {
       items: [],
 
       /*===== Top Filters =====*/
-      data: []
+      data: [],
 
-    }
-  },
+      /*========= Meta ========*/
+      keywords: '',
+      description: '',
+      cat_title: '',
+      sub_title: ''
 
-  computed: {
-    rows() {
-      //console.log(this.data_total.length);
-      return this.data_total != undefined ? this.data_total.length : ''
-    },
-  },
-
-  head() {
-    return {
-      title: this.title,
     }
   },
 
@@ -264,6 +286,32 @@ export default {
     let cat = await ctx.store.getters["categories/categories"]
     let filters = await ctx.store.getters["filters/filters"]
 
+    /* Meta content */
+    let cat_one = cat.find(item => item.id == ctx.route.params.category) // for meta
+
+    let sub_one;
+    if(cat_one.childs.length  > 0){
+      sub_one = cat_one['childs'].find(item => item.id == ctx.route.params.sub) // for meta
+    }else{
+      sub_one = null
+    }
+    let keywords;
+    let description;
+
+    //console.log(cat_one.title+ "\r\n" +sub_one.title + "\r\n" );
+    //console.log(ctx.route);
+    //console.log(cat_one.title);
+
+
+    if(sub_one != null){
+      keywords = sub_one.keywords  // keywords
+      description = sub_one.description // description
+    }else{
+      keywords = cat_one.key_cat  // keywords
+      description = cat_one.desc_cat // description
+    }
+    /* End Meta content */
+
     let arr = data.data
     let tmp = []
     for (const el of arr) {
@@ -305,13 +353,22 @@ export default {
         per_page: data.meta.per_page,
         current: ctx.query.page,
         categories: cat,
-        counts: tmp
+        counts: tmp,
+        keywords: keywords ? keywords : '',
+        description: description ? description : '',
+        cat_title: cat_one.title,
+        sub_title: sub_one ? sub_one.title : '',
       }
     } else {
       ctx.redirect('/shop')
     }
   },
-
+  computed: {
+    rows() {
+      //console.log(this.data_total.length);
+      return this.data_total != undefined ? this.data_total.length : ''
+    },
+  },
   watch: {
     '$route'() {
       this.getProducts(this.$route.query.page);
@@ -393,7 +450,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table th, .table td{border: unset!important;}
+
+#breadcrumbs{
+  a{
+    color: rgba(0, 0, 0, 0.6)
+  }
+}
+.table th, .table td {
+  border: unset !important;
+}
+
 #top-tools {
   height: 30px;
   margin-bottom: 50px !important;

@@ -16,7 +16,7 @@
           <h3 class="mb-4">Categories</h3>
           <hr/>
           <br>
-          <categories :categories="categories" :flag="flag" :counts="counts"></categories>
+          <categories :categories="categories" :flag="flag"></categories>
         </div>
 
         <div class="col-sm-12 col-lg-9 columns products">
@@ -40,74 +40,62 @@
 
           <!-- Start row -->
           <div class="row show mx-auto" v-if="data_total == ''">
-            <div id="card" class="row" style="max-width: 100%;">
+            <div class="card w-100">
+              <div id="card" class="row" style="max-width: 100%;">
 
-              <div class="col-4 zoom_img">
-                <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-                     class="card-img"
-                     :alt="single_product.name"
-                     @click.prevent="openModal">
-              </div>
-              <div class="col-8 card-body">
+                <div class="col-4 zoom_img">
+                  <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
+                       class="card-img"
+                       :alt="single_product.name"
+                       @click.prevent="openModal">
+                </div>
+                <div class="col-8 card-body">
+                  <h3 class="card-title grid-title font-weight-lighter">{{ single_product.name }}</h3>
+                    <hr/>
 
-                <!--              <nuxt-link :to="`/shop/products/${single_product.id}`"><h5 class="card-title">{{
-                                  single_product.name
-                                }}</h5></nuxt-link>
-                              <hr/>-->
+                  <div class="card-text d-flex justify-content-between align-items-center py-3">
 
-                <p class="card-text">{{ single_product.description }}</p>
-
-                <div class="card-text d-flex justify-content-between align-items-center py-3">
-
-                  <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
+                    <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
                     <span class="text-muted" style="padding-left: 5px;text-decoration: line-through;"
                           v-if="single_product.old_price">
                       {{ divideNumberByPieces(single_product.old_price, ' ') }} ₽</span>
-                    <mark v-if="single_product.price">{{ divideNumberByPieces(single_product.price, ' ') }} ₽</mark>
+                      <mark v-if="single_product.price">{{ divideNumberByPieces(single_product.price, ' ') }} ₽</mark>
+                    </div>
+                    <div class="card-text d-flex justify-content-center align-items-center">
+                      <small v-if="single_product.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
+                      <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
+                    </div>
                   </div>
-                  <div class="card-text d-flex justify-content-center align-items-center">
-                    <small v-if="single_product.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
-                    <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center py-5">
-                  <nuxt-link to="#" title="Leave Feedback" style="text-decoration: none">
-                    <small class="d-flex justify-content-around align-items-center">
-                      <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
-                      <span>{{ single_product.rating }}</span>
-                    </small>
-                  </nuxt-link>
+                  <div class="d-flex justify-content-between align-items-center py-5">
+                    <nuxt-link to="#" title="Leave Feedback" style="text-decoration: none">
+                      <small class="d-flex justify-content-around align-items-center">
+                        <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
+                        <span>{{ single_product.rating }}</span>
+                      </small>
+                    </nuxt-link>
 
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small>SKU: {{ single_product.cku }}</small>
+                    </div>
+                  </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <small>SKU: {{ single_product.cku }}</small>
-                  </div>
-                  <!--                  <div class="">Some option</div>
-                                    <div class="">Rating</div>
-                                    <div class="">Another option</div>-->
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex justify-content-between align-items-center ml-auto">
-                    <button class="btn-outline-info form-control w-25" v-if="single_product_qty <= 0" disabled>-
-                    </button>
-                    <button class="btn-outline-info form-control w-25" v-else
-                            @click.prevent="minus(single_product_qty, single_product.id)">-
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center ml-auto">
+                      <button class="btn-outline-info form-control w-25" v-if="single_product_qty <= 0" disabled>-
+                      </button>
+                      <button class="btn-outline-info form-control w-25" v-else
+                              @click.prevent="minus(single_product_qty, single_product.id)">-
+                      </button>
 
-                    <input type="number" class="form-control text-center mx-1" id="countAdd" min="0"
-                           :value="single_product_qty <= 0 || single_product_qty == undefined ? 0 : single_product_qty"
-                           @input.number.trim="inputQty($event.target.value, single_product_qty, single_product.id)"/>
+                      <input type="number" class="form-control text-center mx-1" id="countAdd" min="0"
+                             :value="single_product_qty <= 0 || single_product_qty == undefined ? 0 : single_product_qty"
+                             @input.number.trim="inputQty($event.target.value, single_product_qty, single_product.id)"/>
 
-                    <button class="btn-outline-success form-control w-25 mr-2"
-                            @click.prevent="plus(single_product.id)">+
-                    </button>
+                      <button class="btn-outline-success form-control w-25 mr-2"
+                              @click.prevent="plus(single_product.id)">+
+                      </button>
+                    </div>
                   </div>
-                  <!--               <button class="form-control w-25 btn-outline-danger"
-                                          @click.prevent="deleteItem(single_product.qty, single_product.id)">Delete
-                                  </button>-->
                 </div>
-                <!--              <div>{{ single_product.name }}</div>
-                              <div>{{ single_product.description }}</div>
-                              <div>{{ single_product.price }}</div>-->
               </div>
             </div>
 
@@ -257,16 +245,41 @@ export default {
   head() {
     return {
       title: this.single_product.name,
+      /*link: [
+        {
+          rel: "stylesheet",
+          href:
+            "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.carousel.min.css"
+        },
+        {
+          rel: "stylesheet",
+          href:
+            "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css"
+        },
+        {
+          rel: "stylesheet",
+          href:
+            "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css"
+        },
+      ],
+
+      script: [
+        {
+          src: "https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js",
+          type: "text/javascript"
+        }
+      ],*/
+
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.single_product.description
+          content: this.description
         },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: 'копьютеры, мониторы, процессоры, системы охлаждения'
+          content: this.keywords
         },
 
       ]
@@ -302,7 +315,11 @@ export default {
       items: [],
 
       /* Properties */
-      properties: []
+      properties: [],
+
+      /*===== Meta =====*/
+      keywords: '',
+      description: ''
     }
   },
 
@@ -350,18 +367,42 @@ export default {
   async asyncData(ctx) {
     let {data} = await ctx.$axios.get(`/api/shop/single/${ctx.route.params.id}`);
     let cat = await ctx.store.getters["categories/categories"]
-    console.log(data);
 
-      let properties = data.data.properties.length > 0 ? data.data.properties[0].properties.data : '';
+    /* Meta content */
+    let cat_one = cat.find(item => item.id == data.data.category_id) // for meta
+
+    let sub_one;
+    if(data.data.sub_category_id != null){
+      sub_one = cat_one['childs'].find(item => item.id == ctx.route.params.sub) // for meta
+    }else{
+      sub_one = null
+    }
+    let keywords;
+    let description;
+
+    if(sub_one != null){
+      keywords = sub_one.keywords  // keywords
+      description = sub_one.description // description
+    }else{
+      keywords = cat_one.key_cat  // keywords
+      description = cat_one.desc_cat // description
+    }
+    /* End Meta content */
+
+    //console.log(description);
+
+    let properties = data.data.properties.length > 0 ? data.data.properties[0].properties.data : '';
       //console.log(Array.from(data.data.properties));
 
 
     return {
       single_product: data.data,
-      name_main_content: data.data.name,
+      name_main_content: 'Product',
       categories: cat,
       counts: data.data.sub_count,
-      properties: properties ? properties : []
+      properties: properties ? properties : [],
+      description: description,
+      keywords: keywords
     }
   },
 
