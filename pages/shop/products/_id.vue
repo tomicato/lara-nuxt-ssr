@@ -20,7 +20,18 @@
         </div>
 
         <div class="col-sm-12 col-lg-9 columns products">
-          <search-block :name="name_main_content"></search-block>
+          <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-between flex-lg-row align-items-center"
+            style="font-size: 1rem; margin-bottom: 2.6%;">
+            <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
+              <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
+              <nuxt-link :to="`/shop/categories/${single_product.category_id}`">{{ cat_title }}</nuxt-link>
+              <nuxt-link v-if="sub_title" :to="`/shop/categories/${single_product.category_id}/${single_product.sub_category_id}`">
+                {{ ' / ' + sub_title }}
+              </nuxt-link> /
+              <nuxt-link to="#">{{  single_product.name }}</nuxt-link>
+            </div>
+            <search-block class="flex-grow-0 flex-shrink-0"></search-block>
+          </div>
           <hr/>
           <br/>
           <div v-if="flag == true" class="w-100 d-flex justify-content-between align-items-center" id="top-tools">
@@ -50,8 +61,8 @@
                        @click.prevent="openModal">
                 </div>
                 <div class="col-8 card-body">
-                  <h3 class="card-title grid-title font-weight-lighter">{{ single_product.name }}</h3>
-                    <hr/>
+                  <h5 class="card-title grid-title font-weight-normal">{{ single_product.name }}</h5>
+                  <hr/>
 
                   <div class="card-text d-flex justify-content-between align-items-center py-3">
 
@@ -122,21 +133,23 @@
                   </div>
                   <div class="tab-pane show" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
                     <div v-for="(item, i) in Object.entries(properties)" :key="i">
-                      <div class="d-flex flex-column justify-content-between align-items-start mb-2 mt-2 py-3 properties font-weight-bolder">
+                      <div
+                        class="d-flex flex-column justify-content-between align-items-start mb-2 mt-2 py-3 properties font-weight-bolder">
                         {{ Array.from(Object.keys(properties))[i] }}
                       </div>
 
                       <div class="d-flex justify-content-between align-items-center">
-                       <div class="d-flex flex-column align-self-start h-100 w-100">
-                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])" :key="k">
+                        <div class="d-flex flex-column align-self-start h-100 w-100">
+                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])"
+                              :key="k">
                           {{ it }}
                         </span>
-                       </div>
+                        </div>
                         <div class="d-flex flex-column align-items-end w-100">
                         <span class="my-2" v-for="(im, l) in Object.values(Object.values(properties)[i])" :key="l">
                           {{ im[0] }}
                         </span>
-                      </div>
+                        </div>
                       </div>
 
                       <div class="">
@@ -319,7 +332,9 @@ export default {
 
       /*===== Meta =====*/
       keywords: '',
-      description: ''
+      description: '',
+      cat_title: '',
+      sub_title: ''
     }
   },
 
@@ -369,30 +384,34 @@ export default {
     let cat = await ctx.store.getters["categories/categories"]
 
     /* Meta content */
+
     let cat_one = cat.find(item => item.id == data.data.category_id) // for meta
 
     let sub_one;
-    if(data.data.sub_category_id != null){
-      sub_one = cat_one['childs'].find(item => item.id == ctx.route.params.sub) // for meta
-    }else{
+    if (data.data.sub_category_id != null) {
+      sub_one = cat_one['childs'].find(item => item.id == data.data.sub_category_id) // for meta
+    } else {
       sub_one = null
     }
     let keywords;
-    let description;
+    let description = data.data.description
 
-    if(sub_one != null){
+    if (sub_one != null) {
       keywords = sub_one.keywords  // keywords
-      description = sub_one.description // description
-    }else{
+      description = data.data.description // description
+    } else {
       keywords = cat_one.key_cat  // keywords
-      description = cat_one.desc_cat // description
+      description = data.data.description // description
     }
     /* End Meta content */
 
-    //console.log(description);
+    //console.log(cat_one);
+    let cat_title = cat_one.title
+    let sub_title = sub_one ? sub_one.title : ''
+    console.log(sub_one);
 
     let properties = data.data.properties.length > 0 ? data.data.properties[0].properties.data : '';
-      //console.log(Array.from(data.data.properties));
+    //console.log(Array.from(data.data.properties));
 
 
     return {
@@ -402,7 +421,10 @@ export default {
       counts: data.data.sub_count,
       properties: properties ? properties : [],
       description: description,
-      keywords: keywords
+      keywords: keywords,
+      cat_title: cat_title,
+      sub_title: sub_title
+
     }
   },
 
@@ -638,7 +660,16 @@ export default {
   padding: 1rem;
 }*/
 /*Slider styles*/
+#breadcrumbs{
+  a{
+    color: rgba(0, 0, 0, 0.6);
+    font-style: italic;
+    &:hover, &:active{
+      text-decoration: unset!important;
+    }
+  }
 
+}
 #top-tools {
   height: 30px;
   margin-bottom: 50px !important;

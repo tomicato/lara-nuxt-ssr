@@ -2,7 +2,7 @@
   <div class="container pt-5" id="main">
     <div class="row">
       <div class="col-md-12 col-lg-8 col-xl-9  columns">
-        <h3>Выбранные товары</h3>
+        <h3 class="card-title font-weight-normal">Выбранные товары</h3>
         <hr/>
         <br/>
 
@@ -17,7 +17,7 @@
             <div class="col-md-8">
               <div class="card-body">
 
-                <nuxt-link :to="`/shop/products/${product.item.id}`"><h5 class="card-title">{{
+                <nuxt-link :to="`/shop/products/${product.item.id}`"><h5 class="card-title font-weight-normal">{{
                     product.item.name
                   }}</h5>
                 </nuxt-link>
@@ -74,7 +74,7 @@
 
       <!--Checkout-->
       <div class="col-md-12 col-lg-4 col-xl-3  columns">
-        <h3>Оформление</h3>
+        <h3 class="card-title  font-weight-normal">Оформление</h3>
         <hr/>
         <br/>
         <div class="card mb-3" style="max-width: 100%">

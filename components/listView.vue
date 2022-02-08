@@ -39,7 +39,7 @@
       <div class="col-md-8">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <nuxt-link :to="`/shop/products/${product.id}`"><h5 class="card-title">{{ product.name }}</h5></nuxt-link>
+            <nuxt-link :to="`/shop/products/${product.id}`"><h5 class="card-title font-weight-normal">{{ product.name }}</h5></nuxt-link>
             <small>SKU: {{ product.cku }}</small>
           </div>
           <hr/>

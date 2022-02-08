@@ -13,7 +13,7 @@
     <div class="card no-gutters">
       <div class="d-flex justify-content-center align-items-center pt-4" style="max-height: 75px;">
         <nuxt-link :to="`/shop/products/${product.id}`" style="text-decoration: none !important;color: crimson !important;">
-          <h5 class="card-title grid-title">{{ product.name }}</h5>
+          <h5 class="card-title grid-title font-weight-normal">{{ product.name }}</h5>
           <hr/>
         </nuxt-link>
       </div>
