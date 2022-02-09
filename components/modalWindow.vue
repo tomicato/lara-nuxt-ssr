@@ -2,14 +2,14 @@
   <div>
     <div id="modal_wrapper" ref="wrapper">
       <div class="popup">
-        <div class="popup__header">
+        <div class="popup__header mt-3">
           <h5>{{ modalTitle }}</h5>
           <span class="material-icons" @click="closePopup">close</span>
         </div>
         <div class="popup__body">
           <slot></slot>
         </div>
-        <div class="popup__footer">
+        <div class="popup__footer mb-3">
           <button class="btn btn-outline-primary" @click="addCartFromModal">{{ btnTitle }}</button>
           <button class="btn btn-outline-danger" @click="closePopup">Close</button>
         </div>
@@ -71,7 +71,7 @@ export default {
     flex-direction: column;
     align-items: normal;
     justify-content: space-between;
-    width: 80%;
+    width: 60%;
     height: fit-content;
     margin: auto;
     left: 0;
@@ -90,13 +90,24 @@ export default {
     }
     &__body{
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
 
     }
-
+    @media screen and (max-width: 420px){
+      &__body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
 
+  @media screen and (max-width: 1024px) {
+    .popup{
+      width: 80%;
+    }
+  }
   @keyframes bgchange {
     100% {opacity: 1}
     0% { opacity: 0 }

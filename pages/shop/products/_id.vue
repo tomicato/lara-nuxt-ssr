@@ -6,34 +6,66 @@
                   :modalTitle="single_product.name"
                   @addFromModal="addToCart(single_product)"
                   @closePopupWindow="closeModal">
-      <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-           class="img-fluid" :alt="single_product.name">
+
+      <img :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
+           class="img-fluid main_modal_photo w-50" :alt="single_product.name">
+      <div style="">
+        <p class="d-none d-md-block">
+          <em>Подлокотник пластиковый с мягкими накладками газлифт,
+            высота подъема кресла от 45 см до 60 см пятилучие пластиковое
+            ширина спинки 450 мм высота спинки 780 мм глубина сиденья 500 мм
+            ширина сиденья 510 мм Кресло упаковывается в коробку.</em>
+        </p>
+      </div>
+      <!-- Carousel -->
+      <div class="flex-column justify-content-around align-items-center d-none d-md-flex">
+        <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
+             style="max-width: 100%;">
+          <img :src="`${$axios.defaults.baseURL}/gallery/${image}`" class="" style="cursor: pointer;"
+               @click="changePreview(image)">
+        </div>
+      </div>
+      <!-- /Carousel -->
+
     </modal-window>
     <header-top></header-top>
     <div class="container" id="main">
       <div class="row">
         <div class="col-sm-12 col-lg-3 columns">
-          <h3 class="mb-4">Categories</h3>
-          <hr/>
-          <br>
-          <categories :categories="categories" :flag="flag"></categories>
+          <h3 class="mb-4"  style=" border-bottom:1px solid rgba(0,0,0,0.1); padding: 20px 0">Categories</h3>
+
+          <categories :categories="categories" :flag="flag" ></categories>
         </div>
 
         <div class="col-sm-12 col-lg-9 columns products">
-          <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-between flex-lg-row align-items-center"
-            style="font-size: 1rem; margin-bottom: 2.6%;">
-            <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
-              <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
-              <nuxt-link :to="`/shop/categories/${single_product.category_id}`">{{ cat_title }}</nuxt-link>
-              <nuxt-link v-if="sub_title" :to="`/shop/categories/${single_product.category_id}/${single_product.sub_category_id}`">
-                {{ ' / ' + sub_title }}
-              </nuxt-link> /
-              <nuxt-link to="#">{{  single_product.name }}</nuxt-link>
-            </div>
-            <search-block class="flex-grow-0 flex-shrink-0"></search-block>
+          <div class="table-responsive">
+            <table class="table table-borderless">
+              <tbody>
+              <tr>
+                <td>
+                  <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-between flex-lg-row align-items-center"
+                       style="font-size: 1rem; margin-bottom: 2.6%; border-bottom:1px solid rgba(0,0,0,0.1); padding: 15px 0">
+                    <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
+                      <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
+                      /
+                      <nuxt-link :to="`/shop/categories/${single_product.category_id}`">{{ cat_title }}</nuxt-link>
+                      <nuxt-link v-if="sub_title" :to="`/shop/categories/${single_product.category_id}/${single_product.sub_category_id}`">
+                        {{ ' / ' + sub_title }}
+                      </nuxt-link>
+                      /
+                      <nuxt-link to="#">{{ single_product.name }}</nuxt-link>
+                    </div>&nbsp;&nbsp;&nbsp;
+                    <search-block class="flex-grow-0 flex-shrink-0"></search-block>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
-          <hr/>
-          <br/>
+
+
+
+
           <div v-if="flag == true" class="w-100 d-flex justify-content-between align-items-center" id="top-tools">
             <div class="d-flex justify-content-between align-items-center">
               <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
@@ -214,6 +246,7 @@
           ></b-pagination>
           <!-- /Search products-->
         </div>
+
         <!-- Carousel -->
         <div class="container my-4 mx-auto">
           <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
@@ -226,7 +259,6 @@
             <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
           </div>
         </div>
-
         <!-- /Carousel -->
 
       </div>
@@ -334,12 +366,17 @@ export default {
       keywords: '',
       description: '',
       cat_title: '',
-      sub_title: ''
+      sub_title: '',
+
+      /*===== Images =====*/
+      gallery: [],
+      preview: ''
     }
   },
 
   mounted() {
     /*Slider script */
+    //let $owl = $('.owl-carousel.custom1');
     let $owl = $('.owl-carousel');
     $owl.owlCarousel({
       loop: true,
@@ -357,7 +394,7 @@ export default {
           items: 3,
         },
         1000: {
-          items: 3,
+          items: 5,
           loop: false,
         }
       }
@@ -383,8 +420,12 @@ export default {
     let {data} = await ctx.$axios.get(`/api/shop/single/${ctx.route.params.id}`);
     let cat = await ctx.store.getters["categories/categories"]
 
-    /* Meta content */
+    /* Gallery */
+    let gallery = data.data.gallery ? data.data.gallery.images.data : ''
+    let preview = data.data.gallery ? data.data.gallery.images.data[0] : ''
+    /* /Gallery */
 
+    /* Meta content */
     let cat_one = cat.find(item => item.id == data.data.category_id) // for meta
 
     let sub_one;
@@ -408,7 +449,7 @@ export default {
     //console.log(cat_one);
     let cat_title = cat_one.title
     let sub_title = sub_one ? sub_one.title : ''
-    console.log(sub_one);
+    //console.log(sub_one);
 
     let properties = data.data.properties.length > 0 ? data.data.properties[0].properties.data : '';
     //console.log(Array.from(data.data.properties));
@@ -423,7 +464,9 @@ export default {
       description: description,
       keywords: keywords,
       cat_title: cat_title,
-      sub_title: sub_title
+      sub_title: sub_title,
+      gallery: gallery ? gallery : '',
+      preview: preview
 
     }
   },
@@ -439,6 +482,7 @@ export default {
       try {
         await this.$store.dispatch('cart/addToCartItems', cartItem)
         this.totalCount = this.totalCount + 1
+        this.single_product_qty = this.single_product_qty + 1
         this.total()
         this.countProductInCart()
 
@@ -648,6 +692,17 @@ export default {
       lIcon.classList.remove('active')
       gIcon.classList.add('active')
     },
+    changePreview(image) {
+      let main_photo = document.querySelector('.main_modal_photo')
+
+      //for (let i = 0; i < main_photo.length; i++) {
+        main_photo.classList.add('show')
+        setTimeout(() => {
+          main_photo.classList.remove('show')
+        }, 800)
+      //}
+      this.preview = this.gallery.find(item => item == image);
+    }
   },
 }
 </script>
@@ -660,16 +715,18 @@ export default {
   padding: 1rem;
 }*/
 /*Slider styles*/
-#breadcrumbs{
-  a{
+#breadcrumbs {
+  a {
     color: rgba(0, 0, 0, 0.6);
     font-style: italic;
-    &:hover, &:active{
-      text-decoration: unset!important;
+
+    &:hover, &:active {
+      text-decoration: unset !important;
     }
   }
 
 }
+
 #top-tools {
   height: 30px;
   margin-bottom: 50px !important;

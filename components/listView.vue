@@ -232,8 +232,8 @@ export default {
 
 
 .show {
-  transition: opacity ease-in-out 2s;
-  animation: bgchange 2s;
+  transition: opacity ease-in-out 1s;
+  animation: bgchange 1s;
 }
 
 #modalComponent {
