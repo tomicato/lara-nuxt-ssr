@@ -17,14 +17,14 @@
         </div>
 
         <div class="col-sm-12 col-lg-9 columns main_shop">
-          <search-block :name="name_main_content"></search-block>
-          <hr/>
-          <br/>
+<!--          <search-block :name="name_main_content"></search-block>-->
+<!--          <hr/>
+          <br/>-->
           <div class="w-100 mb-4 d-flex justify-content-between align-items-center">
             <div class="">
 
               <i class="material-icons list-icon " @click.prevent="list">view_headline</i>
-              <i class="material-icons grid-icon" @click.prevent="grid">apps</i>
+              <i class="material-icons grid-icon ml-1" @click.prevent="grid">apps</i>
 
             </div>
             <div>

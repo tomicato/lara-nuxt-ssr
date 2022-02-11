@@ -1,28 +1,31 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light"
        style="border-bottom: 1px solid #ddd;box-shadow: 0 2px 18px 0 #e1dede;">
-    <nuxt-link to="/" class="navbar-brand">Web Shop</nuxt-link>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarNav" >
+     <div class="d-sm-block d-lg-flex">
+       <nuxt-link to="/" class="navbar-brand">Web Shop</nuxt-link>
+       <ul class="navbar-nav">
 
-        <li class="nav-item">
-          <nuxt-link to="/shop" class="nav-link">Shop</nuxt-link>
-        </li>
+         <li class="nav-item">
+           <nuxt-link to="/shop" class="nav-link">Shop</nuxt-link>
+         </li>
 
-        <li class="nav-item active">
-          <nuxt-link to="/topics" class="nav-link">Blog</nuxt-link>
-        </li>
+         <li class="nav-item active">
+           <nuxt-link to="/topics" class="nav-link">Blog</nuxt-link>
+         </li>
 
-        <li class="nav-item active">
-          <nuxt-link to="/contact" class="nav-link">Contact</nuxt-link>
-        </li>
+         <li class="nav-item active">
+           <nuxt-link to="/contact" class="nav-link">Contact</nuxt-link>
+         </li>
 
-      </ul>
-
+       </ul>
+     </div>
+      <search-block class="flex-grow-0 flex-shrink-0 px-0"></search-block>
 
       <!--     <template>
        <ul class="navbar-nav ml-auto">
@@ -42,7 +45,7 @@
       </template>-->
 
       <template>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav">
           <li class="nav-item mr-5">
             <nuxt-link to="/cart" class="nav-link">
               <b-badge pill variant="primary" id="cart">{{ cart != 0 ? cart : '' }}</b-badge>
@@ -50,7 +53,7 @@
             </nuxt-link>
           </li>
           <li class="nav-item">
-            <nuxt-link to="#" class="nav-link">Login</nuxt-link>
+            <a :href="`${$axios.defaults.baseURL}/login`" class="nav-link" target="_blank">Login</a>
           </li>
           <li class="nav-item">
             <nuxt-link to="#" class="nav-link">Register</nuxt-link>
@@ -115,13 +118,17 @@ export default {
     fixedTop(){
 
       let el = document.querySelector('.navbar')
+      let btn_search = document.querySelector('#button_search')
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
       if(scrollTop > 200){
         el.style.transition = 'ease-in-out 1.5s'
         el.classList.add('fix')
+       // btn_search.style.color = '#fff!important'
       }else{
         el.style.transition = 'ease-in-out 2s'
         el.classList.remove('fix')
+       // btn_search.style.color = 'rgba(0,0,0,0.4)!important'
       }
 
     },
@@ -147,10 +154,22 @@ export default {
     border-bottom: 1px solid rgba(43, 41, 41, 0.1) !important;
     opacity: 1;
     top:0;
+    #button_search {
+      color: #fff !important;
+
+      &:hover {
+        color: rgba(217, 212, 212, 0.7) !important;
+      }
+    }
   }
   .navbar.fix a, .navbar.fix .navbar-nav li a{
     color: #fff!important;
   }
 
+  @media screen and (min-width: 992px){
+    .navbar-expand-lg .navbar-collapse{
+      justify-content: space-around!important;
+    }
+  }
 
 </style>

@@ -7,23 +7,33 @@
                   @addFromModal="addToCart(single_product)"
                   @closePopupWindow="closeModal">
 
-      <img :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-           class="img-fluid main_modal_photo w-50" :alt="single_product.name">
-      <div style="">
-        <p class="d-none d-md-block">
-          <em>Подлокотник пластиковый с мягкими накладками газлифт,
-            высота подъема кресла от 45 см до 60 см пятилучие пластиковое
-            ширина спинки 450 мм высота спинки 780 мм глубина сиденья 500 мм
-            ширина сиденья 510 мм Кресло упаковывается в коробку.</em>
-        </p>
-      </div>
-      <!-- Carousel -->
-      <div class="flex-column justify-content-around align-items-center d-none d-md-flex">
-        <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
-             style="max-width: 100%;">
-          <img :src="`${$axios.defaults.baseURL}/gallery/${image}`" class="" style="cursor: pointer;"
-               @click="changePreview(image)">
+      <div class="d-flex align-items-center">
+        <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
+          <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
+               style="max-width: 100%;">
+            <img v-if="i <= 2" :src="`${$axios.defaults.baseURL}/gallery/${image}`" class="" style="cursor: pointer;"
+                 @click="changePreview(image)">
+          </div>
         </div>
+        <img :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
+             style="max-width: 90%;" class="img-fluid main_modal_photo" :alt="single_product.name">
+        <!--      <div style="">
+                <p class="d-none d-md-block">
+                  <em>Подлокотник пластиковый с мягкими накладками газлифт,
+                    высота подъема кресла от 45 см до 60 см пятилучие пластиковое
+                    ширина спинки 450 мм высота спинки 780 мм глубина сиденья 500 мм
+                    ширина сиденья 510 мм Кресло упаковывается в коробку.</em>
+                </p>
+              </div>-->
+        <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
+          <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
+               style="max-width: 100%;">
+            <img v-if="i >= 3" :src="`${$axios.defaults.baseURL}/gallery/${image}`" class="" style="cursor: pointer;"
+                 @click="changePreview(image)">
+          </div>
+        </div>
+        <!-- Carousel -->
+
       </div>
       <!-- /Carousel -->
 
@@ -43,8 +53,8 @@
               <tbody>
               <tr>
                 <td>
-                  <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-between flex-lg-row align-items-center"
-                       style="font-size: 1rem; margin-bottom: 2.6%; border-bottom:1px solid rgba(0,0,0,0.1); padding: 15px 0">
+                  <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
+                       style="font-size: 1rem; padding-top: 10px; margin-bottom: 0%;">
                     <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
                       <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
                       /
@@ -55,7 +65,7 @@
                       /
                       <nuxt-link to="#">{{ single_product.name }}</nuxt-link>
                     </div>&nbsp;&nbsp;&nbsp;
-                    <search-block class="flex-grow-0 flex-shrink-0"></search-block>
+<!--                    <search-block class="flex-grow-0 flex-shrink-0"></search-block>-->
                   </div>
                 </td>
               </tr>

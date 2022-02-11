@@ -4,14 +4,15 @@
       <div class="popup">
         <div class="popup__header mt-3">
           <h5>{{ modalTitle }}</h5>
-          <span class="material-icons" @click="closePopup">close</span>
+<!--          <span class="material-icons" @click="closePopup">close</span>-->
+          <img src="~assets/images/close2.svg" style="width: 56px; cursor: pointer;" @click="closePopup">
         </div>
         <div class="popup__body">
           <slot></slot>
         </div>
         <div class="popup__footer mb-3">
-          <button class="btn btn-outline-primary" @click="addCartFromModal">{{ btnTitle }}</button>
-          <button class="btn btn-outline-danger" @click="closePopup">Close</button>
+          <button class="btn btn-outline-primary ml-auto" style="padding: 3px 5px!important;" @click="addCartFromModal">{{ btnTitle }}</button>
+<!--          <button class="btn btn-outline-danger" @click="closePopup">Close</button>-->
         </div>
       </div>
     </div>
@@ -71,7 +72,7 @@ export default {
     flex-direction: column;
     align-items: normal;
     justify-content: space-between;
-    width: 60%;
+    width: 85%;
     height: fit-content;
     margin: auto;
     left: 0;
@@ -87,10 +88,17 @@ export default {
       span{
         cursor: pointer;
       }
+      h5{
+        font-weight: 300;
+      }
+      img{
+        margin-right: 0!important;
+      }
     }
     &__body{
       display: flex;
       justify-content: flex-start;
+      flex-direction: column;
       align-items: center;
 
     }

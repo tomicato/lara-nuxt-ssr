@@ -22,38 +22,33 @@
 
         <!-- Main Content -->
         <div class="col-sm-12 col-lg-9 columns products ">
-         <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-between flex-lg-row align-items-center" style="font-size: 1rem; margin-bottom: -1.7%;">
-           <div id="breadcrumbs">
-            <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
-             <nuxt-link :to="`/shop/categories/${$route.params.category}`" >{{ cat_title }}</nuxt-link>
-             <nuxt-link v-if="$route.params.sub" :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`" >{{ ' / ' + title.split('_').join(' ') }}</nuxt-link>
-           </div>
-           <search-block ></search-block>
-         </div>
+
 <!--          :name="name_main_content"-->
 
-          <br/> <hr/>
+
 
           <!--Products List-->
-          <div class="table-responsive">
+          <div class="table-responsive" style="margin-bottom: -5%; padding-bottom: 3px">
             <table class="w-100 table" id="top-tools">
               <tbody>
               <tr class="d-flex justify-content-between align-items-center">
                 <td class="d-flex justify-content-start align-items-center">
-                  <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
-                  <i class="material-icons grid-icon" @click.prevent="grid">apps</i>
+                  <i class="material-icons list-icon" @click.prevent="list">view_headline</i>
+                  <i class="material-icons grid-icon ml-2" @click.prevent="grid">apps</i>
                 </td>
                 <td id="filters_top" class="d-flex">
                   <span v-for="(item, i) in data" :key="i" class="badge badge-pill badge-info">
                      {{ item }}
                   </span>
                 </td>
-                <td class="d-flex justify-content-end align-items-center">
-                  <select>
-                    <option value="" selected>Order by</option>
-                    <option value="">Price ASC</option>
-                    <option value="">Price DESC</option>
-                  </select>
+                <td class="d-flex justify-content-end align-items-center flex-shrink-0 flex-grow-0">
+                  <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center" style="font-size: 1rem; margin-bottom: -0.7%;">
+                    <div id="breadcrumbs">
+                      <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
+                      <nuxt-link :to="`/shop/categories/${$route.params.category}`" >{{ cat_title }}</nuxt-link>
+                      <nuxt-link v-if="$route.params.sub" :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`" >{{ ' / ' + title.split('_').join(' ') }}</nuxt-link>
+                    </div>
+                  </div>
                 </td>
               </tr>
               </tbody>
@@ -78,14 +73,14 @@
           <!--Grid View-->
           <div id="grid" class="w-100 mx-auto">
             <div class="row text-center" v-if="flag == false">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%"
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
                    v-for="(item, i) in data_total" :key="i">
                 <grid-view :product="item"></grid-view>
               </div>
             </div>
 
             <div class="row text-center" v-if="flag == true">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in items"
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%" v-for="(item, i) in items"
                    :key="i">
                 <grid-view :product="item"></grid-view>
               </div>
