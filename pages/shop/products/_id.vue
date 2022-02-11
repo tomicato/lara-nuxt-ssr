@@ -16,7 +16,7 @@
           </div>
         </div>
         <img :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-             style="max-width: 90%;" class="img-fluid main_modal_photo" :alt="single_product.name">
+             style="max-width: 45%;" class="img-fluid main_modal_photo" :alt="single_product.name">
         <!--      <div style="">
                 <p class="d-none d-md-block">
                   <em>Подлокотник пластиковый с мягкими накладками газлифт,
