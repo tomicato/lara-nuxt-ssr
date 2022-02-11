@@ -242,6 +242,7 @@ export default {
     height: auto;
     padding: 20px;
     z-index: 12;
+    margin: 0 auto;
   }
 }
 

@@ -7,7 +7,8 @@
                   @addFromModal="addToCart(single_product)"
                   @closePopupWindow="closeModal">
 
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" v-if="$screen.md">
+
         <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
           <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
                style="max-width: 100%;">
@@ -15,16 +16,10 @@
                  @click="changePreview(image)">
           </div>
         </div>
+
         <img :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-             style="max-width: 45%;" class="img-fluid main_modal_photo" :alt="single_product.name">
-        <!--      <div style="">
-                <p class="d-none d-md-block">
-                  <em>Подлокотник пластиковый с мягкими накладками газлифт,
-                    высота подъема кресла от 45 см до 60 см пятилучие пластиковое
-                    ширина спинки 450 мм высота спинки 780 мм глубина сиденья 500 мм
-                    ширина сиденья 510 мм Кресло упаковывается в коробку.</em>
-                </p>
-              </div>-->
+          style="max-width: 45%;" class="img-fluid main_modal_photo" :alt="single_product.name">
+
         <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
           <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
                style="max-width: 100%;">
@@ -32,19 +27,26 @@
                  @click="changePreview(image)">
           </div>
         </div>
-        <!-- Carousel -->
 
       </div>
+
+      <!-- Carousel -->
+      <div class="mx-auto owl-carousel owl-theme" v-else>
+        <div v-for="(image, i) in gallery" :key="i">
+          <div class="item w-75 mx-auto"><img :src="`${$axios.defaults.baseURL}/gallery/${image}`" class=""></div>
+        </div>
+      </div>
       <!-- /Carousel -->
+
 
     </modal-window>
     <header-top></header-top>
     <div class="container" id="main">
       <div class="row">
         <div class="col-sm-12 col-lg-3 columns">
-          <h3 class="mb-4"  style=" border-bottom:1px solid rgba(0,0,0,0.1); padding: 20px 0">Categories</h3>
+          <h3 class="mb-4" style=" border-bottom:1px solid rgba(0,0,0,0.1); padding: 20px 0">Categories</h3>
 
-          <categories :categories="categories" :flag="flag" ></categories>
+          <categories :categories="categories" :flag="flag"></categories>
         </div>
 
         <div class="col-sm-12 col-lg-9 columns products">
@@ -53,27 +55,27 @@
               <tbody>
               <tr>
                 <td>
-                  <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
-                       style="font-size: 1rem; padding-top: 10px; margin-bottom: 0%;">
+                  <div
+                    class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
+                    style="font-size: 1rem; padding-top: 10px; margin-bottom: 0%;">
                     <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
                       <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
                       /
                       <nuxt-link :to="`/shop/categories/${single_product.category_id}`">{{ cat_title }}</nuxt-link>
-                      <nuxt-link v-if="sub_title" :to="`/shop/categories/${single_product.category_id}/${single_product.sub_category_id}`">
+                      <nuxt-link v-if="sub_title"
+                                 :to="`/shop/categories/${single_product.category_id}/${single_product.sub_category_id}`">
                         {{ ' / ' + sub_title }}
                       </nuxt-link>
                       /
                       <nuxt-link to="#">{{ single_product.name }}</nuxt-link>
                     </div>&nbsp;&nbsp;&nbsp;
-<!--                    <search-block class="flex-grow-0 flex-shrink-0"></search-block>-->
+                    <!--                    <search-block class="flex-grow-0 flex-shrink-0"></search-block>-->
                   </div>
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
-
-
 
 
           <div v-if="flag == true" class="w-100 d-flex justify-content-between align-items-center" id="top-tools">
@@ -258,17 +260,17 @@
         </div>
 
         <!-- Carousel -->
-        <div class="container my-4 mx-auto">
-          <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
-          <div class="w-75 mx-auto custom1 owl-carousel owl-theme">
-            <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
-            <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
-            <div class="item w-75 mx-auto"><img src="~/assets/images/video.webp"></div>
-            <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
-            <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
-            <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
-          </div>
-        </div>
+        <!--        <div class="container my-4 mx-auto">
+                  <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
+                  <div class="w-75 mx-auto owl-carousel owl-theme">
+                    <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
+                    <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
+                    <div class="item w-75 mx-auto"><img src="~/assets/images/video.webp"></div>
+                    <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
+                    <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
+                    <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
+                  </div>
+                </div>-->
         <!-- /Carousel -->
 
       </div>
@@ -386,15 +388,37 @@ export default {
 
   mounted() {
     /*Slider script */
-    //let $owl = $('.owl-carousel.custom1');
-    let $owl = $('.owl-carousel');
-    $owl.owlCarousel({
+    //let $owl2 = $('.owl-carousel.custom1');
+    /*$owl2.owlCarousel({
       loop: true,
       margin: 10,
       autoHeight: false,
-      /*autoplay:false,
+      /!*autoplay:false,
       autoplayTimeout:3000,
-      autoplayHoverPause:true,*/
+      autoplayHoverPause:true,*!/
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        600: {
+          items: 1,
+        },
+        1000: {
+          items: 1,
+          loop: false,
+        }
+      }
+    });*/
+
+    //let $owl = $('.owl-carousel');
+    /*$owl.owlCarousel({
+      loop: true,
+      margin: 10,
+      autoHeight: false,
+      /!*autoplay:false,
+      autoplayTimeout:3000,
+      autoplayHoverPause:true,*!/
       responsiveClass: true,
       responsive: {
         0: {
@@ -408,7 +432,9 @@ export default {
           loop: false,
         }
       }
-    });
+    });*/
+
+
     /*Slider script */
 
     this.$root.$on('getFilteredData', (arr) => {
@@ -667,6 +693,30 @@ export default {
       main.style.transitionDuration = 'unset'
       main.style.transitionProperty = 'unset'
       main.style.transitionDelay = 'unset'
+
+      $(document).ready(function () {
+        $('.owl-carousel').owlCarousel({
+          loop: true,
+          margin: 10,
+          autoHeight: false,
+          /* autoplay:false,
+           autoplayTimeout:3000,
+             autoplayHoverPause:true,*/
+          responsiveClass: true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            600: {
+              items: 1,
+            },
+            1000: {
+              items: 1,
+              loop: false,
+            }
+          }
+        })
+      })
     },
 
     closeModal() {
@@ -706,10 +756,10 @@ export default {
       let main_photo = document.querySelector('.main_modal_photo')
 
       //for (let i = 0; i < main_photo.length; i++) {
-        main_photo.classList.add('show')
-        setTimeout(() => {
-          main_photo.classList.remove('show')
-        }, 800)
+      main_photo.classList.add('show')
+      setTimeout(() => {
+        main_photo.classList.remove('show')
+      }, 800)
       //}
       this.preview = this.gallery.find(item => item == image);
     }

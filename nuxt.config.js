@@ -107,9 +107,12 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     //'@nuxtjs/auth'
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    'vue-screen/nuxt',
   ],
-
+  screen: {
+    extend: 'bootstrap',
+  },
 
 
  /* auth: {
