@@ -72,7 +72,7 @@ export default {
     flex-direction: column;
     align-items: normal;
     justify-content: space-between;
-    width: 85%;
+    width: 60%;
     height: fit-content;
     margin: auto;
     left: 0;
