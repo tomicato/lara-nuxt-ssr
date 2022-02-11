@@ -7,7 +7,14 @@
                   @addFromModal="addToCart(single_product)"
                   @closePopupWindow="closeModal">
 
-      <div class="d-flex align-items-center" v-if="$screen.md">
+      <!-- If No Gallery -->
+      <div v-if="gallery.length == 0" class="d-flex justify-content-center align-items-center">
+        <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`" class="">
+      </div>
+      <!--/ If No Gallery -->
+
+      <!-- If Isset Gallery -->
+      <div v-if="$screen.md && gallery.length > 0" class="d-flex justify-content-center align-items-center">
 
         <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
           <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
@@ -17,7 +24,8 @@
           </div>
         </div>
 
-        <img :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
+        <img
+          :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
           style="max-width: 45%;" class="img-fluid main_modal_photo" :alt="single_product.name">
 
         <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
@@ -29,6 +37,7 @@
         </div>
 
       </div>
+      <!-- /If Isset Gallery -->
 
       <!-- Carousel -->
       <div class="mx-auto owl-carousel owl-theme" v-else>
@@ -260,9 +269,9 @@
         </div>
 
         <!-- Carousel -->
-        <!--        <div class="container my-4 mx-auto">
+             <div class="container w-100 my-4 mx-auto">
                   <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
-                  <div class="w-75 mx-auto owl-carousel owl-theme">
+                  <div class="w-75 mx-auto owl-carousel custom_one owl-theme">
                     <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
                     <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
                     <div class="item w-75 mx-auto"><img src="~/assets/images/video.webp"></div>
@@ -270,7 +279,7 @@
                     <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
                     <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
                   </div>
-                </div>-->
+                </div>
         <!-- /Carousel -->
 
       </div>
@@ -388,28 +397,28 @@ export default {
 
   mounted() {
     /*Slider script */
-    //let $owl2 = $('.owl-carousel.custom1');
-    /*$owl2.owlCarousel({
+    let $owl2 = $('.owl-carousel.custom_one');
+    $owl2.owlCarousel({
       loop: true,
       margin: 10,
       autoHeight: false,
-      /!*autoplay:false,
+      /*autoplay:false,
       autoplayTimeout:3000,
-      autoplayHoverPause:true,*!/
+      autoplayHoverPause:true,*/
       responsiveClass: true,
       responsive: {
         0: {
           items: 1,
         },
         600: {
-          items: 1,
+          items: 2,
         },
         1000: {
-          items: 1,
-          loop: false,
+          items: 3,
+          loop: true,
         }
       }
-    });*/
+    });
 
     //let $owl = $('.owl-carousel');
     /*$owl.owlCarousel({
@@ -699,9 +708,9 @@ export default {
           loop: true,
           margin: 10,
           autoHeight: false,
-          /* autoplay:false,
-           autoplayTimeout:3000,
-             autoplayHoverPause:true,*/
+          /*autoplay:false,
+            autoplayTimeout:3000,
+            autoplayHoverPause:true,*/
           responsiveClass: true,
           responsive: {
             0: {
@@ -712,7 +721,7 @@ export default {
             },
             1000: {
               items: 1,
-              loop: false,
+              loop: true,
             }
           }
         })
