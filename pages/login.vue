@@ -38,11 +38,13 @@ export default {
     async submit() {
       try {
         await this.$auth.loginWith("laravelJWT", {data: this.form})
-        await this.$router.push({
-          path: this.$route.query.redirect || '/profile'
-        })
+        await this.$router.push('/profile')
+
+
+        //console.log(this.$route);
+
       } catch (error) {
-        error.response.data.errors;
+        error.errors
       }
     },
 

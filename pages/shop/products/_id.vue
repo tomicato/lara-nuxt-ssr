@@ -14,7 +14,7 @@
       <!--/ If No Gallery -->
 
       <!-- If Isset Gallery -->
-      <div v-if="$screen.md && gallery.length > 0" class="d-flex justify-content-center align-items-center">
+      <div v-if="$screen.sm && gallery.length > 0" class="d-flex justify-content-center align-items-center">
 
         <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
           <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
@@ -572,13 +572,13 @@ export default {
     },
 
     countProductInCart() {
-      let cartBadge = document.getElementById('cart');
+     // let cartBadge = document.getElementById('cart');
       let authCartBadge = document.getElementById('authCart');
 
       if (this.totalCount == 0 && !this.$auth.user) {
-        cartBadge.style.display = 'none';
+        authCartBadge.style.display = 'none';
       } else if (!this.$auth.user && this.totalCount > 0) {
-        cartBadge.style.display = 'inline-block';
+        authCartBadge.style.display = 'inline-block';
       }
       if (this.$auth.user && this.totalCount == 0) {
         authCartBadge.style.display = 'none';
@@ -590,7 +590,7 @@ export default {
         authCartBadge.innerText = this.totalCount;
         // authCartBadge.style.display = 'inline-block';
       } else {
-        cartBadge.innerText = this.totalCount;
+        authCartBadge.innerText = this.totalCount;
         //cartBadge.style.display = 'inline-block';
       }
     },

@@ -23,9 +23,7 @@
         <!-- Main Content -->
         <div class="col-sm-12 col-lg-9 columns products ">
 
-<!--          :name="name_main_content"-->
-
-
+          <!-- :name="name_main_content" -->
 
           <!--Products List-->
           <div class="table-responsive" style="margin-bottom: -5%; padding-bottom: 3px">
@@ -42,11 +40,17 @@
                   </span>
                 </td>
                 <td class="d-flex justify-content-end align-items-center flex-shrink-0 flex-grow-0">
-                  <div class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center" style="font-size: 1rem; margin-bottom: -0.7%;">
+                  <div
+                    class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
+                    style="font-size: 1rem; margin-bottom: -0.7%;">
                     <div id="breadcrumbs">
-                      <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link> /
-                      <nuxt-link :to="`/shop/categories/${$route.params.category}`" >{{ cat_title }}</nuxt-link>
-                      <nuxt-link v-if="$route.params.sub" :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`" >{{ ' / ' + title.split('_').join(' ') }}</nuxt-link>
+                      <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
+                      /
+                      <nuxt-link :to="`/shop/categories/${$route.params.category}`">{{ cat_title }}</nuxt-link>
+                      <nuxt-link v-if="$route.params.sub"
+                                 :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`">
+                        {{ ' / ' + title.split('_').join(' ') }}
+                      </nuxt-link>
                     </div>
                   </div>
                 </td>
@@ -284,9 +288,9 @@ export default {
     let cat_one = cat.find(item => item.id == ctx.route.params.category) // for meta
 
     let sub_one;
-    if(cat_one.childs.length  > 0){
+    if (cat_one.childs.length > 0) {
       sub_one = cat_one['childs'].find(item => item.id == ctx.route.params.sub) // for meta
-    }else{
+    } else {
       sub_one = null
     }
     let keywords;
@@ -297,10 +301,10 @@ export default {
     //console.log(cat_one.title);
 
 
-    if(sub_one != null){
+    if (sub_one != null) {
       keywords = sub_one.keywords  // keywords
       description = sub_one.description // description
-    }else{
+    } else {
       keywords = cat_one.key_cat  // keywords
       description = cat_one.desc_cat // description
     }
@@ -445,16 +449,18 @@ export default {
 
 <style lang="scss" scoped>
 
-#breadcrumbs{
-  a{
+#breadcrumbs {
+  a {
     color: rgba(0, 0, 0, 0.6);
     font-style: italic;
-    &:hover, &:active{
-      text-decoration: unset!important;
+
+    &:hover, &:active {
+      text-decoration: unset !important;
     }
   }
 
 }
+
 .table th, .table td {
   border: unset !important;
 }

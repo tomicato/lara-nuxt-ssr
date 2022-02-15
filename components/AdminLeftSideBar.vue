@@ -47,7 +47,7 @@ export default {
   computed: {
     userRole() {
       let user = this.$auth.user ? this.$auth.user : null;
-      let role = user && user.data.is_admin == '1' ? 'Admin' : 'Guest';
+      let role = user && user.is_admin == '1' ? 'Admin' : 'Guest';
       return role
     }
   },

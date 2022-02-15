@@ -89,7 +89,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    //'./plugins/mixins/_user.js',
+    './plugins/mixins/_user.js',
     './plugins/mixins/validation.js',
     './plugins/axios.js',
 
@@ -106,7 +106,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    //'@nuxtjs/auth'
+    //'@nuxtjs/auth',
     '@nuxtjs/auth-next',
     'vue-screen/nuxt',
   ],
@@ -115,7 +115,7 @@ export default {
   },
 
 
- /* auth: {
+  auth: {
     strategies: {
       'laravelJWT': {
         provider: 'laravel/jwt',
@@ -129,7 +129,7 @@ export default {
           user: {
             url: '/user',
             method: 'get',
-            propertyName: "false"
+            property: false
           },
           logout: {
             url: '/logout',
@@ -149,11 +149,11 @@ export default {
         },
       },
     }
-  },*/
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-   baseURL: "https://com-helps.online",
-   //baseURL: "http://lara-nuxt-ssr"
+   //baseURL: "https://com-helps.online",
+    baseURL: "http://lara-nuxt-ssr"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

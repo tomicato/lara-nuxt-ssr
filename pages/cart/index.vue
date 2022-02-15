@@ -359,14 +359,14 @@ export default {
     },
 
     countProductInCart() {
-      let cartBadge = document.getElementById('cart');
+      //let cartBadge = document.getElementById('cart');
       let authCartBadge = document.getElementById('authCart');
 
       if (this.totalCount == 0 && !this.$auth.user) {
-        cartBadge.style.display = 'none';
+        authCartBadge.style.display = 'none';
       } else if (!this.$auth.user && this.totalCount > 0) {
-        cartBadge.style.display = 'inline-block';
-        cartBadge.innerText = this.totalCount;
+        authCartBadge.style.display = 'inline-block';
+        authCartBadge.innerText = this.totalCount;
       }
       if (this.$auth.user && this.totalCount == 0) {
         authCartBadge.style.display = 'none';

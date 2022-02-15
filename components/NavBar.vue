@@ -27,37 +27,51 @@
      </div>
       <search-block class="flex-grow-0 flex-shrink-0 px-0"></search-block>
 
-      <!--     <template>
+<!--      <template>
        <ul class="navbar-nav ml-auto">
                <li class="nav-item mr-5">
                  <nuxt-link to="/cart" class="nav-link">
-                   <b-badge pill variant="primary" id="authCart">{{  cart != 0 ? cart : ''  }}</b-badge>
+                   <b-badge pill variant="primary" id="authCart" >{{  cart != 0 ? cart : ''  }}</b-badge>
                    <b-icon-cart4 style="color: deepskyblue"/>
                  </nuxt-link>
                </li>
          <li class="nav-item">
             <nuxt-link to="/profile" class="nav-link">{{ userRole == 'Admin' ? userRole : user.data.name }}</nuxt-link>
-          </li>
+         </li>
          <li class="nav-item">
             <a href="#" @click.prevent="logout" class="nav-link">Logout</a>
           </li>
         </ul>
       </template>-->
 
-      <template>
+     <template>
         <ul class="navbar-nav">
           <li class="nav-item mr-5">
             <nuxt-link to="/cart" class="nav-link">
-              <b-badge pill variant="primary" id="cart">{{ cart != 0 ? cart : '' }}</b-badge>
+              <b-badge pill variant="primary" id="authCart">{{ cart != 0 ? cart : '' }}</b-badge>
               <b-icon-cart4 style="color: deepskyblue"/>
             </nuxt-link>
           </li>
-          <li class="nav-item">
-            <a :href="`${$axios.defaults.baseURL}/login`" class="nav-link" target="_blank">Login</a>
-          </li>
-          <li class="nav-item">
-            <nuxt-link to="#" class="nav-link">Register</nuxt-link>
-          </li>
+
+          <ul  class="navbar-nav" v-if="!user || user.loggedIn == false">
+            <li class="nav-item">
+              <!--            <a :href="`${$axios.defaults.baseURL}/login`" class="nav-link" target="_blank">Login</a>-->
+              <nuxt-link to="/login" class="nav-link">Login</nuxt-link>
+            </li>
+            <li class="nav-item" v-if="!user || user.loggedIn == false">
+              <nuxt-link to="/register" class="nav-link">Register</nuxt-link>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav" v-else>
+            <li class="nav-item">
+              <nuxt-link to="/profile" class="nav-link">{{ userRole == 'Admin' ? userRole : user.name }}</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" @click.prevent="logout">{{ 'Logout' }}</a>
+            </li>
+          </ul>
+
         </ul>
       </template>
 
@@ -77,7 +91,8 @@ export default {
   },
   data() {
     return {
-      cart: 0
+      cart: 0,
+     // user: {}
     }
   },
   created () {
@@ -85,11 +100,11 @@ export default {
       window.addEventListener('scroll', this.fixedTop);
     }
   },
-/*  destroyed () {
+  destroyed () {
     if (process.client) {
       window.removeEventListener('scroll', this.fixedTop);
     }
-  },*/
+  },
 
   mounted() {
     try {
@@ -103,17 +118,17 @@ export default {
   },
 
   computed: {
-    /*userRole() {
+    userRole() {
       let user = this.$auth.user ? this.$auth.user : null;
-      let role = user && user.data.is_admin == '1' ? 'Admin' : 'Guest';
+      let role = user && user.is_admin == '1' ? 'Admin' : 'Guest';
       return role
-    }*/
+    }
   },
   methods: {
-    /*async logout() {
-      await this.$auth.logout();
-      await this.$router.push('/');
-    },*/
+     logout() {
+       this.$auth.logout();
+       this.$router.push('/');
+    },
 
     fixedTop(){
 
@@ -130,8 +145,9 @@ export default {
         el.classList.remove('fix')
        // btn_search.style.color = 'rgba(0,0,0,0.4)!important'
       }
-
     },
+
+
 
   }
 }

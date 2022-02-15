@@ -11,7 +11,7 @@
           <slot></slot>
         </div>
         <div class="popup__footer mb-3">
-          <button class="btn btn-outline-primary ml-auto" style="padding: 3px 5px!important;" @click="addCartFromModal">{{ btnTitle }}</button>
+          <button class="btn btn-outline-primary ml-auto" @click="addCartFromModal">{{ btnTitle }}</button>
 <!--          <button class="btn btn-outline-danger" @click="closePopup">Close</button>-->
         </div>
       </div>
@@ -94,6 +94,9 @@ export default {
       img{
         margin-right: 0!important;
       }
+      button{
+        padding: 3px 5px;
+      }
     }
     &__body{
       display: flex;
@@ -111,11 +114,45 @@ export default {
     }
   }
 
-  @media screen and (max-width: 1024px) {
-    .popup{
-      width: 80%;
+  @media screen and (min-width: 1024px) {
+    @media (orientation: landscape) {
+      .popup {
+        width: 65%;
+      }
+    }
+
+    @media (orientation: portrait) {
+      .popup {
+        width: 95%;
+      }
     }
   }
+
+  @media screen and(max-width: 768px) {
+
+    .popup{
+      &__header h5{
+        font-size: 1rem;
+      }
+      &__footer{
+        button{
+          padding: 1px 4px!important;
+        }
+      }
+    }
+    @media (orientation: landscape) {
+      .popup {
+        width: 50%;
+      }
+    }
+
+    @media (orientation: portrait) {
+      .popup {
+        width: 85%;
+      }
+    }
+  }
+
   @keyframes bgchange {
     100% {opacity: 1}
     0% { opacity: 0 }

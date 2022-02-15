@@ -161,27 +161,18 @@ export default {
     },
 
     countProductInCart() {
-      let cartBadge = document.getElementById('cart');
+      //let cartBadge = document.getElementById('cart');
       let authCartBadge = document.getElementById('authCart');
+      authCartBadge.innerText = this.totalCount;
 
-      if (this.totalCount == 0 && !this.$auth.user) {
-        cartBadge.style.display = 'none';
-      } else if (!this.$auth.user && this.totalCount > 0) {
-        cartBadge.style.display = 'inline-block';
-      }
-      if (this.$auth.user && this.totalCount == 0) {
+      if(this.totalCount == 0){
         authCartBadge.style.display = 'none';
-      } else if (this.$auth.user && this.totalCount > 0) {
+      }
+
+      if (this.totalCount > 0) {
         authCartBadge.style.display = 'inline-block';
       }
 
-      if (this.$auth.user) {
-        authCartBadge.innerText = this.totalCount;
-        // authCartBadge.style.display = 'inline-block';
-      } else {
-        cartBadge.innerText = this.totalCount;
-        //cartBadge.style.display = 'inline-block';
-      }
     },
 
     getSession() {

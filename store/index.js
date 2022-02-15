@@ -10,6 +10,7 @@ export const mutations = {
 }
 
 export const actions = {
+
     async nuxtServerInit({dispatch}){
       //await dispatch('topics/getTopics')
       //await dispatch('products/getProducts')
@@ -51,7 +52,7 @@ export const actions = {
 }
 
 export const getters = {
-/*  authenticated(state) {
+  authenticated(state) {
     return state.auth.loggedIn
   },
 
@@ -63,7 +64,7 @@ export const getters = {
     if(state.auth.user){
       return state.auth.user.data.is_admin
     }
-  },*/
+  },
   cartCount(state) {
     return state.cartCount
   }
