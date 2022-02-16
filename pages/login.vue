@@ -1,6 +1,18 @@
 <template>
   <div class="container mt-5 col-md-6">
     <h2>Login</h2><br/>
+    <div v-if="message" class="alert alert-danger show" id="message_alert" role="alert">
+      {{ message }}
+    </div><br>
+    <button v-if="flag" class="btn btn-primary show" type="button" id="message_spinner" disabled>
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </button><br>
+    <div v-if="message_success" class="alert alert-success show" id="message_success" role="alert">
+      {{ message_success }}
+    </div><br>
+
+    <a v-if="user_id != 0" href="#" class="btn btn-outline-primary mb-5" id="verify_btn" @click.prevent="sendVerify">{{ 'Подтвердить' }}</a>
     <form>
       <div class="form-group">
         <label>Email address</label>
@@ -31,23 +43,66 @@ export default {
       form: {
         email: '',
         password: ''
-      }
+      },
+      message: '',
+      message_success: '',
+      user_id: 0,
+      flag: false
     }
   },
   methods: {
     async submit() {
       try {
-        await this.$auth.loginWith("laravelJWT", {data: this.form})
-        await this.$router.push('/profile')
+        let res = await this.$auth.loginWith("laravelJWT", {data: this.form})
+
+        if(res.data.meta.token == false) {
+          this.message = 'Please, verify your Email address or Signup!'
+          this.user_id = res.data.user.id
+            //console.log(res.data.user.id)
+          //await this.$axios.$post(`/api/confirm/${res.data.user.id}/email-confirm`)
+        /*.then(data => {
+          this.message = 'You are successfully confirm your Email address.'
+          })*/
+        }
 
 
-        //console.log(this.$route);
+        /* if(result.data.user) {
+           this.message = 'Please, verify your Email address!'
+        }*/
+
+        /*this.$router.push({
+          path: this.$route.query.redirect || '/profile'
+        })*/
+
 
       } catch (error) {
         error.errors
       }
     },
+    async sendVerify(){
+      this.flag = true
 
+      let alert = document.getElementById('message_alert');
+      alert.style.display ='none';
+
+      let btn = document.getElementById('verify_btn');
+      btn.style.display ='none';
+
+      let res = await this.$axios.$post(`/api/confirm/${this.user_id}/email-confirm`)
+      if(res){
+        this.message_success = 'Check your email box. Link to confirm sent.'
+        this.flag = false
+      }
+
+
+      let success = document.getElementById('message_success');
+      let spinner = document.getElementById('message_spinner');
+
+      if(success){
+        success.style.display= 'block'
+        success.classList.add('show')
+      }
+    }
   }
 }
 </script>

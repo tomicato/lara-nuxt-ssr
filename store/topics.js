@@ -10,6 +10,7 @@ export const mutations = {
 
 export const actions = {
   async getTopics({commit}) {
+
     try {
       let {data} = await this.$axios.$get('/api/topics')
       commit('setTopics', data)

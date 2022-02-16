@@ -1,6 +1,9 @@
 <template>
   <div class="container mt-5 col-md-6">
     <h2>Sign up</h2><br/>
+    <div v-if="message.length > 0" class="alert alert-success" role="alert">
+     {{ message }}
+    </div>
     <form @submit.prevent="submit">
       <div class="form-group">
         <label>Full Name</label>
@@ -37,7 +40,8 @@ export default {
         name: '',
         email: '',
         password: '',
-      }
+      },
+      message: ''
     }
   },
 
@@ -45,17 +49,22 @@ export default {
     async submit() {
       try {
         await this.$axios.$post('api/register', this.form)
-        await this.$auth.loginWith("laravelJWT", {
-          data: {
-            email: this.form.email,
-            password: this.form.password,
-          }
-        })
-        await this.$router.push({
+          .then(res => {
+              this.message = 'Link to confirm sent to your email address.'
+          })//.then(result => {
+            /*this.$auth.loginWith("laravelJWT", {
+              data: {
+                email: this.form.email,
+                password: this.form.password,
+              }
+            })*/
+        //  })
+
+        /*await this.$router.push({
           path: this.$route.query.redirect || '/profile'
-        })
+        })*/
       } catch (error) {
-        error.response.data.errors;
+        error.errors;
       }
     }
   }

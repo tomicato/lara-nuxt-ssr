@@ -45,11 +45,11 @@ export default {
     }
   },
 
-  async asyncData({store}) {
-    //await store.dispatch('topics/getTopics')
-    let some = store.getters["topics/topics"]
+  async asyncData(ctx) {
+    let some = await ctx.$axios.$get('/api/topics')
+   // console.log(some.data);
     return {
-      topics: some
+      topics: some.data
     }
   },
   created() {
