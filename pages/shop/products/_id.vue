@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="show">
     <modal-window v-if="open"
                   id="modalComponent"
                   btnTitle="Add To Cart"
@@ -47,14 +47,14 @@
       </div>
       <!-- /Carousel -->
 
-
     </modal-window>
+
     <header-top></header-top>
+
     <div class="container" id="main">
       <div class="row">
         <div class="col-sm-12 col-lg-3 columns">
           <h3 class="mb-4" style=" border-bottom:1px solid rgba(0,0,0,0.1); padding: 20px 0">Categories</h3>
-
           <categories :categories="categories" :flag="flag"></categories>
         </div>
 
@@ -193,22 +193,16 @@
 
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-column align-self-start h-100 w-100">
-                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])"
-                              :key="k">
+                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])" :key="k">
                           {{ it }}
                         </span>
                         </div>
                         <div class="d-flex flex-column align-items-end w-100">
                         <span class="my-2" v-for="(im, l) in Object.values(Object.values(properties)[i])" :key="l">
-                          {{ im[0] }}
+                          {{ im.join(', ') }}
                         </span>
                         </div>
                       </div>
-
-                      <div class="">
-
-                      </div>
-
                     </div>
                   </div>
                   <div class="tab-pane show" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
@@ -973,5 +967,20 @@ select {
 
 .card:hover {
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.10), 2px 4px 6px rgba(0, 0, 0, 0.10);
+}
+
+@keyframes bgchange {
+  100% {
+    opacity: 1
+  }
+  0% {
+    opacity: 0
+  }
+}
+
+
+.show {
+  transition: opacity ease-in-out 1s;
+  animation: bgchange 1s;
 }
 </style>

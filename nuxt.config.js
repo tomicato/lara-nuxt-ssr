@@ -79,6 +79,13 @@ export default {
     '~/assets/main.css'
   ],
 
+  styleResources: {
+    scss: [
+      '~assets/scss/mixins.scss',
+      '~assets/scss/variables.scss'
+    ]
+  },
+
   bootstrapVue : {
     // Установить плагин `IconsPlugin` (в дополнение к плагину` BootstrapVue`)
     icons : true
@@ -153,7 +160,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: "https://com-helps.online",
-   // baseURL: "http://lara-nuxt-ssr"
+    //baseURL: "http://lara-nuxt-ssr"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

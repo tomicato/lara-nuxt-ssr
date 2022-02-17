@@ -11,15 +11,15 @@
        <nuxt-link to="/" class="navbar-brand">Web Shop</nuxt-link>
        <ul class="navbar-nav">
 
-         <li class="nav-item">
-           <nuxt-link to="/shop" class="nav-link">Shop</nuxt-link>
+         <li class="nav-item ">
+           <nuxt-link to="/shop" prefetch class="nav-link">Catalog</nuxt-link>
          </li>
 
-         <li class="nav-item active">
+         <li class="nav-item">
            <nuxt-link to="/topics" class="nav-link">Blog</nuxt-link>
          </li>
 
-         <li class="nav-item active">
+         <li class="nav-item">
            <nuxt-link to="/contact" class="nav-link">Contact</nuxt-link>
          </li>
 

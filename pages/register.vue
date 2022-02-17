@@ -21,7 +21,11 @@
         <input type="password" v-model.trim="form.password" class="form-control" placeholder="Enter password">
         <small class="form-text text-danger" v-if="errors.password"><em>{{ errors.password[0] }}</em></small>
       </div>
-      <button type="submit" class="btn btn-outline-primary">Register</button>
+      <button type="submit" class="btn btn-outline-primary show">
+        <span v-if="flag" id="message_spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Register
+      </button><br>
+<!--      <button type="submit" class="btn btn-outline-primary">Register</button>-->
     </form>
     <br/>
     <p>Already have an account?
@@ -41,30 +45,24 @@ export default {
         email: '',
         password: '',
       },
-      message: ''
+      message: '',
+      flag: false
     }
   },
 
   methods: {
     async submit() {
+      let spinner = document.getElementById('message_spinner');
       try {
+        this.flag = true
         await this.$axios.$post('api/register', this.form)
           .then(res => {
-              this.message = 'Link to confirm sent to your email address.'
-          })//.then(result => {
-            /*this.$auth.loginWith("laravelJWT", {
-              data: {
-                email: this.form.email,
-                password: this.form.password,
-              }
-            })*/
-        //  })
-
-        /*await this.$router.push({
-          path: this.$route.query.redirect || '/profile'
-        })*/
+              this.message = 'Please, check your email box. Link to confirm sent to your email address.'
+            this.flag = false
+          })
       } catch (error) {
         error.errors;
+          this.flag = false
       }
     }
   }
@@ -72,6 +70,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.btn.btn-outline-primary:active,
+.btn.btn-outline-primary:hover, .btn.btn-outline-primary:focus, {
+  color: #fff;
+  background-color: #007bff;
+  border: unset!important;
+  outline: unset!important;
+  box-shadow: unset!important;
+}
 </style>

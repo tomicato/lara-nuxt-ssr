@@ -220,7 +220,7 @@ export default {
       if(e.target.type == 'radio'){
         for (let i = 0; i < arr.length; i++) {
           if(arr[i].checked == true){
-            this.data.splice(this.data.lastIndexOf(arr[i].id + ': ' + arr[i].value), 1)
+            //this.data.splice(this.data.lastIndexOf(arr[i].id + ': ' + arr[i].value), 1)
             this.data.push(arr[i].id + ': ' + arr[i].value)
           }else{
             if (this.data.indexOf(arr[i].id + ': ' + arr[i].value) != -1) {

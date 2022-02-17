@@ -275,7 +275,11 @@ export default {
         }
       });
       this.data = filteredArray
+
+      console.log(this.data);
     })
+
+
 
   },
 
