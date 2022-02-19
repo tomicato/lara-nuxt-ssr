@@ -5,27 +5,49 @@
     <div class="container" id="main">
       <div class="row">
         <!-- Left Sidebar -->
-        <div class="col-sm-12 col-lg-3 columns">
+        <div class="col-sm-12 col-lg-3 columns mb-4">
+          <!-- Categories -->
           <h3 class="mb-4">Categories</h3>
           <hr/>
           <br>
-
           <categories :categories="categories" :flag="flag"></categories>
+          <!-- /Categories -->
 
+          <!-- Filters -->
+          <h3>Filters</h3>
+          <hr>
+          <filters :subId="subId" :catId="catId" :filters="filters" :common="common"></filters>
+          <!-- /Filters -->
+
+          <!-- Tags -->
           <div>
-            <h3>Filters</h3>
+            <h3>Tags</h3>
             <hr>
-            <filters :subId="subId" :catId="catId" :filters="filters" :common="common"></filters>
-          </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center my-4 py-3" style="border-bottom: 1px solid rgba(0,0,0,0.125)">
+              <span v-for="(tag, i) in tags" :key="i"
+                    class="my-2 py-2 px-3 flex-grow-0 flex-shrink-0"
+                    id="badge_tag"
+                    @click="getProductByTag(tag.id, tag.title)">
+                  {{ tag.title }}
+              </span>
+            </div>
 
+            <span class="my-3 py-2 px-3"
+                    id="badge_tag_const"
+                    @click="resetTags">
+                    {{ 'reset' }}
+            </span>
+
+          </div>
+          <!-- /Tags -->
         </div>
 
         <!-- Main Content -->
-        <div class="col-sm-12 col-lg-9 columns products ">
+        <div class="col-sm-12 col-lg-9 columns products">
 
           <!-- :name="name_main_content" -->
 
-          <!--Products List-->
+          <!--Top breacrumbs & additional tool -->
           <div class="table-responsive" style="margin-bottom: -5%; padding-bottom: 3px">
             <table class="w-100 table" id="top-tools">
               <tbody>
@@ -43,6 +65,7 @@
                   <div
                     class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
                     style="font-size: 1rem; margin-bottom: -0.7%;">
+                    <!-- Breadcrumbs -->
                     <div id="breadcrumbs">
                       <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
                       /
@@ -52,16 +75,18 @@
                         {{ ' / ' + title.split('_').join(' ') }}
                       </nuxt-link>
                     </div>
+                    <!-- /Breadcrumbs -->
                   </div>
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
+          <!-- /Top breacrumbs & additional tool -->
 
           <!--List View-->
           <div id="list" v-if="data_total !== ''">
-            <div v-if="flag == false">
+            <div v-if="flag == false && tag_visible == false">
               <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
                 <list-view :product="item"></list-view>
               </div>
@@ -72,11 +97,17 @@
                 <list-view :product="item"></list-view>
               </div>
             </div>
+
+            <div v-if="tag_visible == true">
+              <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in products_on_tag" :key="i">
+                <list-view :product="item"></list-view>
+              </div>
+            </div>
           </div>
 
           <!--Grid View-->
           <div id="grid" class="w-100 mx-auto">
-            <div class="row text-center" v-if="flag == false">
+            <div class="row text-center" v-if="flag == false && tag_visible == false">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
                    v-for="(item, i) in data_total" :key="i">
                 <grid-view :product="item"></grid-view>
@@ -84,9 +115,17 @@
             </div>
 
             <div class="row text-center" v-if="flag == true">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%" v-for="(item, i) in items"
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
+                   v-for="(item, i) in items"
                    :key="i">
                 <grid-view :product="item"></grid-view>
+              </div>
+            </div>
+
+            <div  class="row text-center"  v-if="tag_visible == true">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
+                   v-for="(item2, z) in products_on_tag" :key="z">
+                <grid-view :product="item2"></grid-view>
               </div>
             </div>
 
@@ -145,10 +184,10 @@ export default {
     Filters,
     Categories,
     SearchBlock,
-    FooterBottom
+    FooterBottom,
   },
-  name: "sub_category",
 
+  name: "sub_category",
 
   head() {
     return {
@@ -217,13 +256,16 @@ export default {
       keywords: '',
       description: '',
       cat_title: '',
-      sub_title: ''
+      sub_title: '',
 
+      /*======== Tags ========*/
+      tag_visible: false,
+      tags: [],
+      products_on_tag: null
     }
   },
 
   mounted() {
-
     if (this.data_total[0].sub_title) {
       let tl = this.data_total[0].sub_title.title
       this.title = tl
@@ -276,9 +318,8 @@ export default {
       });
       this.data = filteredArray
 
-      console.log(this.data);
+      // console.log(this.data);
     })
-
 
 
   },
@@ -287,6 +328,9 @@ export default {
     let {data} = await ctx.$axios.get(`/api/shop/products/${ctx.route.params.category}${ctx.route.params.sub ? `/` + ctx.route.params.sub : ''}${ctx.query.page ? `?page=` + ctx.query.page : ''}`)
     let cat = await ctx.store.getters["categories/categories"]
     let filters = await ctx.store.getters["filters/filters"]
+
+    let tags = await ctx.$axios.$get(`/api/shop/tags`);
+   // console.log(tags);
 
     /* Meta content */
     let cat_one = cat.find(item => item.id == ctx.route.params.category) // for meta
@@ -360,17 +404,20 @@ export default {
         description: description ? description : '',
         cat_title: cat_one.title,
         sub_title: sub_one ? sub_one.title : '',
+        tags: tags
       }
     } else {
       ctx.redirect('/shop')
     }
   },
+
   computed: {
     rows() {
       //console.log(this.data_total.length);
       return this.data_total != undefined ? this.data_total.length : ''
     },
   },
+
   watch: {
     '$route'() {
       this.getProducts(this.$route.query.page);
@@ -378,6 +425,16 @@ export default {
   },
 
   methods: {
+
+    async getProductByTag(id, title) {
+      let products = await this.$axios.$post(`/api/shop/tags/${id}`);
+      this.products_on_tag = products.data
+      this.tag_visible = true
+    },
+
+    resetTags() {
+      this.tag_visible = false
+    },
 
     async getProducts(page) {
       let res = await this.$axios.$get(`/api/shop/products/${this.$route.params.category}${this.$route.params.sub ? `/` + this.$route.params.sub : ''}${page ? `?page=` + page : ''}`)
@@ -607,5 +664,32 @@ select {
   height: 12px;
   width: 50%;
 }
+
+#badge_tag {
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #31ccc6;
+  border-radius: 5px;
+  color: #02aba5;
+
+  &:hover {
+    background: #31ccc6;
+    color: #fff;
+  }
+}
+
+#badge_tag_const {
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  color: #007bff;
+
+  &:hover {
+    background: #007bff;
+    color: #fff;
+  }
+}
+
 
 </style>

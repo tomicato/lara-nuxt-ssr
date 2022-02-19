@@ -61,7 +61,7 @@
       </div>
 
 
-      <div id="buttons" class="my-5">
+      <div id="buttons" class="d-flex justify-content-between align-items-center my-5 pt-3" style="border-top: 1px solid rgba(0,0,0,0.125)">
         <button class="btn btn-outline-primary" id="filter_product" @click.prevent="getFiltersValues(filters)">
           Filter Products
         </button>

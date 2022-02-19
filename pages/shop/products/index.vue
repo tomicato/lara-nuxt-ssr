@@ -95,6 +95,8 @@ export default {
       itemsAll: [],
       perPage: 4,
       currentPage: +this.$route.query.page || 1,
+
+
     }
   },
 
@@ -112,12 +114,14 @@ export default {
     },
   },
 
-  async asyncData({store}){
+  async asyncData({store, ctx}){
     //let {data} = await store.dispatch('products/getProducts')
     let data = await store.getters["products/products"]
+
     ///console.log(data.data);
     return {
       data_total: data.data,
+
      // total: data.meta.total,
       //first: data.links.first,
      // last: data.links.last,

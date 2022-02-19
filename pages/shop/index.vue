@@ -5,14 +5,35 @@
     <div class="container" id="main">
       <div class="row">
 
-        <div class="col-sm-12 col-lg-3">
+        <div class="col-sm-12 col-lg-3 mb-4">
           <h3 class="mb-4">Categories</h3>
           <hr/>
           <br/>
           <div class="columns">
             <categories :categories="categories" :flag="flag" ></categories>
-          </div>
 
+            <!-- Tags -->
+            <div>
+              <h3>Tags</h3>
+              <hr>
+              <div class="d-flex flex-wrap justify-content-between align-items-center my-4 py-3" style="border-bottom: 1px solid rgba(0,0,0,0.125)">
+              <span v-for="(tag, i) in tags" :key="i"
+                    class="my-2 py-2 px-3 flex-grow-0 flex-shrink-0"
+                    id="badge_tag"
+                    @click="getProductByTag(tag.id, tag.title)">
+                  {{ tag.title }}
+              </span>
+              </div>
+
+              <span class="my-3 py-2 px-3"
+                    id="badge_tag_const"
+                    @click="resetTags">
+                    {{ 'reset' }}
+            </span>
+
+            </div>
+            <!-- /Tags -->
+          </div>
 
         </div>
 
@@ -38,7 +59,7 @@
           </div>
 
           <div id="list">
-            <div v-if="flag == false">
+            <div v-if="flag == false && tag_visible == false"">
               <div class="card mb-3" style="max-width: 100%" v-if="data_total" v-for="(item, i) in data_total" :key="i">
                 <list-view :product="item"></list-view>
               </div>
@@ -48,10 +69,16 @@
                 <list-view :product="item"></list-view>
               </div>
             </div>
+
+            <div v-if="tag_visible == true">
+              <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in products_on_tag" :key="i">
+                <list-view :product="item"></list-view>
+              </div>
+            </div>
           </div>
 
           <div id="grid" class="w-100 mx-auto">
-            <div class="row text-center" v-if="flag == false">
+            <div class="row text-center" v-if="flag == false && tag_visible == false"">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%"
                    v-for="(item, i) in data_total"
                    :key="i">
@@ -61,6 +88,12 @@
             <div class="row text-center" v-if="flag == true">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-2" style="max-width: 100%" v-for="(item, i) in items" :key="i">
                 <grid-view :product="item"></grid-view>
+              </div>
+            </div>
+            <div  class="row text-center"  v-if="tag_visible == true">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
+                   v-for="(item2, z) in products_on_tag" :key="z">
+                <grid-view :product="item2"></grid-view>
               </div>
             </div>
           </div>
@@ -145,6 +178,11 @@ export default {
       pageCount: 1,
       itemsAll: [],
       items: [],
+
+      /*======== Tags ========*/
+      tag_visible: false,
+      tags: [],
+      products_on_tag: null
     }
   },
 
@@ -168,7 +206,7 @@ export default {
 
   async asyncData(ctx) {
     let {data} = await ctx.$axios.get(`/api/shop/products?page=${ctx.query.page}`)
-
+    let tags = await ctx.$axios.$get(`/api/shop/tags`);
     let arr = data.data
     let tmp = []
     for (const el of arr) {
@@ -182,7 +220,8 @@ export default {
       per_page: data.meta.per_page,
       current: ctx.query.page,
       categories: cat,
-      counts: tmp
+      counts: tmp,
+      tags: tags
     }
   },
 
@@ -200,6 +239,17 @@ export default {
   },
 
   methods: {
+
+    async getProductByTag(id, title) {
+      let products = await this.$axios.$post(`/api/shop/tags/${id}`);
+      this.products_on_tag = products.data
+      this.tag_visible = true
+    },
+
+    resetTags() {
+      this.tag_visible = false
+    },
+
     async getProducts(page) {
       try {
         await this.$axios.$get(`/api/shop/products?page=${page}`)
@@ -366,6 +416,32 @@ h3 {
   &.main_shop {
     h3 {
       text-align: center !important;
+    }
+  }
+
+  #badge_tag {
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #31ccc6;
+    border-radius: 5px;
+    color: #02aba5;
+
+    &:hover {
+      background: #31ccc6;
+      color: #fff;
+    }
+  }
+
+  #badge_tag_const {
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    color: #007bff;
+
+    &:hover {
+      background: #007bff;
+      color: #fff;
     }
   }
 }
