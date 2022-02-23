@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col-md-12 col-lg-8 col-xl-9  columns">
         <h3 class="card-title font-weight-normal">Выбранные товары</h3>
+
         <hr/>
         <br/>
 

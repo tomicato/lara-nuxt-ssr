@@ -107,8 +107,26 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
-
+  buildModules: [
+    'nuxt-gsap-module'
+  ],
+  gsap: {
+    extraPlugins: {
+      cssRule: false,
+      draggable: true,
+      easel: false,
+      motionPath: true,
+      pixi: false,
+      text: true,
+      scrollTo: false,
+      scrollTrigger: false
+    },
+    extraEases: {
+      expoScaleEase: false,
+      roughEase: false,
+      slowMo: false,
+    }
+  },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
@@ -117,6 +135,7 @@ export default {
     //'@nuxtjs/auth',
     '@nuxtjs/auth-next',
     'vue-screen/nuxt',
+    'nuxt-gsap-module'
   ],
   screen: {
     extend: 'bootstrap',

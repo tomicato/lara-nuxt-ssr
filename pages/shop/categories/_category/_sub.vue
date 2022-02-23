@@ -7,10 +7,8 @@
         <!-- Left Sidebar -->
         <div class="col-sm-12 col-lg-3 columns mb-4">
           <!-- Categories -->
-          <h3 class="mb-4">Categories</h3>
-          <hr/>
-          <br>
-          <categories :categories="categories" :flag="flag"></categories>
+          <h3 class="pb-3 mb-5">Categories</h3>
+          <categories :categories="categories" :flag="flag"  style="border-top: 1px solid rgba(0,0,0,0.1)"></categories>
           <!-- /Categories -->
 
           <!-- Filters -->
@@ -18,75 +16,58 @@
           <hr>
           <filters :subId="subId" :catId="catId" :filters="filters" :common="common"></filters>
           <!-- /Filters -->
-
-          <!-- Tags -->
-          <div>
-            <h3>Tags</h3>
-            <hr>
-            <div class="d-flex flex-wrap justify-content-between align-items-center my-4 py-3" style="border-bottom: 1px solid rgba(0,0,0,0.125)">
-              <span v-for="(tag, i) in tags" :key="i"
-                    class="my-2 py-2 px-3 flex-grow-0 flex-shrink-0"
-                    id="badge_tag"
-                    @click="getProductByTag(tag.id, tag.title)">
-                  {{ tag.title }}
-              </span>
-            </div>
-
-            <span class="my-3 py-2 px-3"
-                    id="badge_tag_const"
-                    @click="resetTags">
-                    {{ 'reset' }}
-            </span>
-
-          </div>
-          <!-- /Tags -->
         </div>
 
         <!-- Main Content -->
-        <div class="col-sm-12 col-lg-9 columns products">
 
-          <!-- :name="name_main_content" -->
-
+        <div class="col-sm-12 col-lg-9 columns products" id="grid_tag" style="">
           <!--Top breacrumbs & additional tool -->
-          <div class="table-responsive" style="margin-bottom: -5%; padding-bottom: 3px">
-            <table class="w-100 table" id="top-tools">
-              <tbody>
-              <tr class="d-flex justify-content-between align-items-center">
-                <td class="d-flex justify-content-start align-items-center">
-                  <i class="material-icons list-icon" @click.prevent="list">view_headline</i>
-                  <i class="material-icons grid-icon ml-2" @click.prevent="grid">apps</i>
-                </td>
-                <td id="filters_top" class="d-flex">
-                  <span v-for="(item, i) in data" :key="i" class="badge badge-pill badge-info">
-                     {{ item }}
-                  </span>
-                </td>
-                <td class="d-flex justify-content-end align-items-center flex-shrink-0 flex-grow-0">
-                  <div
-                    class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
-                    style="font-size: 1rem; margin-bottom: -0.7%;">
-                    <!-- Breadcrumbs -->
-                    <div id="breadcrumbs">
-                      <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
-                      /
-                      <nuxt-link :to="`/shop/categories/${$route.params.category}`">{{ cat_title }}</nuxt-link>
-                      <nuxt-link v-if="$route.params.sub"
-                                 :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`">
-                        {{ ' / ' + title.split('_').join(' ') }}
-                      </nuxt-link>
-                    </div>
-                    <!-- /Breadcrumbs -->
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+          <div class="d-flex justify-content-between align-items-start" style="height: 90px;">
+
+            <div class="d-flex justify-content-start align-items-center">
+              <i class="material-icons list-icon" @click.prevent="list">view_headline</i>
+              <i class="material-icons grid-icon ml-2" @click.prevent="grid">apps</i>
+            </div>
+
+            <div class="mx-2 table-responsive" id="scroll_custom" style="margin-top: -15px;padding-bottom: 15px;">
+              <table class="w-100 table" id="top-tools">
+                <tbody>
+                <tr class="d-flex justify-content-between align-items-center">
+
+                  <td id="filters_top" class="d-flex">
+                    <span v-for="(item, i) in data" :key="i" class="badge badge-pill badge-info">
+                       {{ item }}
+                    </span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center flex-shrink-0 flex-grow-0">
+              <div
+                class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
+                style="font-size: 1rem; margin-bottom: -0.7%;">
+                <!-- Breadcrumbs -->
+                <div id="breadcrumbs">
+                  <nuxt-link to="/shop">{{ 'Catalog' }}</nuxt-link>
+                  /
+                  <nuxt-link :to="`/shop/categories/${$route.params.category}`">{{ cat_title }}</nuxt-link>
+                  <nuxt-link v-if="$route.params.sub"
+                             :to="`/shop/categories/${$route.params.category}/${$route.params.sub}`">
+                    {{ ' / ' + title.split('_').join(' ') }}
+                  </nuxt-link>
+                </div>
+                <!-- /Breadcrumbs -->
+              </div>
+            </div>
+
           </div>
           <!-- /Top breacrumbs & additional tool -->
 
           <!--List View-->
           <div id="list" v-if="data_total !== ''">
-            <div v-if="flag == false && tag_visible == false">
+            <div v-if="flag == false">
               <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in data_total" :key="i">
                 <list-view :product="item"></list-view>
               </div>
@@ -98,16 +79,11 @@
               </div>
             </div>
 
-            <div v-if="tag_visible == true">
-              <div class="card mb-3" style="max-width: 100%" v-for="(item, i) in products_on_tag" :key="i">
-                <list-view :product="item"></list-view>
-              </div>
-            </div>
           </div>
 
           <!--Grid View-->
           <div id="grid" class="w-100 mx-auto">
-            <div class="row text-center" v-if="flag == false && tag_visible == false">
+            <div class="row text-center" v-if="flag == false">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
                    v-for="(item, i) in data_total" :key="i">
                 <grid-view :product="item"></grid-view>
@@ -119,13 +95,6 @@
                    v-for="(item, i) in items"
                    :key="i">
                 <grid-view :product="item"></grid-view>
-              </div>
-            </div>
-
-            <div  class="row text-center"  v-if="tag_visible == true">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 pb-4" style="max-width: 100%"
-                   v-for="(item2, z) in products_on_tag" :key="z">
-                <grid-view :product="item2"></grid-view>
               </div>
             </div>
 
@@ -155,7 +124,6 @@
             pills
             @change="changeHandler2"
           ></b-pagination>
-
 
         </div>
 
@@ -258,79 +226,12 @@ export default {
       cat_title: '',
       sub_title: '',
 
-      /*======== Tags ========*/
-      tag_visible: false,
-      tags: [],
-      products_on_tag: null
     }
   },
-
-  mounted() {
-    if (this.data_total[0].sub_title) {
-      let tl = this.data_total[0].sub_title.title
-      this.title = tl
-    } else {
-      let ml = this.data_total[0].cat_title.title
-      this.title = ml
-    }
-
-    this.$root.$on('getFilteredData', (arr) => {
-      //this.filter_length = arr.data.length
-      this.data_total = arr.data
-      this.flag = true
-
-      this.itemsAll = _.chunk(this.data_total, this.perPage)
-      this.pageCount = _.size(this.itemsAll)
-      this.items = this.itemsAll[this.currentPage - 1] || this.itemsAll[0]
-    })
-
-    this.$root.$on('reload', () => {
-      let arr = this.$store.getters["products/filtered"]
-      this.data_total = arr.data
-      //this.filter_length = 0
-      this.getProducts()
-      this.flag = false
-      this.data.length = 0
-    })
-
-    this.$root.$on('setData', (data) => {
-      //console.log(data);
-      let arr = []
-      for (let k of data) {
-        arr.push(k.split(':'))
-      }
-      let tmp = []
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i][0] != 'category_id' || arr[i][0] != 'sub_category_id') {
-          tmp.push(arr[i][1])
-        }
-      }
-
-      let tls = tmp
-      let el = []
-
-      let filteredArray = tls.filter(function (item, pos) {
-        if (tls.indexOf(item) == pos) {
-          return item
-        } else {
-          el.push(item)
-        }
-      });
-      this.data = filteredArray
-
-      // console.log(this.data);
-    })
-
-
-  },
-
   async asyncData(ctx) {
     let {data} = await ctx.$axios.get(`/api/shop/products/${ctx.route.params.category}${ctx.route.params.sub ? `/` + ctx.route.params.sub : ''}${ctx.query.page ? `?page=` + ctx.query.page : ''}`)
     let cat = await ctx.store.getters["categories/categories"]
     let filters = await ctx.store.getters["filters/filters"]
-
-    let tags = await ctx.$axios.$get(`/api/shop/tags`);
-   // console.log(tags);
 
     /* Meta content */
     let cat_one = cat.find(item => item.id == ctx.route.params.category) // for meta
@@ -343,11 +244,6 @@ export default {
     }
     let keywords;
     let description;
-
-    //console.log(cat_one.title+ "\r\n" +sub_one.title + "\r\n" );
-    //console.log(ctx.route);
-    //console.log(cat_one.title);
-
 
     if (sub_one != null) {
       keywords = sub_one.keywords  // keywords
@@ -404,16 +300,83 @@ export default {
         description: description ? description : '',
         cat_title: cat_one.title,
         sub_title: sub_one ? sub_one.title : '',
-        tags: tags
       }
     } else {
       ctx.redirect('/shop')
     }
   },
 
+  mounted() {
+    if (this.data_total[0].sub_title) {
+      let tl = this.data_total[0].sub_title.title
+      this.title = tl
+    } else {
+      let ml = this.data_total[0].cat_title.title
+      this.title = ml
+    }
+
+    this.$root.$on('getFilteredData', (arr) => {
+      //this.filter_length = arr.data.length
+      this.data_total = arr.data
+      this.flag = true
+
+      /*Animate*/
+      let grid_tag = document.getElementById('grid_tag')
+      //console.log(grid_tag);
+      grid_tag.classList.add('grid_tag_animate')
+
+      setTimeout(() => {
+        grid_tag.classList.remove('grid_tag_animate')
+      }, 1500)
+
+      this.itemsAll = _.chunk(this.data_total, this.perPage)
+      this.pageCount = _.size(this.itemsAll)
+      this.items = this.itemsAll[this.currentPage - 1] || this.itemsAll[0]
+    })
+
+    this.$root.$on('reload', () => {
+      let arr = this.$store.getters["products/filtered"]
+      this.data_total = arr.data
+      //this.filter_length = 0
+      this.getProducts()
+      this.flag = false
+      this.data.length = 0
+    })
+
+    this.$root.$on('setData', (data) => {
+      //console.log(data);
+      let arr = []
+      for (let k of data) {
+        arr.push(k.split(':'))
+      }
+      let tmp = []
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i][0] != 'category_id' || arr[i][0] != 'sub_category_id') {
+          tmp.push(arr[i][1])
+        }
+      }
+
+      let tls = tmp
+      let el = []
+
+      let filteredArray = tls.filter(function (item, pos) {
+        if (tls.indexOf(item) == pos) {
+          return item
+        } else {
+          el.push(item)
+        }
+      });
+      this.data = filteredArray
+
+      // console.log(this.data);
+    })
+
+
+  },
+
+
   computed: {
     rows() {
-      //console.log(this.data_total.length);
       return this.data_total != undefined ? this.data_total.length : ''
     },
   },
@@ -426,16 +389,6 @@ export default {
 
   methods: {
 
-    async getProductByTag(id, title) {
-      let products = await this.$axios.$post(`/api/shop/tags/${id}`);
-      this.products_on_tag = products.data
-      this.tag_visible = true
-    },
-
-    resetTags() {
-      this.tag_visible = false
-    },
-
     async getProducts(page) {
       let res = await this.$axios.$get(`/api/shop/products/${this.$route.params.category}${this.$route.params.sub ? `/` + this.$route.params.sub : ''}${page ? `?page=` + page : ''}`)
 
@@ -443,6 +396,14 @@ export default {
       this.total = res.meta.total
       this.per_page = res.meta.per_page
       this.current = res.meta.current_page
+
+      /*Animate*/
+      let grid_tag = document.getElementById('grid_tag')
+      grid_tag.classList.add('grid_tag_animate')
+
+      setTimeout(() => {
+        grid_tag.classList.remove('grid_tag_animate')
+      }, 1500)
 
     },
 
@@ -456,23 +417,19 @@ export default {
     },
 
     async changeHandler2(page) {
-
-      let pgn = await this.$store.getters["products/sub_products"]
-
-      if (this.flag == false) {
-        await this.$axios.$get(`${pgn.meta.path}?page=${page}`)
-          .then(res => {
-            this.items = res.data
-
-            /*let price = this.data_total.map(item => item.price)
-            this.max = Math.max.apply(Math, price)*/
-            //console.log(this.max);
-          })
-      } else {
+      if (this.flag == true) {
         this.items = await this.itemsAll[page - 1] || this.itemsAll[0]
       }
 
+      /*Animate*/
+      let grid_tag = document.getElementById('grid_tag')
+      grid_tag.classList.add('grid_tag_animate')
+
+      setTimeout(() => {
+        grid_tag.classList.remove('grid_tag_animate')
+      }, 1500)
     },
+
 
     list() {
       let lEl = document.getElementById('list')
@@ -527,8 +484,8 @@ export default {
 }
 
 #top-tools {
-  height: 30px;
-  margin-bottom: 50px !important;
+  /*height: 30px;
+  margin-bottom: 50px !important;*/
 }
 
 #filters_top {
@@ -610,9 +567,9 @@ h3 {
   display: none;
 }
 
-.show {
+/*.show {
   display: block;
-}
+}*/
 
 .hide {
   display: none;
@@ -665,31 +622,82 @@ select {
   width: 50%;
 }
 
-#badge_tag {
+.badge_tag {
   cursor: pointer;
-  background: transparent;
-  border: 1px solid #31ccc6;
+  background: rgba(255, 255, 255, 0);
+  border: 1px solid #99caff;
   border-radius: 5px;
-  color: #02aba5;
+  color: #007bff;
+  transition: all 1s ease-in-out;
 
   &:hover {
-    background: #31ccc6;
+    background: #99caff;
     color: #fff;
+    transition: all 500ms ease-in-out;
   }
+
+}
+
+.badge_tag_active {
+  /*background: linear-gradient(to top, #007bff, #99caff);*/
+  background: #4399f1;
+  border: 1px solid #99caff;
+  border-radius: 5px;
+  color: #fff;
+  opacity: 1;
+  transition: all 1s ease-in-out;
 }
 
 #badge_tag_const {
   cursor: pointer;
   background: transparent;
-  border: 1px solid #007bff;
+  border: 1px solid #28a745;
   border-radius: 5px;
-  color: #007bff;
+  color: #28a745;
 
   &:hover {
-    background: #007bff;
+    background: #28a745;
     color: #fff;
   }
 }
 
+.grid_tag_animate {
+  animation-duration: 2s;
+  animation-name: FadeInOut;
+}
+
+@keyframes FadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.test {
+  color: crimson;
+  font-weight: normal;
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 420px) {
+  .test {
+    font-size: 1.5rem;
+  }
+}
+
+#scroll_custom::-webkit-scrollbar {
+  width: 1px;
+}
+
+#scroll_custom::-webkit-scrollbar-track {
+  background-color: #8a93fe21;
+}
+
+#scroll_custom::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px rgba(63, 65, 66, 0.3);
+  border-radius: 50px;
+}
 
 </style>

@@ -68,7 +68,7 @@
                     class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
                     style="font-size: 1rem; padding-top: 10px; margin-bottom: 0%;">
                     <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
-                      <nuxt-link to="/">{{ 'Catalog' }}</nuxt-link>
+                      <nuxt-link to="/shop">{{ 'Catalog' }}</nuxt-link>
                       /
                       <nuxt-link :to="`/shop/categories/${single_product.category_id}`">{{ cat_title }}</nuxt-link>
                       <nuxt-link v-if="sub_title"

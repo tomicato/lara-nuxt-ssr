@@ -25,7 +25,10 @@
 
        </ul>
      </div>
-      <search-block class="flex-grow-0 flex-shrink-0 px-0"></search-block>
+      <div v-if="$route.name != 'cart'">
+        <search-block class="flex-grow-0 flex-shrink-0 px-0"></search-block>
+      </div>
+
 
 <!--      <template>
        <ul class="navbar-nav ml-auto">
@@ -135,12 +138,20 @@ export default {
       let el = document.querySelector('.navbar')
       let btn_search = document.querySelector('#button_search')
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      let input_search = document.getElementById('input_search')
 
       if(scrollTop > 200){
         el.style.transition = 'ease-in-out 1.5s'
         el.classList.add('fix')
+        if(this.$route.name != 'cart'){
+          input_search.style.color = '#fff';
+        }
        // btn_search.style.color = '#fff!important'
       }else{
+        if(this.$route.name != 'cart'){
+          input_search.style.color = '#000';
+        }
+
         el.style.transition = 'ease-in-out 2s'
         el.classList.remove('fix')
        // btn_search.style.color = 'rgba(0,0,0,0.4)!important'
