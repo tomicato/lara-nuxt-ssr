@@ -181,6 +181,7 @@ export default {
   axios: {
     baseURL: "https://com-helps.online",
     //baseURL: "http://lara-nuxt-ssr"
+    //'Hello Dolly',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
