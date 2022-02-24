@@ -108,7 +108,7 @@
           <!-- Card content -->
           <div class="card mb-3" style="max-width: 100%">
             <div class="row no-gutters">
-              <div class="col-md-4 zoom_img w-75 mx-auto">
+              <div class="col-md-4 zoom_img w-75 mx-auto image-block">
                 <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`" class="py-4 card-img" :alt="single_product.name" @click.prevent="openModal">
               </div>
               <div class="col-md-8">
@@ -953,7 +953,7 @@ select {
 }
 
 .card img {
-  max-width: 300px;
+  max-width: 300px!important;
 
   &:hover {
     cursor: pointer;
