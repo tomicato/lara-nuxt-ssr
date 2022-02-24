@@ -59,6 +59,8 @@
         </div>
 
         <div class="col-sm-12 col-lg-9 columns products">
+
+          <!-- Breadcrumbs  -->
           <div class="table-responsive">
             <table class="table table-borderless">
               <tbody>
@@ -78,15 +80,15 @@
                       /
                       <nuxt-link to="#">{{ single_product.name }}</nuxt-link>
                     </div>&nbsp;&nbsp;&nbsp;
-                    <!--                    <search-block class="flex-grow-0 flex-shrink-0"></search-block>-->
                   </div>
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
+          <!-- /Breadcrumbs  -->
 
-
+          <!-- Select view grid-or-list  -->
           <div v-if="flag == true" class="w-100 d-flex justify-content-between align-items-center" id="top-tools">
             <div class="d-flex justify-content-between align-items-center">
               <i class="material-icons list-icon mx-2" @click.prevent="list">view_headline</i>
@@ -101,68 +103,69 @@
               </select>
             </div>
           </div>
+          <!-- /Select view grid-or-list  -->
 
-          <!-- Start row -->
-          <div class="row show mx-auto" v-if="data_total == ''">
-            <div class="card w-100">
-              <div id="card" class="row" style="max-width: 100%;">
-
-                <div class="col-4 zoom_img">
-                  <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-                       class="card-img"
-                       :alt="single_product.name"
-                       @click.prevent="openModal">
-                </div>
-                <div class="col-8 card-body">
+          <!-- Card content -->
+          <div class="card mb-3" style="max-width: 100%">
+            <div class="row no-gutters">
+              <div class="col-md-4 zoom_img w-75 mx-auto">
+                <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`" class="py-4 card-img" :alt="single_product.name" @click.prevent="openModal">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
                   <h5 class="card-title grid-title font-weight-normal">{{ single_product.name }}</h5>
                   <hr/>
-
                   <div class="card-text d-flex justify-content-between align-items-center py-3">
 
-                    <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
+                      <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
+
                     <span class="text-muted" style="padding-left: 5px;text-decoration: line-through;"
                           v-if="single_product.old_price">
                       {{ divideNumberByPieces(single_product.old_price, ' ') }} ₽</span>
-                      <mark v-if="single_product.price">{{ divideNumberByPieces(single_product.price, ' ') }} ₽</mark>
+                        <mark v-if="single_product.price">{{ divideNumberByPieces(single_product.price, ' ') }} ₽</mark>
+                      </div>
+                      <div class="card-text d-flex justify-content-center align-items-center">
+                        <small v-if="single_product.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
+                        <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
+                      </div>
                     </div>
-                    <div class="card-text d-flex justify-content-center align-items-center">
-                      <small v-if="single_product.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
-                      <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
-                    </div>
-                  </div>
                   <div class="d-flex justify-content-between align-items-center py-5">
-                    <nuxt-link to="#" title="Leave Feedback" style="text-decoration: none">
-                      <small class="d-flex justify-content-around align-items-center">
-                        <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
-                        <span>{{ single_product.rating }}</span>
-                      </small>
-                    </nuxt-link>
+                      <nuxt-link to="#" title="Leave Feedback" style="text-decoration: none">
+                        <small class="d-flex justify-content-around align-items-center">
+                          <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
+                          <span>{{ single_product.rating }}</span>
+                        </small>
+                      </nuxt-link>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                      <small>SKU: {{ single_product.cku }}</small>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <small>SKU: {{ single_product.cku }}</small>
+                      </div>
                     </div>
-                  </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex justify-content-between align-items-center ml-auto">
-                      <button class="btn-outline-info form-control w-25" v-if="single_product_qty <= 0" disabled>-
-                      </button>
-                      <button class="btn-outline-info form-control w-25" v-else
-                              @click.prevent="minus(single_product_qty, single_product.id)">-
-                      </button>
+                      <div class="d-flex justify-content-between align-items-center ml-auto">
+                        <button class="btn-outline-info form-control w-25" v-if="single_product_qty <= 0" disabled>-
+                        </button>
+                        <button class="btn-outline-info form-control w-25" v-else
+                                @click.prevent="minus(single_product_qty, single_product.id)">-
+                        </button>
 
-                      <input type="number" class="form-control text-center mx-1" id="countAdd" min="0"
-                             :value="single_product_qty <= 0 || single_product_qty == undefined ? 0 : single_product_qty"
-                             @input.number.trim="inputQty($event.target.value, single_product_qty, single_product.id)"/>
+                        <input type="number" class="form-control text-center mx-1" id="countAdd" min="0"
+                               :value="single_product_qty <= 0 || single_product_qty == undefined ? 0 : single_product_qty"
+                               @input.number.trim="inputQty($event.target.value, single_product_qty, single_product.id)"/>
 
-                      <button class="btn-outline-success form-control w-25 mr-2"
-                              @click.prevent="plus(single_product.id)">+
-                      </button>
+                        <button class="btn-outline-success form-control w-25 mr-2"
+                                @click.prevent="plus(single_product.id)">+
+                        </button>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
+          </div>
+          <!-- /Card content -->
 
+          <!-- Start single product info -->
+          <div class="row show mx-auto" v-if="data_total == ''">
             <!-- Tab`s content -->
             <div class="row my-5 mx-auto border_horizontal w-100">
               <div class="col-sm-12 col-md-3 col-lg-3 w-100 my-3" style="z-index: 0">
@@ -193,7 +196,8 @@
 
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-column align-self-start h-100 w-100">
-                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])" :key="k">
+                        <span class="my-2" v-for="(it, k) in Object.keys(Array.from(Object.values(properties))[i])"
+                              :key="k">
                           {{ it }}
                         </span>
                         </div>
@@ -229,11 +233,11 @@
 
 
             </div>
+            <!-- End Tab`s content -->
           </div>
-          <!-- /End row -->
+          <!-- /End single product info -->
 
-
-          <!-- Search products-->
+          <!-- If search is selected  -->
           <div id="list">
             <div v-if="flag == true">
               <div class="card mb-3 show" style="max-width: 100%" v-for="(item, i) in items" :key="i">
@@ -249,6 +253,9 @@
               </div>
             </div>
           </div>
+          <!-- If search is selected  -->
+
+          <!-- Search pagination  -->
           <b-pagination
             v-if="flag == true"
             class="t-4 flx-c"
@@ -259,21 +266,21 @@
             pills
             @change="changeHandler2"
           ></b-pagination>
-          <!-- /Search products-->
+          <!-- /Search pagination  -->
         </div>
 
         <!-- Carousel -->
-             <div class="container w-100 my-4 mx-auto">
-                  <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
-                  <div class="w-75 mx-auto owl-carousel custom_one owl-theme">
-                    <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
-                    <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
-                    <div class="item w-75 mx-auto"><img src="~/assets/images/video.webp"></div>
-                    <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
-                    <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
-                    <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
-                  </div>
-                </div>
+        <div class="container w-100 my-4 mx-auto">
+          <h3 style="text-align: center; margin: 60px 0;">Similar products</h3>
+          <div class="w-75 mx-auto owl-carousel custom_one owl-theme">
+            <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/video.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/kor.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/mat.webp"></div>
+            <div class="item w-75 mx-auto"><img src="~/assets/images/cool.jpg"></div>
+          </div>
+        </div>
         <!-- /Carousel -->
 
       </div>
@@ -566,7 +573,7 @@ export default {
     },
 
     countProductInCart() {
-     // let cartBadge = document.getElementById('cart');
+      // let cartBadge = document.getElementById('cart');
       let authCartBadge = document.getElementById('authCart');
 
       if (this.totalCount == 0 && !this.$auth.user) {
@@ -783,6 +790,7 @@ export default {
     color: rgba(0, 0, 0, 0.6);
     font-style: italic;
 
+
     &:hover, &:active {
       text-decoration: unset !important;
     }
@@ -945,9 +953,7 @@ select {
 }
 
 .card img {
-  max-width: 250px;
-  padding: 10px;
-  margin: 0 auto;
+  max-width: 300px;
 
   &:hover {
     cursor: pointer;

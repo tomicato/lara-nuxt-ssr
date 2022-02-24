@@ -77,12 +77,12 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/main.css',
-    '~/assets/scss/main.scss'
   ],
 
   styleResources: {
     scss: [
       '~assets/scss/mixins.scss',
+      '~assets/scss/main.scss',
       '~assets/scss/variables.scss'
     ]
   },
@@ -108,7 +108,8 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    'nuxt-gsap-module'
+    'nuxt-gsap-module',
+    '@nuxtjs/style-resources'
   ],
   gsap: {
     extraPlugins: {
@@ -181,7 +182,7 @@ export default {
   axios: {
     baseURL: "https://com-helps.online",
     //baseURL: "http://lara-nuxt-ssr"
-    //'Hello Dolly',
+
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

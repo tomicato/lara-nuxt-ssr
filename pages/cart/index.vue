@@ -3,31 +3,24 @@
     <div class="row">
       <div class="col-md-12 col-lg-8 col-xl-9  columns">
         <h3 class="card-title font-weight-normal">Выбранные товары</h3>
-
         <hr/>
         <br/>
 
         <div class="card mb-3" id="card" style="max-width: 100%" v-if="items" v-for="(product, ind) in items"
              :key="ind">
           <div class="row">
-
             <div class="col-md-4 image-block">
               <img :src="`${$axios.defaults.baseURL}/uploads/${product.item.photo}`" class="card-img" alt="">
             </div>
 
             <div class="col-md-8">
               <div class="card-body">
-
-                <nuxt-link :to="`/shop/products/${product.item.id}`"><h5 class="card-title font-weight-normal">{{
-                    product.item.name
-                  }}</h5>
+                <nuxt-link :to="`/shop/products/${product.item.id}`"><h5 class="card-title font-weight-normal">
+                  {{ product.item.name }}</h5>
                 </nuxt-link>
                 <hr/>
-
                 <p class="card-text">{{ product.item.description }}</p>
-
                 <div class="card-text d-flex justify-content-between align-items-center py-3">
-
                   <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
                     <span class="text-muted" style="padding-left: 5px;text-decoration: line-through;"
                           v-if="product.item.old_price">
@@ -40,7 +33,6 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-
                   <div class="d-flex justify-content-between align-items-center">
                     <button class="btn-outline-info form-control w-25" v-if="product.qty <= 1" disabled>-</button>
                     <button class="btn-outline-info form-control w-25" v-else
@@ -55,12 +47,10 @@
                             @click.prevent="plus(product.qty, product.id)">+
                     </button>
                   </div>
-                  <!-- <b-icon style="cursor:pointer;" icon="trash-fill" aria-hidden="true" @click.prevent="deleteItem(product.qty, product.id)" scale="2" variant="danger"></b-icon>-->
                   <button class="form-control w-25 btn-outline-danger"
                           @click.prevent="deleteItem(product.qty, product.id)">Delete
                   </button>
                 </div>
-
                 <div class="d-flex justify-content-between align-items-center py-5">
                   <div class="">Some option</div>
                   <div class="">Rating</div>
@@ -121,10 +111,6 @@
       </div>
     </div>
     <!-- End Row -->
-
-    <!-- Addition products slider-->
-
-    <!--/ Addition products slider-->
     <hr/>
 
     <b-pagination
@@ -148,8 +134,9 @@
 import _ from "lodash";
 
 export default {
-  name: "index",
+
   components: {},
+
   head() {
     return {
       title: 'Shop | Cart',
@@ -162,6 +149,7 @@ export default {
       ],
     }
   },
+
   data() {
     return {
       val: 1,
@@ -434,13 +422,13 @@ export default {
       this.totalCount = this.totalCount - obj[0].qty
 
       this.items = this.items.filter(item => item.id != id)
-      if(this.items == 0) window.location.reload();
+      if (this.items == 0) window.location.reload();
 
       this.itemsAll = _.chunk(this.items, this.perPage)
       this.pageCount = _.size(this.itemsAll)
       this.items = this.itemsAll[this.currentPage - 1] || this.itemsAll[0]
 
-      if(this.items < this.perPage){
+      if (this.items < this.perPage) {
         this.rows--;
       }
       /*console.log(this.items);

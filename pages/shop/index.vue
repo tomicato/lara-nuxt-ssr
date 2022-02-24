@@ -6,7 +6,7 @@
       <div class="row">
 
         <div class="col-sm-12 col-lg-3 mb-4">
-          <h3 class="" style="margin-bottom: 2rem;">Categories</h3>
+          <h3 class="" style="margin-bottom: 2rem;">Categories </h3>
           <div class="columns mt-4 pt-3" style="border-top: 1px solid #00000020;">
             <categories :categories="categories" :flag="flag" ></categories>
 
