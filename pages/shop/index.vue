@@ -12,45 +12,37 @@
 
             <!-- Tags -->
             <div class="col-sidebar my-5">
-              <h3>Tags</h3>
-              <hr>
-              <div class="d-flex flex-wrap justify-content-between align-items-center py-3" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
-              <span v-for="(tag, i) in tags" :key="i"
-                    class="my-2 py-1 px-2 flex-grow-0 flex-shrink-0 badge_tag"
+              <h3>Tags</h3><hr>
+              <div class="d-flex flex-wrap justify-content-around align-items-center py-3" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
+                <span v-for="(tag, i) in tags" :key="i"
+                    class="my-2 py-1 px-2 mx-2 text-center flex-grow-1 flex-shrink-0 badge_tag"
                     @click="getProductByTag(tag.id, tag.title, $event)">
                   {{ tag.title.toLowerCase() }}
-              </span>
-              </div>
-
-              <span class="my-3 py-1 px-2"
-                    id="badge_tag_const"
-                    style="float:left;"
-                    @click="resetTags">
+                </span>
+                <span class="my-3 py-1 px-2 flex-grow-1 flex-shrink-1 text-center"
+                      id="badge_tag_const"
+                      @click="resetTags">
                     {{ 'Reset Tags' }}
-              </span>
-
+                </span>
+              </div>
             </div>
             <!-- /Tags -->
 
             <!-- Additional -->
             <div class="col-sidebar my-5">
-              <h3>Additional</h3>
-              <hr>
-              <div class="d-flex flex-wrap justify-content-between align-items-center py-3" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
-              <span v-for="(item, i) in additional" :key="i"
-                    class="my-2 py-1 px-2 flex-grow-0 flex-shrink-0 badge_adds"
-                    @click="getAdditionalProducts(item.id, item.name, $event)">
-                  {{ item.name }}
-              </span>
+              <h3>Additional</h3><hr>
+              <div class="d-flex flex-wrap justify-content-around align-items-center py-3" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
+                <span v-for="(item, i) in additional" :key="i"
+                      class="my-2 py-1 px-2 mx-2 flex-grow-1 flex-shrink-0 badge_adds text-center"
+                      @click="getAdditionalProducts(item.id, item.name, $event)">
+                    {{ item.name }}
+                </span>
+                <span class="my-3 py-1 px-2 flex-grow-1 flex-shrink-1 text-center"
+                        id="adds_reset"
+                        @click="resetAdds">
+                      {{ 'Reset selected' }}
+                </span>
               </div>
-
-              <span class="my-3 py-1 px-2"
-                    id="adds_reset"
-                    style="float:left;"
-                    @click="resetAdds">
-                    {{ 'Reset selected' }}
-              </span>
-
             </div>
             <!-- /Additional -->
           </div>
@@ -58,19 +50,17 @@
         </div>
 
         <div class="col-sm-12 col-lg-9 columns main_shop" id="grid_tag" style="margin-top: -1.5em;">
-<!--          <search-block :name="name_main_content"></search-block>-->
-<!--          <hr/>
-          <br/>-->
           <!-- Top Items -->
           <div class="w-100 d-flex justify-content-between align-items-center" style="height: 90px;">
+
             <div class="">
               <i class="material-icons list-icon " @click.prevent="list">view_headline</i>
               <i class="material-icons grid-icon ml-1" @click.prevent="grid">apps</i>
-            </div>
+          </div>
 
             <h1 id="test" class="test"><span></span></h1>
             <div>
-              <select>
+              <select class="form-control px-1 py-1" style="height: unset;">
                 <option value="" selected>Order by</option>
                 <option value="">Price ASC</option>
                 <option value="">Price DESC</option>
@@ -696,13 +686,17 @@ h3 {
   font-weight: normal;
   font-size: 2rem;
 }
-@media screen and (max-width: 420px){
+/*@media screen and (max-width: 420px){
   .test{
     font-size: 1.5rem;
   }
+}*/
+
+@include _480{
+  #test{
+    font-size: 1rem;
+  }
 }
-
-
 </style>
 
 
