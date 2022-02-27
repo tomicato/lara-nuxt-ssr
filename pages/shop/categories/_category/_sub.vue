@@ -22,7 +22,7 @@
 
         <div class="col-sm-12 col-lg-9 columns products" id="grid_tag" style="">
           <!--Top breacrumbs & additional tool -->
-          <div class="d-flex justify-content-between align-items-start" style="height: 90px;">
+          <div class="d-flex justify-content-between align-items-start" style="height: 90px;" id="bread_add_block">
 
             <div class="d-flex justify-content-start align-items-center">
               <i class="material-icons list-icon" @click.prevent="list">view_headline</i>
@@ -698,6 +698,15 @@ select {
 #scroll_custom::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 6px rgba(63, 65, 66, 0.3);
   border-radius: 50px;
+}
+
+#bread_add_block {
+  @include _768{
+    display: flex;
+    flex-direction: column;
+    height: 190px!important;
+    padding: 10px 0;
+  }
 }
 
 </style>
