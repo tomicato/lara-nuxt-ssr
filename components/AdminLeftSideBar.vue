@@ -46,7 +46,7 @@ export default {
   name: "AdminLeftSideBar",
   computed: {
     userRole() {
-      let user = this.$auth.user ? this.$auth.user : null;
+      let user = this.$auth.loggedIn == true ? this.$auth.user : null;
       let role = user && user.is_admin == '1' ? 'Admin' : 'Guest';
       return role
     }

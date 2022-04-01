@@ -68,7 +68,8 @@
 
           <ul class="navbar-nav" v-else>
             <li class="nav-item">
-              <nuxt-link to="/profile" class="nav-link">{{ userRole == 'Admin' ? userRole : user.name }}</nuxt-link>
+             <a v-if="userRole == 'Admin'" :href="`${$axios.defaults.baseURL}/admin`" class="nav-link">{{ userRole }}</a>
+             <nuxt-link v-else to="/profile" class="nav-link">{{ user.name }}</nuxt-link>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link" @click.prevent="logout">{{ 'Logout' }}</a>

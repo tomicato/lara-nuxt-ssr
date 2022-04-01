@@ -6,7 +6,18 @@
         <hr/>
         <br/>
 
-        <div class="card mb-3" id="card" style="max-width: 100%" v-if="items" v-for="(product, ind) in items"
+        <!-- Test  -->
+        <!--          <ul class="list-group">
+            <li class="list-group-item"
+                v-for="(item, i) in numbers"
+                @click="onDouble(i)"
+            >
+              {{ i }} | {{ item }}
+            </li>
+          </ul>-->
+        <!-- /Test  -->
+
+        <div class="card mb-5" id="card" style="max-width: 100%" v-if="items" v-for="(product, ind) in items"
              :key="ind">
           <div class="row">
             <div class="col-md-4 image-block">
@@ -19,7 +30,7 @@
                   {{ product.item.name }}</h5>
                 </nuxt-link>
                 <hr/>
-                <p class="card-text">{{ product.item.description }}</p>
+                <!--                <p class="card-text">{{ product.item.description }}</p>-->
                 <div class="card-text d-flex justify-content-between align-items-center py-3">
                   <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
                     <span class="text-muted" style="padding-left: 5px;text-decoration: line-through;"
@@ -61,6 +72,45 @@
           </div>
         </div>
 
+        <template>
+          <div v-if="visible == true" class="show">
+            <ValidationObserver v-slot="{ valid }">
+              <form class="w-50 m-auto mt-5" @submit.prevent="doAction()">
+                <label for="shipping_name" class="form-group w-100">Full name *
+                  <ValidationProvider rules="alpha_spaces" v-slot="{ errors }">
+                    <input type="text" name="" id="shipping_name" v-model="shipping_name" class="mt-2 form-control">
+                    <span>{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </label>
+                <label for="shipping_email" class="form-group w-100">Email *
+                  <ValidationProvider rules="email" v-slot="{ errors }">
+                    <input type="email" name="" id="shipping_email" v-model="shipping_email" class="mt-2 form-control">
+                    <span>{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </label>
+                <label for="shipping_address" class="form-group w-100">Address *
+                  <ValidationProvider rules="required" v-slot="{ errors }">
+                    <input type="text" name="" id="shipping_address" v-model="shipping_address"
+                           class="mt-2 form-control">
+                    <span>{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </label>
+                <label for="shipping_phone" class="form-group w-100">Phone *
+                  <!--                <ValidationProvider rules="required|numeric|max:11" v-slot="{ errors }">-->
+                  <ValidationProvider :rules="{ required: true, regex: /^\+\d{11}$/ }" v-slot="{ errors }">
+                    <input type="text" name="" id="shipping_phone" v-model="shipping_phone" placeholder="+79138634398"
+                           class="mt-2 form-control">
+                    <span>{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </label>
+                <button type="submit" id="ordering" class="btn btn-outline-secondary show" v-if="valid">
+                  Продолжить оформление
+                </button>
+              </form>
+            </ValidationObserver>
+          </div>
+        </template>
+
       </div>
 
       <!--Checkout-->
@@ -98,7 +148,7 @@
                       class="d-flex justify-content-center align-items-center w-100 mt-3 mb-4">Checkout
             </b-button>
             <div class="w-100 m-auto mb-5">
-              <div id="smart-button-container">
+              <div id="smart-button-container" class="show">
                 <div style="" id="paypal-button-container"></div>
               </div>
             </div>
@@ -132,10 +182,15 @@
 
 <script>
 import _ from "lodash";
+import {ValidationProvider} from "vee-validate";
+import {ValidationObserver} from "vee-validate";
 
 export default {
 
-  components: {},
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
 
   head() {
     return {
@@ -152,6 +207,8 @@ export default {
 
   data() {
     return {
+      //numbers: [1.5, 2.5],
+      visible: false,
       val: 1,
       items: [],
       products: [],
@@ -171,6 +228,13 @@ export default {
       arrTotal: [],
       cartToServer: [],
       baseurl: '',
+
+      /* Shipping data*/
+      shipping_name: this.$auth.loggedIn == true ? this.$auth.user.name : '',
+      shipping_email: this.$auth.loggedIn == true ? this.$auth.user.email : '',
+      shipping_address: '',
+      shipping_phone: '',
+      shipping_phone2: ''
     }
   },
 
@@ -239,12 +303,13 @@ export default {
   },
 
   methods: {
-
-    checkoutOrder() {
+    doAction(){
       let elm = document.getElementById('paypal-button-container')
+      let ordering = document.getElementById('ordering')
+      ordering.style.display = 'none'
       let cl_btn = document.querySelector('.clear')
       cl_btn.classList.add('clear_cart')
-      //  && paypal
+
       if (elm.firstChild == null) {
         this.loadPaypalButton()
         elm.style.height = '80px'
@@ -253,6 +318,17 @@ export default {
         elm.style.height = 'unset!important'
         elm.style.margin = 'unset!important'
       }
+
+
+    },
+    onDouble(i) {
+      //console.log(i);
+      //this.numbers[i] *= 2 // vue 3.*
+      //this.$set(this.numbers, i, this.numbers[i] * 2) // vue 2.*
+    },
+    checkoutOrder() {
+      this.visible = true
+      //  && paypal
     },
 
     recalculateCart() {
@@ -278,9 +354,10 @@ export default {
 
     loadPaypalButton() {
       let vm = this;
+      //console.log(this.shipping_name);
       return paypal.Buttons({
         createOrder: async function () {
-          return await fetch('https://com-helps.online/api/paypal/create-paypal-transaction', {
+          return await fetch('http://lara-nuxt-ssr/api/paypal/create-paypal-transaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
@@ -298,14 +375,19 @@ export default {
           });
         },
         onApprove: async function (data) {
-          console.log(data);
-          return await fetch('https://com-helps.online/api/paypal/capture-paypal-transaction', {
+          //console.log(vm.$auth.user.id);
+          return await fetch('http://lara-nuxt-ssr/api/paypal/capture-paypal-transaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify({
               orderID: data.orderID,
+              shipping_name: vm.shipping_name,
+              shipping_email: vm.shipping_email,
+              shipping_address: vm.shipping_address,
+              shipping_phone: vm.shipping_phone,
+              user_id: vm.$auth.loggedIn == true ? vm.$auth.user.id : '',
               quantity: vm.productsCount,
             })
           }).then((res) => {
@@ -453,6 +535,11 @@ export default {
       this.totalSum = 0
       this.countProductInCart()
       this.products = []
+      this.shipping_name = ''
+      this.shipping_email = ''
+      this.shipping_address = ''
+      this.shipping_phone = ''
+      await this.$router.push('/shop')
     },
 
   },

@@ -181,7 +181,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: "https://com-helps.online",
-    //baseURL: "http://lara-nuxt-ssr"
+   // baseURL: "http://lara-nuxt-ssr"
 
   },
 

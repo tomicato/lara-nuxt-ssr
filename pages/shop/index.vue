@@ -34,7 +34,7 @@
               <div class="d-flex flex-wrap justify-content-around align-items-center py-3" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
                 <span v-for="(item, i) in additional" :key="i"
                       class="my-2 py-1 px-2 mx-2 flex-grow-1 flex-shrink-0 badge_adds text-center"
-                      @click="getAdditionalProducts(item.id, item.name, $event)">
+                      @click="getAdditionalProducts(item.id, item.name, item.description, $event)">
                     {{ item.name }}
                 </span>
                 <span class="my-3 py-1 px-2 flex-grow-1 flex-shrink-1 text-center"
@@ -277,6 +277,8 @@ export default {
     let tags = await ctx.$axios.$get(`/api/shop/tags`);
     let additional = await ctx.$axios.$get(`/api/shop/additional`);
 
+    console.log(additional);
+
     let arr = data.data
     let tmp = []
     for (const el of arr) {
@@ -318,7 +320,7 @@ export default {
 
   methods: {
 
-    async getAdditionalProducts(id, name, e){
+    async getAdditionalProducts(id, name, description, e){
       //this.additional_products = this.additional.filter(item => item.id == id)
       let adds_products = await this.$axios.$post(`/api/shop/additional/${id}`)
       this.additional_products = adds_products.data
@@ -344,7 +346,7 @@ export default {
       this.$gsap.to("#test", {
         duration: 2,
         text: {
-          value: name + ' products',
+          value: name + ' ' + description,
         },
         ease: "power2"
       });
