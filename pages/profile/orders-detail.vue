@@ -38,7 +38,7 @@ export default {
     }
   },
   mounted() {
-    let order_details = this.$axios.$post(`${$axios.defaults.baseURL}/api/shop/order-details/${this.$auth.user.id}`)
+    let order_details = this.$axios.$post(`https://com-helps.online/api/shop/order-details/${this.$auth.user.id}`)
         .then(res => {
           this.data = res.data
         })
