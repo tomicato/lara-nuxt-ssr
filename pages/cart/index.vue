@@ -364,7 +364,7 @@ export default {
       //console.log(this.shipping_name);
       return paypal.Buttons({
         createOrder: async function () {
-          return await fetch('https://com-helps.online/api/paypal/create-paypal-transaction', {
+          return await fetch('http://lara-nuxt-ssr/api/paypal/create-paypal-transaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
@@ -381,7 +381,7 @@ export default {
         },
         onApprove: async function (data) {
           //console.log(vm.$auth.user.id);
-          return await fetch('https://com-helps.online/api/paypal/capture-paypal-transaction', {
+          return await fetch('http://lara-nuxt-ssr/api/paypal/capture-paypal-transaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
