@@ -63,9 +63,6 @@
                   </button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center py-5">
-                  <div class="">Some option</div>
-                  <div class="">Rating</div>
-                  <div class="">Another option</div>
                 </div>
               </div>
             </div>
@@ -75,21 +72,21 @@
         <template>
           <div v-if="visible == true" class="show">
             <ValidationObserver v-slot="{ valid }">
-              <form class="w-50 m-auto mt-5" @submit.prevent="doAction()">
-                <label for="shipping_name" class="form-group w-100">Full name *
-                  <ValidationProvider rules="alpha_spaces" v-slot="{ errors }">
-                    <input type="text" name="" id="shipping_name" v-model="shipping_name" class="mt-2 form-control">
+              <form class="m-auto mt-5" @submit.prevent="doAction()" id="delivery_form">
+                <label for="shipping_name" class="form-group w-100" v-if="$auth.loggedIn == false">Full name *
+                  <ValidationProvider v-if="$auth.loggedIn == false" :rules="{required: true, alpha_spaces: true}" v-slot="{ errors }">
+                    <input type="text" id="shipping_name" required v-model="shipping_name" class="mt-2 form-control">
                     <span>{{ errors[0] }}</span>
                   </ValidationProvider>
                 </label>
-                <label for="shipping_email" class="form-group w-100">Email *
-                  <ValidationProvider rules="email" v-slot="{ errors }">
-                    <input type="email" name="" id="shipping_email" v-model="shipping_email" class="mt-2 form-control">
+                <label for="shipping_email" class="form-group w-100" v-if="$auth.loggedIn == false" >Email *
+                  <ValidationProvider :rules="{required: true, email: true}" v-slot="{ errors }">
+                    <input type="email" id="shipping_email" v-model="shipping_email" class="mt-2 form-control">
                     <span>{{ errors[0] }}</span>
                   </ValidationProvider>
                 </label>
                 <label for="shipping_address" class="form-group w-100">Address *
-                  <ValidationProvider rules="required" v-slot="{ errors }">
+                  <ValidationProvider :rules="{required: true}" v-slot="{ errors }">
                     <input type="text" name="" id="shipping_address" v-model="shipping_address"
                            class="mt-2 form-control">
                     <span>{{ errors[0] }}</span>
@@ -103,6 +100,7 @@
                     <span>{{ errors[0] }}</span>
                   </ValidationProvider>
                 </label>
+
                 <button type="submit" id="ordering" class="btn btn-outline-secondary show" v-if="valid">
                   Продолжить оформление
                 </button>
@@ -234,7 +232,9 @@ export default {
       shipping_email: this.$auth.loggedIn == true ? this.$auth.user.email : '',
       shipping_address: '',
       shipping_phone: '',
-      shipping_phone2: ''
+      create_time: '',
+      order_id: '',
+
     }
   },
 
@@ -342,9 +342,16 @@ export default {
       for (let i = 0; i < arr.length; i++) {
         let obj2 = {
           name: arr[i].item.name,
+          product_id: arr[i].item.id,
           sku: arr[i].item.cku,
+          photo: arr[i].item.photo,
           quantity: arr[i].qty,
           price: arr[i].item.price,
+          user_id: this.$auth.loggedIn == true ? this.$auth.user.id : '',
+          full_name: this.shipping_name,
+          email: this.shipping_email,
+          address: this.shipping_address,
+          phone: this.shipping_phone,
         }
         tmpCartServer.push(obj2)
       }
@@ -367,10 +374,8 @@ export default {
               sum: vm.totalSum,
             })
           }).then(function (res) {
-            //console.log(res);
             return res.json();
           }).then(function (data) {
-            // console.log(data.result.id);
             return data.result.id; // Use the key sent by your server's response, ex. 'id' or 'token'
           });
         },
@@ -389,6 +394,7 @@ export default {
               shipping_phone: vm.shipping_phone,
               user_id: vm.$auth.loggedIn == true ? vm.$auth.user.id : '',
               quantity: vm.productsCount,
+              cartToServer: vm.recalculateCart(),
             })
           }).then((res) => {
             vm.clearCart()
@@ -548,6 +554,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 #countAdd {
   iframe {
     display: block !important;
@@ -636,5 +643,13 @@ export default {
 
 .clear_cart {
   margin: 90px 0 20px 0;
+}
+#delivery_form{
+  width: 50%;
+}
+@media screen and (max-width: 768px){
+  #delivery_form{
+    width: 100%;
+  }
 }
 </style>

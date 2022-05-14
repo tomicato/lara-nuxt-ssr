@@ -30,6 +30,9 @@
                 <b-nav-item active to="/profile">Profile</b-nav-item>
                 <b-nav-item to="#">Orders</b-nav-item>
                 <b-nav-item to="/topics/create">Topic create</b-nav-item>
+                <b-nav-item to="/profile/feedback">Reviews</b-nav-item>
+
+
               </b-nav>
 
           </nav>
@@ -42,8 +45,11 @@
 </template>
 
 <script>
+
+
 export default {
   name: "AdminLeftSideBar",
+
   computed: {
     userRole() {
       let user = this.$auth.loggedIn == true ? this.$auth.user : null;
@@ -51,6 +57,11 @@ export default {
       return role
     }
   },
+  methods: {
+    goReviews(){
+      this.$router.push('/profile/')
+    }
+  }
 }
 </script>
 

@@ -277,7 +277,7 @@ export default {
     let tags = await ctx.$axios.$get(`/api/shop/tags`);
     let additional = await ctx.$axios.$get(`/api/shop/additional`);
 
-    console.log(additional);
+    //console.log(additional);
 
     let arr = data.data
     let tmp = []
@@ -464,7 +464,7 @@ export default {
 
     async changeHandlerAdds(page){
       let products = await this.$axios.$post(`/api/shop/additional/${this.adds_id}${page ? `?page=` + page : ''}`);
-      console.log(products);
+      //console.log(products);
       let grid_tag = document.getElementById('grid_tag')
       grid_tag.classList.add('grid_tag_animate')
 

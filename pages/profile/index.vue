@@ -1,16 +1,30 @@
 <template>
-  <div class="mt-5 container" id="main">
-    <div class="row">
-      <div class="col-3 text-center">
-        <h5>Sidebar</h5><hr/><br/>
-        <AdminLeftSideBar/>
-      </div>
-      <div class="col-9 text-center">
-        <h5>_user`s Dashboard</h5><hr/><br/>
+  <div class="d-flex flex-column justify-content-between vh-100">
+    <div class="mt-5 container" id="main">
+      <div class="row my-5">
+        <div class="col-md-3 mb-5">
+          <h3>Sidebar</h3><hr/><br/>
+          <div class="d-flex flex-column justify-content-between" id="left_menu">
+            <nuxt-link to="/profile">Profile</nuxt-link>
+            <nuxt-link to="/profile/orders-detail">Orders</nuxt-link>
+            <nuxt-link to="/profile/feedback">Reviews</nuxt-link>
+            <nuxt-link to="#">Some Link</nuxt-link>
+            <nuxt-link to="#">Some Link</nuxt-link>
+            <nuxt-link to="#">Settings</nuxt-link>
+          </div>
+
+        </div>
+        <div class="col-md-9 mb-5">
+          <h3 class="mb-5 text-center">{{ $auth.user.name }} Personal Area</h3><hr/><br/>
+          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci atque consectetur deleniti dignissimos
+            dolore eligendi error ipsa iure magnam natus officiis perferendis provident quia recusandae, repudiandae sed
+            similique tempore, voluptate.
+          </div>
+        </div>
       </div>
     </div>
+    <footer-bottom></footer-bottom>
   </div>
-
 </template>
 
 
@@ -52,12 +66,12 @@
 
 
 <script>
-  import AdminLeftSideBar from "@/components/AdminLeftSideBar";
+import FooterBottom from "../../components/FooterBottom";
 export default {
   name: "profile",
   middleware: ['auth'],
   components:{
-    AdminLeftSideBar
+    FooterBottom
   },
 
   data() {
@@ -82,8 +96,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #main {
   max-width: 1280px;
+}
+#left_menu{
+border-right: 1px solid #ccc;
+  a {
+    margin: 10px 0;
+    text-transform: uppercase;
+    &:hover{
+      text-decoration: none;
+    }
+  }
 }
 </style>
