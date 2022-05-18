@@ -205,15 +205,16 @@ export default {
 
   data() {
     return {
-      //numbers: [1.5, 2.5],
       visible: false,
       val: 1,
-      items: [],
+
       products: [],
       cart: [],
       keys: [],
       countProduct: 4,
 
+      /*Paginate lodash*/
+      items: [],
       currentPage: 1,
       perPage: 3,
       pageCount: 1,
@@ -234,7 +235,6 @@ export default {
       shipping_phone: '',
       create_time: '',
       order_id: '',
-
     }
   },
 
@@ -328,7 +328,6 @@ export default {
     },
     checkoutOrder() {
       this.visible = true
-      //  && paypal
     },
 
     recalculateCart() {
@@ -340,6 +339,7 @@ export default {
 
       let tmpCartServer = [];
       for (let i = 0; i < arr.length; i++) {
+
         let obj2 = {
           name: arr[i].item.name,
           product_id: arr[i].item.id,
@@ -364,7 +364,7 @@ export default {
       //console.log(this.shipping_name);
       return paypal.Buttons({
         createOrder: async function () {
-          return await fetch('https://com-helps.online/api/paypal/create-paypal-transaction', {
+          return await fetch(`${vm.$axios.defaults.baseURL}/api/paypal/create-paypal-transaction`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
@@ -381,7 +381,8 @@ export default {
         },
         onApprove: async function (data) {
           //console.log(vm.$auth.user.id);
-          return await fetch('https://com-helps.online/api/paypal/capture-paypal-transaction', {
+
+          return await fetch(`${vm.$axios.defaults.baseURL}/api/paypal/capture-paypal-transaction`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
@@ -498,10 +499,6 @@ export default {
     },
 
     deleteItem(qty, id) {
-      // console.log(this.arrTotal);
-      // console.log(id + " " + qty)
-      //console.log(this.currentPage)
-
       let obj = this.arrTotal.filter(item => item.id == id)
       let sum = obj[0].qty * obj[0].item.price
 
@@ -519,18 +516,12 @@ export default {
       if (this.items < this.perPage) {
         this.rows--;
       }
-      /*console.log(this.items);
-      console.log(this.itemsAll);
-      console.log(this.pageCount + "  " + this.currentPage);*/
       localStorage.removeItem('cartP-' + id)
       this.countProductInCart()
 
       if (!this.totalCount) {
         this.products = []
       }
-
-
-      // console.log(this.items)
     },
 
     async clearCart() {

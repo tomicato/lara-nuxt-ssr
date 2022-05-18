@@ -29,19 +29,22 @@
                      points="751,0.8 771.5,42.3 817.2,49 784.1,81.2 791.9,126.8 751,105.3 710.1,126.8 717.9,81.2 684.8,49 730.6,42.3 "/>
         </svg>
         </div>
-        <div class="form-group">
-          <label for="first_name"> {{ 'Your name' }}</label>
-          <input type="text" class="form-control" id="first_name" v-model="first_name">
-        </div>
-        <div class="form-group">
-          <label for="email"> {{ 'Your E-mail' }}</label>
-          <input type="email" class="form-control" id="email" v-model="email">
-        </div>
+
+       <div v-if="$route.path == '/profile/feedback'">
+         <div class="form-group" >
+           <label for="first_name"> {{ 'Your name' }}</label>
+           <input type="text" class="form-control" id="first_name" v-model="first_name">
+         </div>
+         <div class="form-group">
+           <label for="email"> {{ 'Your E-mail' }}</label>
+           <input type="email" class="form-control" id="email" v-model="email">
+         </div>
+       </div>
         <div class="form-group mb-5">
           <label for="content" class="text-left"> {{ 'Review' }}</label>
           <textarea id="content" cols="30" rows="10" class="form-control" v-model="content"></textarea>
         </div>
-        <button class="btn btn-outline-primary my-3" id="sendForm" type="button" @click="submitForm">Give feedback</button>
+        <button class="btn btn-outline-primary my-3" id="sendForm" type="button" @click="submitForm">Leave review</button>
       </form>
     </div>
   </div>
@@ -49,6 +52,11 @@
 
 <script>
 export default {
+  props: {
+    product_id: {
+      type: Number,
+    },
+  },
   data() {
     return {
       send: false,
@@ -72,30 +80,36 @@ export default {
           stars[j].classList.remove('gold')
           this.rating = 0
         }
+      }
 
-      }
       for (let i = 0; i <= ind; i++) {
-        stars[i].classList.add('gold')
-        this.rating = i + 1
+          stars[i].classList.add('gold')
+          this.rating = i + 1
       }
+
+
 
     },
     async submitForm(e) {
+      console.log(this.product_id);
     //  sendForm.removeAttribute('disabled')
       const stars = document.querySelectorAll('#stars polygon');
       let data = new FormData();
-      data.append('name', this.first_name)
-      data.append('email', this.email)
-      data.append('content', this.content)
+      data.append('user_id', this.$auth.user.id)
+      data.append('product_id', this.product_id)
+      data.append('name', this.$auth.user.name)
+      data.append('email', this.$auth.user.email)
+      data.append('review_content', this.content)
       data.append('rating', this.rating)
 
 
-      if(this.rating != 0 && this.first_name != '' && this.email != '' && this.content != ''){
-        await this.$axios.post('https://com-helps.online/api/shop/details', data)
+      if(this.rating != 0 && this.content != ''){
+        await this.$axios.post(`${this.$axios.defaults.baseURL}/api/shop/feedback/product-feedback`, data)
             .then(res => {
               console.log(res);
-              this.first_name = ''
-              this.email = ''
+              this.$router.push('/profile/orders-detail')
+             // this.first_name = ''
+             // this.email = ''
               this.content = ''
               for (let j = 0; j < stars.length; j++) {
                 stars[j].classList.remove('gold')

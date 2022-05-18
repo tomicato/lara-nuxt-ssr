@@ -12,7 +12,7 @@
             <nuxt-link to="/profile/feedback">Reviews</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
-            <nuxt-link to="#">Settings</nuxt-link>
+            <nuxt-link to="/profile/settings">Settings</nuxt-link>
           </div>
         </div>
         <div class="col-md-9 mb-5">
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import Reviews from "../../components/Reviews";
-import FooterBottom from "../../components/FooterBottom";
+import Reviews from "../../../components/Reviews";
+import FooterBottom from "../../../components/FooterBottom";
 
 export default {
   middleware: ['auth'],

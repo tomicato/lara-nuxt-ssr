@@ -10,7 +10,7 @@
             <nuxt-link to="/profile/feedback">Reviews</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
-            <nuxt-link to="#">Settings</nuxt-link>
+            <nuxt-link to="/profile/settings">Settings</nuxt-link>
           </div>
 
         </div>

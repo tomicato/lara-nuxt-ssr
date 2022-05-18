@@ -21,11 +21,11 @@ export default {
         href:
           "https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
       },
-      {
+    {
         rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/icon?family=Material+Icons"
-      },
+            href:
+        "https://fonts.googleapis.com/icon?family=Material+Icons"
+    },
       {
         rel: "stylesheet",
         href:

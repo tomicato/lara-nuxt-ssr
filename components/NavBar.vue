@@ -69,7 +69,11 @@
           <ul class="navbar-nav" v-else>
             <li class="nav-item">
              <a v-if="userRole == 'Admin'" :href="`${$axios.defaults.baseURL}/admin`" class="nav-link">{{ userRole }}</a>
-             <nuxt-link v-else to="/profile" class="nav-link">{{ user.name }}</nuxt-link>
+
+              <nuxt-link v-else to="/profile" class="nav-link">
+                <img :src="avatar_img ? avatar_img : `#`" class="img-fluid rounded-circle" width="30" alt="">
+                {{ user.name }}
+              </nuxt-link>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link" @click.prevent="logout">{{ 'Logout' }}</a>
@@ -95,6 +99,7 @@ export default {
   },
   data() {
     return {
+      avatar_img: '',
       cart: 0,
      // user: {}
     }
@@ -119,6 +124,15 @@ export default {
     } catch (e) {
       throw e
     }
+    if(this.$auth.user !== null){
+      let avatar = this.$auth.user.avatar !== null ?
+          `${this.$axios.defaults.baseURL}/uploads/profile/${this.$auth.user.avatar}` :
+          `${this.$axios.defaults.baseURL}/uploads/profile/avatar.jpg`
+      this.avatar_img = avatar
+    }
+
+
+
   },
 
   computed: {
