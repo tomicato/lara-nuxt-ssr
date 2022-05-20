@@ -25,8 +25,8 @@
         </div>
 
         <img
-          :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
-          style="max-width: 45%;" class="img-fluid main_modal_photo" :alt="single_product.name">
+            :src="preview ? `${$axios.defaults.baseURL}/gallery/${preview}` : `${$axios.defaults.baseURL}/uploads/${single_product.photo}`"
+            style="max-width: 45%;" class="img-fluid main_modal_photo" :alt="single_product.name">
 
         <div class="flex flex-column justify-content-around align-items-center d-none d-md-flex">
           <div v-for="(image, i) in gallery" :key="i" class=" d-flex justify-content-center align-items-center"
@@ -53,11 +53,13 @@
 
     <div class="container" id="main">
       <div class="row">
+        <!--Left sidebar -->
         <div class="col-sm-12 col-lg-3 columns">
           <h3 class="mb-4" style=" border-bottom:1px solid rgba(0,0,0,0.1); padding: 20px 0">Categories</h3>
           <categories :categories="categories" :flag="flag"></categories>
         </div>
 
+        <!-- Product`s properties -->
         <div class="col-sm-12 col-lg-9 columns products">
 
           <!-- Breadcrumbs  -->
@@ -67,8 +69,8 @@
               <tr>
                 <td>
                   <div
-                    class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
-                    style="font-size: 1rem; padding-top: 10px; margin-bottom: 0%;">
+                      class="d-flex flex-sm-column flex-column flex-row flex-md-row justify-content-end flex-lg-row align-items-center"
+                      style="font-size: 1rem; padding-top: 10px; margin-bottom: 0%;">
                     <div id="breadcrumbs" class="flex-grow-0 flex-shrink-0">
                       <nuxt-link to="/shop">{{ 'Catalog' }}</nuxt-link>
                       /
@@ -109,7 +111,8 @@
           <div class="card mb-3" style="max-width: 100%">
             <div class="row no-gutters">
               <div class="col-md-4 zoom_img w-75 mx-auto image-block">
-                <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`" class="py-4 card-img" :alt="single_product.name" @click.prevent="openModal">
+                <img :src="`${$axios.defaults.baseURL}/uploads/${single_product.photo}`" class="py-4 card-img"
+                     :alt="single_product.name" @click.prevent="openModal">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -117,47 +120,67 @@
                   <hr/>
                   <div class="card-text d-flex justify-content-between align-items-center py-3">
 
-                      <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
+                    <div class="font-weight-bold text-danger d-flex flex-column justify-content-center">
 
                     <span class="text-muted" style="padding-left: 5px;text-decoration: line-through;"
                           v-if="single_product.old_price">
                       {{ divideNumberByPieces(single_product.old_price, ' ') }} ₽</span>
-                        <mark v-if="single_product.price">{{ divideNumberByPieces(single_product.price, ' ') }} ₽</mark>
-                      </div>
-                      <div class="card-text d-flex justify-content-center align-items-center">
-                        <small v-if="single_product.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
-                        <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
-                      </div>
+                      <mark v-if="single_product.price">{{ divideNumberByPieces(single_product.price, ' ') }} ₽</mark>
                     </div>
+                    <div class="card-text d-flex justify-content-center align-items-center">
+                      <small v-if="single_product.on_stock == 1" class="badge badge-primary ">{{ 'In stock' }}</small>
+                      <small v-else class="badge badge-info ">{{ 'Absent' }}</small>
+                    </div>
+                  </div>
                   <div class="d-flex justify-content-between align-items-center py-5">
-                      <nuxt-link to="#" title="Leave Feedback" style="text-decoration: none">
-                        <small class="d-flex justify-content-around align-items-center">
-                          <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
-                          <span>{{ single_product.rating }}</span>
-                        </small>
-                      </nuxt-link>
+                    <div title="Leave Feedback" style="text-decoration: none">
+                      <small class="d-flex justify-content-around align-items-center">
+                        <!--  <i class="material-icons" style="color: #DC143CFF">star_rate</i>&nbsp;
+                       <span>{{ single_product.rating }}</span>-->
+                        <div class="" style="width: 100px">
+                          <svg version="1.1" id="stars" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 818 127.5" xml:space="preserve">
+                                <style type="text/css">
+                                        .st0 {
+                                          fill: none;
+                                          stroke: #e90808;
+                                          stroke-width: 2.5;
+                                          stroke-miterlimit: 10;
+                                          fill: #fff;
+                                        }
+                                </style>
+                            <polygon  points="67,0.8 87.5,42.3 133.2,49 100.1,81.2 107.9,126.8 67,105.3 26.1,126.8 33.9,81.2 0.8,49 46.6,42.3 " :class="`${1 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="238,0.8 258.5,42.3 304.2,49 271.1,81.2 278.9,126.8 238,105.3 197.1,126.8 204.9,81.2 171.8,49 217.6,42.3 " :class="`${2 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="409,0.8 429.5,42.3 475.2,49 442.1,81.2 449.9,126.8 409,105.3 368.1,126.8 375.9,81.2 342.8,49 388.6,42.3 " :class="`${3 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="580,0.8 600.5,42.3 646.2,49 613.1,81.2 620.9,126.8 580,105.3 539.1,126.8 546.9,81.2 513.8,49 559.6,42.3 " :class="`${4 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="751,0.8 771.5,42.3 817.2,49 784.1,81.2 791.9,126.8 751,105.3 710.1,126.8 717.9,81.2 684.8,49 730.6,42.3 " :class="`${5 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            </svg>
 
-                      <div class="d-flex justify-content-between align-items-center">
-                        <small>SKU: {{ single_product.cku }}</small>
-                      </div>
+                        </div>
+                        <div class="ml-5 font-weight-normal">{{ single_product.rating != '' ? count_feeds : '' }}</div>
+                      </small>
                     </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small>SKU: {{ single_product.cku }}</small>
+                    </div>
+                  </div>
                   <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex justify-content-between align-items-center ml-auto">
-                        <button class="btn-outline-info form-control w-25" v-if="single_product_qty <= 0" disabled>-
-                        </button>
-                        <button class="btn-outline-info form-control w-25" v-else
-                                @click.prevent="minus(single_product_qty, single_product.id)">-
-                        </button>
+                    <div class="d-flex justify-content-between align-items-center ml-auto">
+                      <button class="btn-outline-info form-control w-25" v-if="single_product_qty <= 0" disabled>-
+                      </button>
+                      <button class="btn-outline-info form-control w-25" v-else
+                              @click.prevent="minus(single_product_qty, single_product.id)">-
+                      </button>
 
-                        <input type="number" class="form-control text-center mx-1" id="countAdd" min="0"
-                               :value="single_product_qty <= 0 || single_product_qty == undefined ? 0 : single_product_qty"
-                               @input.number.trim="inputQty($event.target.value, single_product_qty, single_product.id)"/>
+                      <input type="number" class="form-control text-center mx-1" id="countAdd" min="0"
+                             :value="single_product_qty <= 0 || single_product_qty == undefined ? 0 : single_product_qty"
+                             @input.number.trim="inputQty($event.target.value, single_product_qty, single_product.id)"/>
 
-                        <button class="btn-outline-success form-control w-25 mr-2"
-                                @click.prevent="plus(single_product.id)">+
-                        </button>
-                      </div>
+                      <button class="btn-outline-success form-control w-25 mr-2"
+                              @click.prevent="plus(single_product.id)">+
+                      </button>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -190,7 +213,7 @@
                   <div class="tab-pane show" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
                     <div v-for="(item, i) in Object.entries(properties)" :key="i">
                       <div
-                        class="d-flex flex-column justify-content-between align-items-start mb-2 mt-2 py-3 properties font-weight-bolder">
+                          class="d-flex flex-column justify-content-between align-items-start mb-2 mt-2 py-3 properties font-weight-bolder">
                         {{ Array.from(Object.keys(properties))[i] }}
                       </div>
 
@@ -210,14 +233,48 @@
                     </div>
                   </div>
                   <div class="tab-pane show" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                    Ut ut do pariatur aliquip aliqua aliquip exercitation do nostrud commodo reprehenderit aute ipsum
-                    voluptate.
-                    Irure Lorem et laboris nostrud amet cupidatat cupidatat anim do ut velit mollit consequat enim
-                    tempor.
-                    Consectetur est minim nostrud nostrud consectetur irure labore voluptate irure.
-                    Ipsum id Lorem sit sint voluptate est pariatur eu ad cupidatat et deserunt culpa sit eiusmod
-                    deserunt.
-                    Consectetur et fugiat anim do eiusmod aliquip nulla laborum elit adipisicing pariatur cillum.
+
+                    <!-- Testimonials -->
+                    <div v-for="(review, m) in testimonials" :key="m">
+                      <div class="mb-4 py-4" style="border-bottom: 1px solid #d0d0d0;">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex justify-content-between align-items-center" style="max-width: 35%">
+                            <div>{{ review.user.name }}</div>
+                            <div>
+                              <img :src="`${$axios.defaults.baseURL}/uploads/profile/${review.user.avatar ? review.user.avatar : 'avatar.jpg'}`"
+                                  class="ml-5 rounded-circle" width="30" alt="">
+                            </div>
+                          </div>
+                          <div class="" style="width: 100px">
+                            <svg version="1.1" id="stars" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 818 127.5" xml:space="preserve">
+                                <style type="text/css">
+                                        .st0 {
+                                          fill: none;
+                                          stroke: #e90808;
+                                          stroke-width: 2.5;
+                                          stroke-miterlimit: 10;
+                                          fill: #fff;
+                                        }
+                                </style>
+                                <polygon  points="67,0.8 87.5,42.3 133.2,49 100.1,81.2 107.9,126.8 67,105.3 26.1,126.8 33.9,81.2 0.8,49 46.6,42.3 " :class="`${1 <= review.rating ? 'gold' : 'transparent'} st0`"></polygon>
+                                <polygon  points="238,0.8 258.5,42.3 304.2,49 271.1,81.2 278.9,126.8 238,105.3 197.1,126.8 204.9,81.2 171.8,49 217.6,42.3 " :class="`${2 <= review.rating ? 'gold' : 'transparent'} st0`"></polygon>
+                                <polygon  points="409,0.8 429.5,42.3 475.2,49 442.1,81.2 449.9,126.8 409,105.3 368.1,126.8 375.9,81.2 342.8,49 388.6,42.3 " :class="`${3 <= review.rating ? 'gold' : 'transparent'} st0`"></polygon>
+                                <polygon  points="580,0.8 600.5,42.3 646.2,49 613.1,81.2 620.9,126.8 580,105.3 539.1,126.8 546.9,81.2 513.8,49 559.6,42.3 " :class="`${4 <= review.rating ? 'gold' : 'transparent'} st0`"></polygon>
+                                <polygon  points="751,0.8 771.5,42.3 817.2,49 784.1,81.2 791.9,126.8 751,105.3 710.1,126.8 717.9,81.2 684.8,49 730.6,42.3 " :class="`${5 <= review.rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            </svg>
+
+                          </div>
+                        </div>
+                        <div class="mt-4">{{ review.review_content }}</div>
+                        <div class="mt-4 text-right" v-if="$auth.user != null && review.user.id == $auth.user.id">
+                          <a href="#" @click.prevent="updateReview" class="text-decoration-none">
+                            <em>Change review</em>
+                          </a>
+                        </div>
+                      </div>
+
+                    </div>
+
                   </div>
                   <div class="tab-pane show" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
                     Irure enim occaecat labore sit qui aliquip reprehenderit amet velit.
@@ -257,14 +314,14 @@
 
           <!-- Search pagination  -->
           <b-pagination
-            v-if="flag == true"
-            class="t-4 flx-c"
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table2"
-            pills
-            @change="changeHandler2"
+              v-if="flag == true"
+              class="t-4 flx-c"
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              aria-controls="my-table2"
+              pills
+              @change="changeHandler2"
           ></b-pagination>
           <!-- /Search pagination  -->
         </div>
@@ -300,7 +357,7 @@ import _ from "lodash";
 import 'animate.css';
 
 export default {
-  comments: [
+  components: [
     Categories,
     SearchBlock,
     FooterBottom,
@@ -392,7 +449,12 @@ export default {
 
       /*===== Images =====*/
       gallery: [],
-      preview: ''
+      preview: '',
+
+      /*== Testimonials ==*/
+      testimonials: [],
+      rating: 2,
+      count_feeds: 0
     }
   },
 
@@ -460,6 +522,14 @@ export default {
 
     let obj = localStorage.getItem('cartP-' + this.$route.params.id);
     obj ? this.single_product_qty = JSON.parse(obj).qty : this.single_product_qty = 0
+
+    /*Feedbacks*/
+    this.testimonials = this.single_product.rating
+    let sum = this.testimonials.reduce((sum, item) => sum + item.rating, 0)
+    this.rating = Math.round(sum / this.testimonials.length);
+    this.count_feeds = this.testimonials.length
+
+
   },
 
   async asyncData(ctx) {
@@ -499,7 +569,6 @@ export default {
 
     let properties = data.data.properties.length > 0 ? data.data.properties[0].properties.data : '';
     //console.log(Array.from(data.data.properties));
-
 
     return {
       single_product: data.data,
@@ -772,6 +841,9 @@ export default {
       }, 800)
       //}
       this.preview = this.gallery.find(item => item == image);
+    },
+    updateReview(){
+
     }
   },
 }
@@ -953,7 +1025,7 @@ select {
 }
 
 .card img {
-  max-width: 300px!important;
+  max-width: 300px !important;
 
   &:hover {
     cursor: pointer;
@@ -988,5 +1060,11 @@ select {
 .show {
   transition: opacity ease-in-out 1s;
   animation: bgchange 1s;
+}
+.gold{
+  fill: #dfbf44;
+}
+.transparent{
+  fill: #fff;
 }
 </style>

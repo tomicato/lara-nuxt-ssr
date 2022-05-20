@@ -31,9 +31,36 @@
 
         <nuxt-link to="#" title="Leave Feedback" v-if="product.rating !== null" style="text-decoration: none">
           <small class="d-flex justify-content-around align-items-center">
-            <i class="material-icons" style="color: crimson">star_rate</i>&nbsp;
+            <div class="" style="width: 100px">
+              <svg version="1.1" id="stars" xmlns="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 818 127.5"
+                   xml:space="preserve">
+                                <style type="text/css">
+                                        .st0 {
+                                          stroke: #e90808;
+                                          stroke-width: 2.5;
+                                          stroke-miterlimit: 10;
+                                        }
+                                </style>
+                <polygon
+                    points="67,0.8 87.5,42.3 133.2,49 100.1,81.2 107.9,126.8 67,105.3 26.1,126.8 33.9,81.2 0.8,49 46.6,42.3 "
+                    :class="`${1 <= Math.round(product.rating.reduce((sum, item) => sum + item.rating, 0) / product.rating.length) ? 'gold' : 'transparent'} st0`"></polygon>
+                <polygon
+                    points="238,0.8 258.5,42.3 304.2,49 271.1,81.2 278.9,126.8 238,105.3 197.1,126.8 204.9,81.2 171.8,49 217.6,42.3 "
+                    :class="`${2 <= Math.round(product.rating.reduce((sum, item) => sum + item.rating, 0) / product.rating.length) ? 'gold' : 'transparent'} st0`"></polygon>
+                <polygon
+                    points="409,0.8 429.5,42.3 475.2,49 442.1,81.2 449.9,126.8 409,105.3 368.1,126.8 375.9,81.2 342.8,49 388.6,42.3 "
+                    :class="`${3 <= Math.round(product.rating.reduce((sum, item) => sum + item.rating, 0) / product.rating.length) ? 'gold' : 'transparent'} st0`"></polygon>
+                <polygon
+                    points="580,0.8 600.5,42.3 646.2,49 613.1,81.2 620.9,126.8 580,105.3 539.1,126.8 546.9,81.2 513.8,49 559.6,42.3 "
+                    :class="`${4 <= Math.round(product.rating.reduce((sum, item) => sum + item.rating, 0) / product.rating.length) ? 'gold' : 'transparent'} st0`"></polygon>
+                <polygon
+                    points="751,0.8 771.5,42.3 817.2,49 784.1,81.2 791.9,126.8 751,105.3 710.1,126.8 717.9,81.2 684.8,49 730.6,42.3 "
+                    :class="`${5 <= Math.round(product.rating.reduce((sum, item) => sum + item.rating, 0) / product.rating.length) ? 'gold' : 'transparent'} st0`"></polygon>
+                            </svg>
 
-            <span>{{ product.rating }}</span>
+            </div>
+            <div class="ml-3 font-weight-normal">{{ product.rating != '' ? product.rating.length : ''}}</div>
           </small>
         </nuxt-link>
         <nuxt-link to="#" title="Leave Feedback" v-else style="text-decoration: none">
@@ -69,7 +96,7 @@
 import modalWindow from "@/components/modalWindow";
 
 export default {
-  name: "gridView",
+  //name: "gridView",
   components: {
     modalWindow
   },

@@ -1,13 +1,13 @@
 <template>
   <div class="d-flex flex-column justify-content-between">
     <div class="my-5 container" id="main">
-      <div class="row my-5">
+      <div class="row mb-5">
         <div class="col-md-3 mb-5">
           <h3 class="mb-5">Sidebar</h3>
           <div class="d-flex flex-column  justify-content-between" id="left_menu">
             <nuxt-link to="/profile">Profile</nuxt-link>
             <nuxt-link to="/profile/orders-detail">Orders</nuxt-link>
-            <nuxt-link to="/profile/feedback">Reviews</nuxt-link>
+            <nuxt-link to="/profile/feedback">Feedback</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="/profile/settings">Settings</nuxt-link>
@@ -17,10 +17,22 @@
           <h3 class="mb-5 text-center">{{ 'Order`s detail' }}</h3>
           <div v-for="(el, m) in items" :key="m">
 
-            <div class="my-3 text-right text-primary font-italic font-weight-normal"> {{
-                'Order from: ' + (new Date(el[0].datetime_purchase)).getDate() + ' ' + months[(new Date(el[0].datetime_purchase)).getMonth()] + ' ' + (new Date(el[0].datetime_purchase)).getFullYear()
-              }}
+            <div class="d-flex justify-content-between align-items-start mb-5 mx-4">
+              <div class="text-primary font-italic font-weight-normal"> {{
+                  'Order from: ' + (new Date(el[0].datetime_purchase)).getDate() + ' ' + months[(new Date(el[0].datetime_purchase)).getMonth()] + ' ' + (new Date(el[0].datetime_purchase)).getFullYear()
+                }}
+              </div>
+             <div class="d-flex justify-content-between align-items-center">
+               <div style="color: #2ba02d" class="mr-5">{{ el[0].status }}</div>
+               <em>
+                 <a href="#" @click.prevent="deleteOrderItem(el[0].orders_id)" class="text-decoration-none">
+                   {{ 'Delete' }}
+                 </a>
+               </em>
+             </div>
             </div>
+
+
             <div v-for="(item, i) in items[m]" :key="i" class="order_wrap mb-5">
               <div class="card mb-3" style="width: 100%;">
                 <div class="row">
@@ -30,7 +42,7 @@
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <nuxt-link :to="`/shop/products/${item.product_id}`" target="_blank"><h5 class="card-title">
+                      <nuxt-link :to="`/shop/products/${item.product_id}`" ><h5 class="card-title">
                         {{ item.product_name }}</h5></nuxt-link>
                       <div class="d-flex justify-content-between">
                         <h5 class="card-text"><small class="text-muted">{{
@@ -42,9 +54,8 @@
                             }}</h5>
                         </div>
                       </div>
-                      <p class="card-text  d-flex justify-content-between">
+                      <p class="card-text  d-flex justify-content-start">
                         <small class="text-muted">{{ 'CKU: ' + item.sku }}</small>
-                        <span style="color: #2ba02d">{{ item.status }}</span>
                       </p>
                       <div class="d-flex justify-content-between">
 
@@ -56,9 +67,7 @@
                           </p>
                         </nuxt-link>
                         <em v-if="valid(item.product_id)">{{ 'Your review has already been left.' }}</em>
-                        <a href="#" @click.prevent="deleteOrderItem(item.product_id, el[0].orders_id)">
-                          {{ 'Delete' }}
-                        </a>
+
                       </div>
                     </div>
                   </div>
@@ -91,7 +100,7 @@ import _ from "lodash";
 
 export default {
   middleware: ['auth'],
-  name: "orders-detail",
+ // name: "orders-detail",
   head() {
     return {
       title: 'Office | ' + this.$auth.user.name
@@ -132,7 +141,6 @@ export default {
     let order_details = this.$axios.$post(`${this.$axios.defaults.baseURL}/api/shop/order-details/${this.$auth.user.id}`)
         .then(res => {
           this.data = res.data
-
           let group = this.data.reduce((prev, next) => {
             prev[next.datetime_purchase] = prev[next.datetime_purchase] || []
             prev[next.datetime_purchase].push(next)
@@ -175,7 +183,7 @@ export default {
      // this.is_isset = true
       for (let i = 0; i < this.feedbacks.length; i++) {
         if(this.feedbacks[i].product_id == id){
-          console.log(id);
+          //console.log(id);
           return true
         }
       }
@@ -189,15 +197,22 @@ export default {
 
       /*Animate*/
       let grid_tag = document.getElementById('grid_tag')
-      console.log(grid_tag);
       grid_tag.classList.add('grid_tag_animate')
 
       setTimeout(() => {
         grid_tag.classList.remove('grid_tag_animate')
       }, 1000)
     },
-    deleteOrderItem(product_id, orders_id) {
-      console.log(product_id + ' ' + orders_id);
+    async deleteOrderItem(orders_id) {
+      await this.$axios.$post(`${this.$axios.defaults.baseURL}/api/shop/orders/${orders_id}`, {_method: "DELETE"})
+        .then(res => {
+          //console.log(res);
+          //this.$router.push('/profile/orders-detail')
+          window.location.reload(true)
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }
 }

@@ -7,7 +7,7 @@
           <div class="d-flex flex-column  justify-content-between" id="left_menu">
             <nuxt-link to="/profile">Profile</nuxt-link>
             <nuxt-link to="/profile/orders-detail">Orders</nuxt-link>
-            <nuxt-link to="/profile/feedback">Reviews</nuxt-link>
+            <nuxt-link to="/profile/feedback">Feedback</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="/profile/settings">Settings</nuxt-link>
@@ -82,7 +82,7 @@
 
 <script>
 export default {
-  name: "settings",
+  //name: "settings",
   middleware: ['auth'],
   data() {
     return {

@@ -9,15 +9,15 @@
           <div class="d-flex flex-column  justify-content-between" id="left_menu">
             <nuxt-link to="/profile">Profile</nuxt-link>
             <nuxt-link to="/profile/orders-detail">Orders</nuxt-link>
-            <nuxt-link to="/profile/feedback">Reviews</nuxt-link>
+            <nuxt-link to="/profile/feedback">Feedback</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="#">Some Link</nuxt-link>
             <nuxt-link to="/profile/settings">Settings</nuxt-link>
           </div>
         </div>
         <div class="col-md-9 mb-5">
-          <h3 class="mb-5 text-center">{{ 'Your Reviews' }}</h3>
-          <reviews></reviews>
+          <h3 class="mb-5 text-center">{{ 'Feedback' }}</h3>
+
         </div>
       </div>
     </div>
@@ -26,13 +26,11 @@
 </template>
 
 <script>
-import Reviews from "../../../components/Reviews";
 import FooterBottom from "../../../components/FooterBottom";
 
 export default {
   middleware: ['auth'],
   components: {
-    Reviews,
     FooterBottom
   },
   data() {

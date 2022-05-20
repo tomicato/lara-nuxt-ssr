@@ -62,7 +62,7 @@
             <div>
               <select class="form-control px-1 py-1" style="height: unset;">
                 <option value="" selected>Order by</option>
-                <option value="">Price ASC</option>
+                <option value="">Price ASC </option>
                 <option value="">Price DESC</option>
               </select>
             </div>
