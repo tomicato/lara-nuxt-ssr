@@ -119,7 +119,8 @@ export default {
       }, 1000)
     },
     async changeProfileData() {
-      console.log(this.avatar);
+      // Get Avatar from Form
+      //console.log(this.avatar);
       let formData = new FormData();
       formData.append('avatar', this.avatar)
       formData.append('name', this.name)
