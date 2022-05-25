@@ -76,17 +76,18 @@
               </div>
             </div>
           </div>
+          <b-pagination
+              class="mb-5 d-flex justify-content-end mr-2"
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              aria-controls="my-table"
+              pills
+              @change="changeHandler"
+              variant="outline-primary"
+          ></b-pagination>
         </div>
-        <b-pagination
-            class="t-4 flx-c mb-5 ml-auto"
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-            pills
-            @change="changeHandler"
-            variant="outline-primary"
-        ></b-pagination>
+
       </div>
 
     </div>

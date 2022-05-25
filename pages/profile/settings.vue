@@ -18,7 +18,7 @@
           <div class="card mb-3 w-100">
             <div class="row">
               <div class="col-md-4 text-center">
-                <img :src="avatar_img" class="rounded-circle" width="200" height="200" alt="avatar">
+                <img :src="avatar_img" class="rounded-circle py-3" width="200" height="200" alt="avatar">
               </div>
               <div class="col-md-8 my-4">
                 <div class="card-body">
