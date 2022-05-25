@@ -38,7 +38,7 @@
                 <div class="row">
                   <div class="col-md-4 mx-auto w-75 text-center">
                     <img :src="`${$axios.defaults.baseURL}/uploads/${item.product_photo}`"
-                         class="img-fluid" :alt="item.product_name" width="150">
+                         class="img-fluid py-3" :alt="item.product_name" width="150">
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
@@ -204,15 +204,17 @@ export default {
       }, 1000)
     },
     async deleteOrderItem(orders_id) {
-      await this.$axios.$post(`${this.$axios.defaults.baseURL}/api/shop/orders/${orders_id}`, {_method: "DELETE"})
-        .then(res => {
-          //console.log(res);
-          //this.$router.push('/profile/orders-detail')
-          window.location.reload(true)
-        })
-        .catch(err => {
-          console.log(err);
-        })
+      if(confirm('A you sure?') == true){
+        await this.$axios.$post(`${this.$axios.defaults.baseURL}/api/shop/orders/${orders_id}`, {_method: "DELETE"})
+            .then(res => {
+              window.location.reload(true)
+            })
+            .catch(err => {
+              console.log(err);
+            })
+      }else{
+        alert('You don`t can delete this order!');
+      }
     }
   }
 }

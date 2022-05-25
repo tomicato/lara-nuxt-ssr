@@ -18,7 +18,7 @@
           <div class="card mb-3 w-100">
             <div class="row">
               <div class="col-md-4 text-center">
-                <img :src="avatar_img" class="img-fluid rounded-circle" width="200" alt="avatar">
+                <img :src="avatar_img" class="rounded-circle" width="200" height="200" alt="avatar">
               </div>
               <div class="col-md-8 my-4">
                 <div class="card-body">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                   <label for="name"> {{ 'Your name' }}</label>
-                  <input type="text" class="form-control" id="name" v-model="name">
+                  <input type="text" class="form-control" value="" id="name" v-model="name">
                 </div>
                 <div class="form-group">
                   <label for="email"> {{ 'Your E-mail' }}</label>
@@ -89,8 +89,8 @@ export default {
       avatar_img: '',
       flag: false,
       avatar: '',
-      name: '',
-      email: '',
+      name: this.$auth.user.name ? this.$auth.user.name : '',
+      email: this.$auth.user.email ? this.$auth.user.email : '',
       new_email: '',
       old_password: '',
       password: '',
@@ -137,7 +137,7 @@ export default {
 
        await this.$axios.$post(`${this.$axios.defaults.baseURL}/api/change-user-data`, formData, config)
             .then((res)  => {
-              console.log(res);
+             // console.log(res);
               this.$auth.logout();
               //this.$router.push('/login');
             })

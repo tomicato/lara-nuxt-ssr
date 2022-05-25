@@ -29,24 +29,6 @@
         <search-block class="flex-grow-0 flex-shrink-0 px-0"></search-block>
       </div>
 
-
-<!--      <template>
-       <ul class="navbar-nav ml-auto">
-               <li class="nav-item mr-5">
-                 <nuxt-link to="/cart" class="nav-link">
-                   <b-badge pill variant="primary" id="authCart" >{{  cart != 0 ? cart : ''  }}</b-badge>
-                   <b-icon-cart4 style="color: deepskyblue"/>
-                 </nuxt-link>
-               </li>
-         <li class="nav-item">
-            <nuxt-link to="/profile" class="nav-link">{{ userRole == 'Admin' ? userRole : user.data.name }}</nuxt-link>
-         </li>
-         <li class="nav-item">
-            <a href="#" @click.prevent="logout" class="nav-link">Logout</a>
-          </li>
-        </ul>
-      </template>-->
-
      <template>
         <ul class="navbar-nav">
           <li class="nav-item mr-5">
@@ -67,17 +49,30 @@
           </ul>
 
           <ul class="navbar-nav" v-else>
-            <li class="nav-item">
+<!--            <li class="nav-item">
              <a v-if="userRole == 'Admin'" :href="`${$axios.defaults.baseURL}/admin`" class="nav-link">{{ userRole }}</a>
 
               <nuxt-link v-else to="/profile" class="nav-link">
                 <img :src="avatar_img ? avatar_img : `#`" class="img-fluid rounded-circle" width="30" alt="">
                 {{ user.name }}
               </nuxt-link>
+            </li>-->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                {{ $auth.user.name != null  ? $auth.user.name  : '' }}
+                <img :src="avatar_img ? avatar_img : `#`" class="rounded-circle mx-3" width="30" height="30" alt="">
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a v-if="userRole == 'Admin'" :href="`${$axios.defaults.baseURL}/admin`" class="dropdown-item">APanel</a>
+                <nuxt-link to="/profile" class="dropdown-item">Office</nuxt-link>
+                <a href="#" class="dropdown-item" @click.prevent="logout">{{ 'Logout' }}</a>
+
+              </div>
             </li>
-            <li class="nav-item">
+<!--            <li class="nav-item">
               <a href="#" class="nav-link" @click.prevent="logout">{{ 'Logout' }}</a>
-            </li>
+            </li>-->
           </ul>
 
         </ul>
@@ -182,36 +177,38 @@ export default {
 
 
 <style lang="scss">
-  .navbar{
-    opacity: 1;
-    box-shadow: 0 2px 18px 0 #e1dede!important;
-    border-bottom: 1px solid #ddd!important;
-  }
-  .fix{
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, .5)!important;
-    box-shadow: 0 2px 18px 0 #242323!important;
-    border-bottom: 1px solid rgba(43, 41, 41, 0.1) !important;
-    opacity: 1;
-    top:0;
-    #button_search {
-      color: #fff !important;
+.navbar{
+  opacity: 1;
+  box-shadow: 0 2px 18px 0 #e1dede!important;
+  border-bottom: 1px solid #ddd!important;
+}
+.fix{
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, .5)!important;
+  box-shadow: 0 2px 18px 0 #242323!important;
+  border-bottom: 1px solid rgba(43, 41, 41, 0.1) !important;
+  opacity: 1;
+  top:0;
+  #button_search {
+    color: #fff !important;
 
-      &:hover {
-        color: rgba(217, 212, 212, 0.7) !important;
-      }
+    &:hover {
+      color: rgba(217, 212, 212, 0.7) !important;
     }
   }
-  .navbar.fix a, .navbar.fix .navbar-nav li a{
-    color: #fff!important;
-  }
+}
+.navbar.fix a, .navbar.fix .navbar-nav li a{
+  color: #fff;
+}
+li .dropdown-menu a {
+  color:#212529!important;
+}
 
-  @media screen and (min-width: 992px){
-    .navbar-expand-lg .navbar-collapse{
-      justify-content: space-around!important;
-    }
+@media screen and (min-width: 992px){
+  .navbar-expand-lg .navbar-collapse{
+    justify-content: space-around!important;
   }
-
+}
 </style>

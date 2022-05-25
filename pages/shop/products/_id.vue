@@ -116,7 +116,7 @@
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title grid-title font-weight-normal">{{ single_product.name }}</h5>
+                  <h5 class="card-title grid-title font-weight-normal">{{ single_product.name }} </h5>
                   <hr/>
                   <div class="card-text d-flex justify-content-between align-items-center py-3">
 
@@ -148,11 +148,11 @@
                                           fill: #fff;
                                         }
                                 </style>
-                            <polygon  points="67,0.8 87.5,42.3 133.2,49 100.1,81.2 107.9,126.8 67,105.3 26.1,126.8 33.9,81.2 0.8,49 46.6,42.3 " :class="`${1 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
-                            <polygon  points="238,0.8 258.5,42.3 304.2,49 271.1,81.2 278.9,126.8 238,105.3 197.1,126.8 204.9,81.2 171.8,49 217.6,42.3 " :class="`${2 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
-                            <polygon  points="409,0.8 429.5,42.3 475.2,49 442.1,81.2 449.9,126.8 409,105.3 368.1,126.8 375.9,81.2 342.8,49 388.6,42.3 " :class="`${3 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
-                            <polygon  points="580,0.8 600.5,42.3 646.2,49 613.1,81.2 620.9,126.8 580,105.3 539.1,126.8 546.9,81.2 513.8,49 559.6,42.3 " :class="`${4 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
-                            <polygon  points="751,0.8 771.5,42.3 817.2,49 784.1,81.2 791.9,126.8 751,105.3 710.1,126.8 717.9,81.2 684.8,49 730.6,42.3 " :class="`${5 <= rating ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="67,0.8 87.5,42.3 133.2,49 100.1,81.2 107.9,126.8 67,105.3 26.1,126.8 33.9,81.2 0.8,49 46.6,42.3 " :class="`${1 <= single_product.total_rate ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="238,0.8 258.5,42.3 304.2,49 271.1,81.2 278.9,126.8 238,105.3 197.1,126.8 204.9,81.2 171.8,49 217.6,42.3 " :class="`${2 <= single_product.total_rate ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="409,0.8 429.5,42.3 475.2,49 442.1,81.2 449.9,126.8 409,105.3 368.1,126.8 375.9,81.2 342.8,49 388.6,42.3 " :class="`${3 <= single_product.total_rate ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="580,0.8 600.5,42.3 646.2,49 613.1,81.2 620.9,126.8 580,105.3 539.1,126.8 546.9,81.2 513.8,49 559.6,42.3 " :class="`${4 <= single_product.total_rate ? 'gold' : 'transparent'} st0`"></polygon>
+                            <polygon  points="751,0.8 771.5,42.3 817.2,49 784.1,81.2 791.9,126.8 751,105.3 710.1,126.8 717.9,81.2 684.8,49 730.6,42.3 " :class="`${5 <= single_product.total_rate ? 'gold' : 'transparent'} st0`"></polygon>
                             </svg>
 
                         </div>
@@ -236,15 +236,14 @@
 
                     <!-- Testimonials -->
                     <div v-for="(review, m) in testimonials" :key="m">
-                      <div class="mb-4 py-4" style="border-bottom: 1px solid #d0d0d0;">
+                      <div class="mb-4 py-2 px-4 card" >
                         <div class="d-flex justify-content-between align-items-center">
-                          <div class="d-flex justify-content-between align-items-center" style="max-width: 35%">
-                            <div>{{ review.user.name }}</div>
-                            <div>
-                              <img :src="`${$axios.defaults.baseURL}/uploads/profile/${review.user.avatar ? review.user.avatar : 'avatar.jpg'}`"
-                                  class="ml-5 rounded-circle" width="30" alt="">
-                            </div>
+                          <div class="d-flex justify-content-between align-items-center" style="min-width: 30%">
+                            <div class="small">{{ review.user.name }} </div>
+                            <img :src="`${$axios.defaults.baseURL}/uploads/profile/${review.user.avatar ? review.user.avatar : 'avatar.jpg'}`"
+                                  class="pl-1 rounded-circle" width="50" height="50" alt="">
                           </div>
+
                           <div class="" style="width: 100px">
                             <svg version="1.1" id="stars" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 818 127.5" xml:space="preserve">
                                 <style type="text/css">
@@ -357,14 +356,14 @@ import _ from "lodash";
 import 'animate.css';
 
 export default {
-  components: [
+  components: {
     Categories,
     SearchBlock,
     FooterBottom,
     modalWindow,
     listView,
     gridView,
-  ],
+  },
 
   head() {
     return {
@@ -525,8 +524,8 @@ export default {
 
     /*Feedbacks*/
     this.testimonials = this.single_product.rating
-    let sum = this.testimonials.reduce((sum, item) => sum + item.rating, 0)
-    this.rating = Math.round(sum / this.testimonials.length);
+    /*let sum = this.testimonials.reduce((sum, item) => sum + item.rating, 0)
+    this.rating = Math.round(sum / this.testimonials.length);*/
     this.count_feeds = this.testimonials.length
 
 

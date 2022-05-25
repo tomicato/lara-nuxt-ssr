@@ -277,7 +277,7 @@ export default {
     let tags = await ctx.$axios.$get(`/api/shop/tags`);
     let additional = await ctx.$axios.$get(`/api/shop/additional`);
 
-    //console.log(additional);
+    //console.log(data.data);
 
     let arr = data.data
     let tmp = []
