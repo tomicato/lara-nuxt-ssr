@@ -76,6 +76,8 @@
               </div>
             </div>
           </div>
+
+          <!-- Pagination  -->
           <b-pagination
               class="mb-5 d-flex justify-content-end mr-2"
               v-model="currentPage"
