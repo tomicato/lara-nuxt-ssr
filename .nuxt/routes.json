@@ -1,0 +1,198 @@
+[
+  {
+    "name": "404",
+    "path": "/404",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\404.vue",
+    "chunkName": "pages/404",
+    "_name": "_2f2be08c"
+  },
+  {
+    "name": "cart",
+    "path": "/cart",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\cart\\\\index.vue",
+    "chunkName": "pages/cart/index",
+    "_name": "_ebd48498"
+  },
+  {
+    "name": "contact",
+    "path": "/contact",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\contact\\\\index.vue",
+    "chunkName": "pages/contact/index",
+    "_name": "_721ce8a0"
+  },
+  {
+    "name": "empty",
+    "path": "/empty",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\empty.vue",
+    "chunkName": "pages/empty",
+    "_name": "_755966cf"
+  },
+  {
+    "name": "errors",
+    "path": "/errors",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\errors.vue",
+    "chunkName": "pages/errors",
+    "_name": "_4bb2f74e"
+  },
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\login.vue",
+    "chunkName": "pages/login",
+    "_name": "_638262eb"
+  },
+  {
+    "name": "profile",
+    "path": "/profile",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\profile\\\\index.vue",
+    "chunkName": "pages/profile/index",
+    "_name": "_5535e377"
+  },
+  {
+    "name": "register",
+    "path": "/register",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\register.vue",
+    "chunkName": "pages/register",
+    "_name": "_7ef36bde"
+  },
+  {
+    "name": "shop",
+    "path": "/shop",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\index.vue",
+    "chunkName": "pages/shop/index",
+    "_name": "_6a8d3c1e"
+  },
+  {
+    "name": "test",
+    "path": "/test",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\test\\\\index.vue",
+    "chunkName": "pages/test/index",
+    "_name": "_10bc0dfc"
+  },
+  {
+    "name": "topics",
+    "path": "/topics",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\topics\\\\index.vue",
+    "chunkName": "pages/topics/index",
+    "_name": "_33013aa0"
+  },
+  {
+    "name": "profile-feedback",
+    "path": "/profile/feedback",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\profile\\\\feedback\\\\index.vue",
+    "chunkName": "pages/profile/feedback/index",
+    "_name": "_4ee289dc"
+  },
+  {
+    "name": "profile-orders-detail",
+    "path": "/profile/orders-detail",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\profile\\\\orders-detail.vue",
+    "chunkName": "pages/profile/orders-detail",
+    "_name": "_0e315344"
+  },
+  {
+    "name": "profile-settings",
+    "path": "/profile/settings",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\profile\\\\settings.vue",
+    "chunkName": "pages/profile/settings",
+    "_name": "_19222d0e"
+  },
+  {
+    "name": "shop-categories",
+    "path": "/shop/categories",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\categories\\\\index.vue",
+    "chunkName": "pages/shop/categories/index",
+    "_name": "_1c3779fc"
+  },
+  {
+    "name": "shop-products",
+    "path": "/shop/products",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\products\\\\index.vue",
+    "chunkName": "pages/shop/products/index",
+    "_name": "_4c7e908c"
+  },
+  {
+    "name": "topics-create",
+    "path": "/topics/create",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\topics\\\\create.vue",
+    "chunkName": "pages/topics/create",
+    "_name": "_11213e0e"
+  },
+  {
+    "name": "shop-categories-create",
+    "path": "/shop/categories/create",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\categories\\\\create.vue",
+    "chunkName": "pages/shop/categories/create",
+    "_name": "_725867fc"
+  },
+  {
+    "name": "shop-categories-edit",
+    "path": "/shop/categories/edit",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\categories\\\\edit.vue",
+    "chunkName": "pages/shop/categories/edit",
+    "_name": "_57bb0fec"
+  },
+  {
+    "name": "shop-categories-not_found",
+    "path": "/shop/categories/not_found",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\categories\\\\not_found.vue",
+    "chunkName": "pages/shop/categories/not_found",
+    "_name": "_07874746"
+  },
+  {
+    "name": "shop-products-create",
+    "path": "/shop/products/create",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\products\\\\create.vue",
+    "chunkName": "pages/shop/products/create",
+    "_name": "_f3eaeb78"
+  },
+  {
+    "name": "shop-products-edit-id",
+    "path": "/shop/products/edit/:id?",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\products\\\\edit\\\\_id.vue",
+    "chunkName": "pages/shop/products/edit/_id",
+    "_name": "_33283350"
+  },
+  {
+    "name": "profile-feedback-id",
+    "path": "/profile/feedback/:id",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\profile\\\\feedback\\\\_id.vue",
+    "chunkName": "pages/profile/feedback/_id",
+    "_name": "_6c5459fa"
+  },
+  {
+    "name": "shop-products-id",
+    "path": "/shop/products/:id",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\products\\\\_id.vue",
+    "chunkName": "pages/shop/products/_id",
+    "_name": "_40a53ebc"
+  },
+  {
+    "name": "shop-categories-category-sub",
+    "path": "/shop/categories/:category/:sub?",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\categories\\\\_category\\\\_sub.vue",
+    "chunkName": "pages/shop/categories/_category/_sub",
+    "_name": "_eeffb864"
+  },
+  {
+    "name": "shop-_index",
+    "path": "/shop/:_index",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\shop\\\\__index.vue",
+    "chunkName": "pages/shop/__index",
+    "_name": "_b9e62184"
+  },
+  {
+    "name": "tags-id",
+    "path": "/tags/:id?",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\tags\\\\_id.vue",
+    "chunkName": "pages/tags/_id",
+    "_name": "_4035ec43"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\OpenServer\\\\domains\\\\lara-nuxt-ssr\\\\frontend\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_cc4a8058"
+  }
+]

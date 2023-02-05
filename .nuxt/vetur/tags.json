@@ -1,0 +1,35 @@
+{
+  "AdminLeftSideBar": {
+    "description": "Auto imported from components/AdminLeftSideBar.vue"
+  },
+  "Categories": {
+    "description": "Auto imported from components/Categories.vue"
+  },
+  "Filters": {
+    "description": "Auto imported from components/Filters.vue"
+  },
+  "FooterBottom": {
+    "description": "Auto imported from components/FooterBottom.vue"
+  },
+  "GridView": {
+    "description": "Auto imported from components/gridView.vue"
+  },
+  "HeaderTop": {
+    "description": "Auto imported from components/HeaderTop.vue"
+  },
+  "ListView": {
+    "description": "Auto imported from components/listView.vue"
+  },
+  "ModalWindow": {
+    "description": "Auto imported from components/modalWindow.vue"
+  },
+  "NavBar": {
+    "description": "Auto imported from components/NavBar.vue"
+  },
+  "Reviews": {
+    "description": "Auto imported from components/Reviews.vue"
+  },
+  "SearchBlock": {
+    "description": "Auto imported from components/SearchBlock.vue"
+  }
+}
